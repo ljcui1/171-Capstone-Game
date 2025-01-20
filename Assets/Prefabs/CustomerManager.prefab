@@ -44,3 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25ab0f07c10ff34685a341bab7a980b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attributes:
+  - talkative
+  - active
+  - foodie
+  attributeWeights:
+  - 0
+  - 0
+  - 0
