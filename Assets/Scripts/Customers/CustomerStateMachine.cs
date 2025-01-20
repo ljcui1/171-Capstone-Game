@@ -31,6 +31,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         }
         public override void OnUpdate()
         {
+            // walk to a table
         }
         public override void OnExit()
         {
@@ -43,6 +44,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         }
         public override void OnUpdate()
         {
+            
         }
         public override void OnExit()
         {
