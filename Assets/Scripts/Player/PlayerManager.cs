@@ -6,10 +6,14 @@ using KevinCastejon.FiniteStateMachine;
 public class PlayerManager : MonoBehaviour
 {
     public PlayerScript Player;
+    [SerializeField] private PlayerFSM PlayerSM;
+
     private Rigidbody2D rb;
 
-    //float speedX, speedY = 0;
-    private Vector2 moveInput;
+    public bool idling = true;
+    public bool walking = false;
+    public bool playing = false;
+    public bool talking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,44 +24,41 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        /*Debug.Log("Vertical" + Input.GetAxis("Vertical"));
-        // movement
-        speedX = 0f;
-        speedY = 0f;
-
-        if (Input.GetAxisRaw("Horizontal") != 0)
+        //unpaused
+        if(Time.timeScale != 0)
         {
-            speedX = Input.GetAxisRaw("Horizontal") * Player.moveSpeed;
-        }
-        if (Input.GetAxisRaw("Vertical") != 0)
-        {
-            speedY = Input.GetAxisRaw("Vertical") * Player.moveSpeed;
+            //checking input
+            bool keyIn = Input.anyKey;
+            bool conIn = Input.GetButton("Fire1");
+            bool joyIn = Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
+
+            if (!keyIn && !conIn && !joyIn)
+            {
+                idling = true;
+            }
+
+            //checking if playing & talking are false and movement input is given to put player into walking state
+            if (joyIn && !playing && !talking)
+            {
+                idling = false;
+                walking = true;
+            }
+            else
+            {
+                walking = false;
+            }
+
+
+
         }
 
-        Debug.Log("speedX" + speedX + ", speedY" + speedY);
-        rb.velocity = new Vector2(speedX, speedY).normalized * Player.moveSpeed;
-        */
+        
 
-        //movement 2
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-        moveInput.y = Input.GetAxisRaw("Vertical");
 
-        moveInput.Normalize();
-
-        //flip sprite
-        if (moveInput.x > 0)
-        {
-            Player.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        }
-        else if (moveInput.x < 0)
-        {
-            Player.transform.localRotation = Quaternion.Euler(0, 180, 0);
-        }
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = moveInput * Player.moveSpeed;
+        
     }
 }
