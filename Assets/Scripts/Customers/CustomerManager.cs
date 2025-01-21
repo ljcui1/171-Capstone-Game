@@ -18,7 +18,7 @@ public class CustomerManager : MonoBehaviour
     private List<GameObject> customerPool;
     [SerializeField] private GameObject customerPrefab;
     [SerializeField] private int amountToPool;
-    [SerializeField] private Vector2 entrance;
+    public GameObject entrance;
 
     // Cafe chairs
     [SerializeField] private List<GameObject> chair;
@@ -78,7 +78,7 @@ public class CustomerManager : MonoBehaviour
             {
                 attr.Add(restOfAttr[i]);
                 // removes selected attribute from list so it's not selected again
-                restOfAttr.RemoveAt(i); 
+                restOfAttr.RemoveAt(i);
                 restOfWeight.RemoveAt(i);
                 return;
             }
@@ -98,8 +98,16 @@ public class CustomerManager : MonoBehaviour
 
         return null;
     }
+
     private void SpawnCustomer()
     {
+        // check if there's unoccupied seats, if not don't spawn
+        GameObject chair = SelectDestination();
+        if (chair == null)
+        {
+            return;
+        }
+
         // Select attributes for customers
         List<string> attr = new();
         List<string> restOfAttr = new(attributes);
@@ -111,13 +119,14 @@ public class CustomerManager : MonoBehaviour
 
         // spawn in customer at entrance
         GameObject customer = GetPooledCustomer();
-        if(customer != null)
+        if (customer != null)
         {
-            customer.GetComponent<CustomerScript>().SetAttributes(attr);
-            customer.transform.position = entrance;
+            CustomerScript script = customer.GetComponent<CustomerScript>();
+            script.SetAttributes(attr);
+            script.SetDestination(chair);
+            customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
         }
-        
     }
 
     // Generate customers with random wait times between customers (Called by GameManager)

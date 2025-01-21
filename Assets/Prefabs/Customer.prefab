@@ -107,6 +107,7 @@ MonoBehaviour:
   bond: 0
   reject: 0
   accept: 0
+  destination: {fileID: 0}
 --- !u!114 &9029794692462068264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d40d448c61326e34ab9b251169f88f49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Manager: {fileID: 0}
+  Script: {fileID: 0}
 --- !u!61 &4185958955973001762
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -229,7 +232,7 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 1.7
   pickNextWaypointDist: 0.2
-  endReachedDistance: 1.2
+  endReachedDistance: 0.5
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
