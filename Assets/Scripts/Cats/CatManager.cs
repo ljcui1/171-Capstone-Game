@@ -5,8 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class CatManager : MonoBehaviour
 {
-    public List<Vector3Int> customSpawnLocations;
-    public GameObject[] catPrefabs;
+    [SerializeField] private List<LocationPrefabMapping> spawnMapping;
     public Tilemap tilemap;
 
     public void Start()
@@ -17,18 +16,26 @@ public class CatManager : MonoBehaviour
     // spawns cats in specific locations on the tilemap
     public void SpawnCats()
     {
-        if (customSpawnLocations == null || customSpawnLocations.Count == 0)
+        foreach (var entry in spawnMapping)
         {
-            Debug.LogWarning("No spawn locations specified");
-        }
+            Vector3Int spawnLocation = entry.spawnLocation;
+            GameObject catPrefab = entry.catPrefab;
 
-        foreach (var cellPosition in customSpawnLocations)
-        {
-            Vector3 worldPosition = tilemap.CellToWorld(cellPosition);
-            foreach (var cat in catPrefabs)
-            {
-                Instantiate(cat, worldPosition, Quaternion.identity);
-            }
+            // Convert cell position to world position
+            Vector3 worldPosition = tilemap.CellToWorld(spawnLocation);
+
+            // Instantiate the specific cat prefab at the spawn location
+            Instantiate(catPrefab, worldPosition, Quaternion.identity);
+
+            Debug.Log($"Spawned {catPrefab.name} at {worldPosition}");
         }
     }
+}
+
+// Serializable class to hold the key-value pair for spawn location and prefab
+[System.Serializable]
+public class LocationPrefabMapping
+{
+    public Vector3Int spawnLocation; // Tilemap cell position
+    public GameObject catPrefab; // Corresponding cat prefab
 }
