@@ -8,7 +8,7 @@ public class DialogScript : MonoBehaviour
     public KeyCode interactKey = KeyCode.E;
     public string character = "Fluffy";
     [SerializeField] private bool isPlayerInZone = false;
-    void Awake()
+    void Start()
     {
         triggerZone = GetComponent<Collider2D>();
     }

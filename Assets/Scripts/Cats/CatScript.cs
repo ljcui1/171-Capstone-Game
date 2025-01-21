@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using Pathfinding;
 public class CatScript : MonoBehaviour
 {
     [SerializeField] private bool walk = true;
@@ -12,19 +12,26 @@ public class CatScript : MonoBehaviour
     [SerializeField] private bool reject = false;
     [SerializeField] private bool accept = false;
 
-    [SerializeField] private List<CatAttribute> activeAttributes = new List<CatAttribute>();
+    [SerializeField] private List<GameManager.Attribute> activeAttributes = new List<GameManager.Attribute>();
 
-    // Enum to define possible attributes
-    public enum CatAttribute
+    public AIDestinationSetter aiDestinationSetter;
+
+    private void Awake()
     {
-        Talkative,
-        Foodie,
-        Active
+        aiDestinationSetter = GetComponent<AIDestinationSetter>();
+        if (aiDestinationSetter == null)
+        {
+            Debug.LogError($"{name} is missing the AIDestinationSetter component!");
+        }
     }
-
     private void Start()
     {
         HandleAttributes();
+    }
+
+    public void SetPathTarget(GameObject location)
+    {
+        aiDestinationSetter.target = location.transform;
     }
 
     // Handle the active attributes
@@ -34,15 +41,15 @@ public class CatScript : MonoBehaviour
         {
             Debug.Log("Active attribute: " + attribute.ToString());
             // Implement logic based on active attributes
-            if (attribute == CatAttribute.Talkative)
+            if (attribute == GameManager.Attribute.Talkative)
             {
                 // Example logic: make the cat talk
             }
-            if (attribute == CatAttribute.Foodie)
+            if (attribute == GameManager.Attribute.Foodie)
             {
                 // Example logic: make the cat hungry
             }
-            if (attribute == CatAttribute.Active)
+            if (attribute == GameManager.Attribute.Active)
             {
                 // Example logic: make the cat active
             }
