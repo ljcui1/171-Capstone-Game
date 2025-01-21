@@ -57,7 +57,7 @@ MonoBehaviour:
   bond: 0
   reject: 0
   accept: 0
-  activeAttributes: 000000000000000000000000
+  activeAttributes: 000000000200000001000000
 --- !u!114 &-5939137834954203419
 MonoBehaviour:
   m_ObjectHideFlags: 0
