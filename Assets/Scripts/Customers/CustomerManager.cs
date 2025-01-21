@@ -20,6 +20,10 @@ public class CustomerManager : MonoBehaviour
     [SerializeField] private int amountToPool;
     [SerializeField] private Vector2 entrance;
 
+    // Cafe chairs
+    [SerializeField] private List<GameObject> chair;
+    private List<bool> chairOccupied;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +35,13 @@ public class CustomerManager : MonoBehaviour
             tmpCustomer = Instantiate(customerPrefab, transform);
             tmpCustomer.SetActive(false);
             customerPool.Add(tmpCustomer);
+        }
+
+        // set chairs as unoccupied
+        chairOccupied = new();
+        for (int i = 0; i < chair.Count; i++)
+        {
+            chairOccupied.Add(false);
         }
     }
 
@@ -73,6 +84,20 @@ public class CustomerManager : MonoBehaviour
             }
         }
     }
+
+    private GameObject SelectDestination()
+    {
+        for (int i = 0; i < chair.Count; i++)
+        {
+            if (!chairOccupied[i])
+            {
+                chairOccupied[i] = true;
+                return chair[i];
+            }
+        }
+
+        return null;
+    }
     private void SpawnCustomer()
     {
         // Select attributes for customers
@@ -106,4 +131,6 @@ public class CustomerManager : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
         }
     }
+
+
 }

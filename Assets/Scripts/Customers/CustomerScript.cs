@@ -1,3 +1,4 @@
+using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ public class CustomerScript : MonoBehaviour
     // Attributes
     private List<string> attributes;
 
+    // pathing destination
+    public AIDestinationSetter destination;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,5 +34,10 @@ public class CustomerScript : MonoBehaviour
     public void SetAttributes(List<string> attr)
     {
         attributes = attr;
+    }
+
+    public void SetDestination(GameObject target)
+    {
+        destination.target = target.transform;
     }
 }
