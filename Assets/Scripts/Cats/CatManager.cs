@@ -6,10 +6,16 @@ using UnityEngine.Tilemaps;
 public class CatManager : MonoBehaviour
 {
     [SerializeField] private List<LocationPrefabMapping> spawnMapping;
+
+    [SerializeField] private List<GameObject> cats;
     public Tilemap tilemap;
+    public GameObject[] locations;
 
     public void Start()
     {
+        // Find all GameObjects with the "Location" tag and add them to the list
+        locations = GameObject.FindGameObjectsWithTag("Location");
+        Debug.Log($"******* {locations} ********");
         SpawnCats();
     }
 
@@ -25,9 +31,56 @@ public class CatManager : MonoBehaviour
             Vector3 worldPosition = tilemap.CellToWorld(spawnLocation);
 
             // Instantiate the specific cat prefab at the spawn location
-            Instantiate(catPrefab, worldPosition, Quaternion.identity);
+            GameObject cat = Instantiate(catPrefab, worldPosition, Quaternion.identity);
+            cats.Add(cat);
 
             Debug.Log($"Spawned {catPrefab.name} at {worldPosition}");
+        }
+        SetTargetLocations();
+    }
+
+    // will be called in GameManager during the day
+    private void SetTargetLocations()
+    {
+        // Shuffle the locations to ensure randomness
+        List<GameObject> shuffledLocations = new List<GameObject>(locations);
+        for (int i = 0; i < shuffledLocations.Count; i++)
+        {
+            int randomIndex = Random.Range(i, shuffledLocations.Count);
+            (shuffledLocations[i], shuffledLocations[randomIndex]) = (shuffledLocations[randomIndex], shuffledLocations[i]);
+        }
+
+        // Assign each cat a unique location, else if there aren't enough locations, assign a random location
+        for (int i = 0; i < cats.Count; i++)
+        {
+            CatScript catScript = cats[i].GetComponent<CatScript>();
+            if (i < shuffledLocations.Count)
+            {
+                GameObject uniqueLocation = shuffledLocations[i];
+                catScript.SetPathTarget(uniqueLocation);
+                Debug.Log($"Set {cats[i].name}'s target to {uniqueLocation.name}");
+            }
+            else
+            {
+                SetRandomLocation(cats[i]);
+            }
+        }
+    }
+
+    private void SetRandomLocation(GameObject cat)
+    {
+        CatScript catScript = cat.GetComponent<CatScript>();
+        if (catScript != null && locations.Length > 0)
+        {
+            int randomIndex = Random.Range(0, locations.Length);
+            GameObject randomLocation = locations[randomIndex];
+            Debug.Log(randomLocation);
+            catScript.SetPathTarget(randomLocation);
+            Debug.Log($"Set {cat.name}'s target to {randomLocation.name}");
+        }
+        else
+        {
+            Debug.LogWarning($"CatScript not found on {cat.name} or locations array is empty!");
         }
     }
 }

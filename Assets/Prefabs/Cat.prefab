@@ -57,7 +57,8 @@ MonoBehaviour:
   bond: 0
   reject: 0
   accept: 0
-  activeAttributes: 000000000000000000000000
+  activeAttributes: 000000000200000001000000
+  aiDestinationSetter: {fileID: 0}
 --- !u!114 &-5939137834954203419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,9 +169,9 @@ MonoBehaviour:
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5
   rotationSpeed: 360
-  slowdownDistance: 0.91
+  slowdownDistance: 1.5
   pickNextWaypointDist: 2
-  endReachedDistance: 2
+  endReachedDistance: 1
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
@@ -281,6 +282,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1693836432667623119}
     m_Modifications:
+    - target: {fileID: 2053635525708611188, guid: 6a3534638d7fd4046b042364ff0a75e6, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2979369208049582255, guid: 6a3534638d7fd4046b042364ff0a75e6, type: 3}
       propertyPath: m_Name
       value: DialogTrigger
