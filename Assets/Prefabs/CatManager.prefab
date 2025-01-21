@@ -44,3 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d871c21a511ed740b9b2b511bff091c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnMapping:
+  - spawnLocation: {x: 0, y: 0, z: 0}
+    catPrefab: {fileID: 0}
+  tilemap: {fileID: 0}
