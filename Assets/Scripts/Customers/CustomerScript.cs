@@ -1,3 +1,4 @@
+using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,29 +7,65 @@ using UnityEngine;
 public class CustomerScript : MonoBehaviour
 {
     // All customer states FSM
-    public bool walk = true;
+    public bool walkin = true;
     public bool sit = false;
+    public bool talk = false;
     public bool bond = false;
     public bool reject = false;
     public bool accept = false;
+    public bool walkout = false;     // set by GameManager (based on ingame time) unless "accept" 
 
     // Attributes
-    private List<string> attributes;
+    public List<GameManager.Attribute> activeAttributes;
+    public GameObject cat;
+
+    // pathing destination
+    public AIDestinationSetter destination;
+    [SerializeField] private Vector3 buffer;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void SetAttributes(List<string> attr)
+    public void SetAttributes(List<GameManager.Attribute> attr)
     {
-        attributes = attr;
+        activeAttributes = new(attr);
+    }
+
+    public void SetDestination(GameObject target)
+    {
+        destination.target = target.transform;
+    }
+
+    public bool AtDestination()
+    {
+        if (destination.target != null)
+        {
+            if (
+                destination.target.position.x - buffer.x <= transform.position.x
+                && transform.position.x <= destination.target.position.x + buffer.x
+                && destination.target.position.y - buffer.y <= transform.position.y
+                && transform.position.y <= destination.target.position.y + buffer.y
+            )
+            {
+                destination.target = null;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void Exit()
+    {
+        gameObject.SetActive(false);
     }
 }

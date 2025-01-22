@@ -7,7 +7,7 @@ using UnityEngine.Pool;
 public class CustomerManager : MonoBehaviour
 {
     // Customer spawn chance
-    [SerializeField] private List<string> attributes;   // all available attributes
+    [SerializeField] private List<GameManager.Attribute> attributes;   // all available attributes
     public List<float> attributeWeights;                // customer attribute probability
     [SerializeField] private int numAttributes;         // how many attributes customers have
     public int numCustomersToSpawn;                     // num set by mini games
@@ -18,7 +18,11 @@ public class CustomerManager : MonoBehaviour
     private List<GameObject> customerPool;
     [SerializeField] private GameObject customerPrefab;
     [SerializeField] private int amountToPool;
-    [SerializeField] private Vector2 entrance;
+    public GameObject entrance;
+
+    // Cafe chairs
+    [SerializeField] private List<GameObject> chair;
+    private List<bool> chairOccupied;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +35,13 @@ public class CustomerManager : MonoBehaviour
             tmpCustomer = Instantiate(customerPrefab, transform);
             tmpCustomer.SetActive(false);
             customerPool.Add(tmpCustomer);
+        }
+
+        // set chairs as unoccupied
+        chairOccupied = new();
+        for (int i = 0; i < chair.Count; i++)
+        {
+            chairOccupied.Add(false);
         }
     }
 
@@ -56,7 +67,7 @@ public class CustomerManager : MonoBehaviour
         return sum;
     }
 
-    private void SelectAttribute(List<string> attr, List<string> restOfAttr, List<float> restOfWeight)
+    private void SelectAttribute(List<GameManager.Attribute> attr, List<GameManager.Attribute> restOfAttr, List<float> restOfWeight)
     {
         float randomNum = Random.Range(0f, SumOfWeights());
         float cumWeight = 0f;
@@ -67,17 +78,39 @@ public class CustomerManager : MonoBehaviour
             {
                 attr.Add(restOfAttr[i]);
                 // removes selected attribute from list so it's not selected again
-                restOfAttr.RemoveAt(i); 
+                restOfAttr.RemoveAt(i);
                 restOfWeight.RemoveAt(i);
                 return;
             }
         }
     }
+
+    private GameObject SelectDestination()
+    {
+        for (int i = 0; i < chair.Count; i++)
+        {
+            if (!chairOccupied[i])
+            {
+                chairOccupied[i] = true;
+                return chair[i];
+            }
+        }
+
+        return null;
+    }
+
     private void SpawnCustomer()
     {
+        // check if there's unoccupied seats, if not don't spawn
+        GameObject chair = SelectDestination();
+        if (chair == null)
+        {
+            return;
+        }
+
         // Select attributes for customers
-        List<string> attr = new();
-        List<string> restOfAttr = new(attributes);
+        List<GameManager.Attribute> attr = new();
+        List<GameManager.Attribute> restOfAttr = new(attributes);
         List<float> restOfWeight = new(attributeWeights);
         for (int i = 0; i < numAttributes; i++)
         {
@@ -86,13 +119,14 @@ public class CustomerManager : MonoBehaviour
 
         // spawn in customer at entrance
         GameObject customer = GetPooledCustomer();
-        if(customer != null)
+        if (customer != null)
         {
-            customer.GetComponent<CustomerScript>().SetAttributes(attr);
-            customer.transform.position = entrance;
+            CustomerScript script = customer.GetComponent<CustomerScript>();
+            script.SetAttributes(attr);
+            script.SetDestination(chair);
+            customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
         }
-        
     }
 
     // Generate customers with random wait times between customers (Called by GameManager)
@@ -106,4 +140,15 @@ public class CustomerManager : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
         }
     }
+
+    /*public void BondDecision(CustomerScript customer)
+    {
+        foreach (string cusAttr in customer.attributes)
+        {
+            foreach (string catAttr in customer.cat.activeAttributes)
+            {
+
+            }
+        }
+    }*/
 }

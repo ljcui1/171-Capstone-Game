@@ -44,11 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25ab0f07c10ff34685a341bab7a980b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributes:
-  - talkative
-  - active
-  - foodie
+  attributes: 000000000100000002000000
   attributeWeights:
   - 0
   - 0
   - 0
+  numAttributes: 2
+  numCustomersToSpawn: 0
+  minWait: 0.5
+  maxWait: 3
+  customerPrefab: {fileID: 3734384574543545590, guid: 81c11c682ded1ae43a8c0a53d4a481ce, type: 3}
+  amountToPool: 0
+  entrance: {fileID: 0}
+  chair: []
