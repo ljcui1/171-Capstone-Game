@@ -7,7 +7,7 @@ using UnityEngine.Pool;
 public class CustomerManager : MonoBehaviour
 {
     // Customer spawn chance
-    [SerializeField] private List<string> attributes;   // all available attributes
+    [SerializeField] private List<GameManager.Attribute> attributes;   // all available attributes
     public List<float> attributeWeights;                // customer attribute probability
     [SerializeField] private int numAttributes;         // how many attributes customers have
     public int numCustomersToSpawn;                     // num set by mini games
@@ -67,7 +67,7 @@ public class CustomerManager : MonoBehaviour
         return sum;
     }
 
-    private void SelectAttribute(List<string> attr, List<string> restOfAttr, List<float> restOfWeight)
+    private void SelectAttribute(List<GameManager.Attribute> attr, List<GameManager.Attribute> restOfAttr, List<float> restOfWeight)
     {
         float randomNum = Random.Range(0f, SumOfWeights());
         float cumWeight = 0f;
@@ -109,8 +109,8 @@ public class CustomerManager : MonoBehaviour
         }
 
         // Select attributes for customers
-        List<string> attr = new();
-        List<string> restOfAttr = new(attributes);
+        List<GameManager.Attribute> attr = new();
+        List<GameManager.Attribute> restOfAttr = new(attributes);
         List<float> restOfWeight = new(attributeWeights);
         for (int i = 0; i < numAttributes; i++)
         {
@@ -141,5 +141,14 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
+    /*public void BondDecision(CustomerScript customer)
+    {
+        foreach (string cusAttr in customer.attributes)
+        {
+            foreach (string catAttr in customer.cat.activeAttributes)
+            {
 
+            }
+        }
+    }*/
 }

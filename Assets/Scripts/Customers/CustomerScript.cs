@@ -13,10 +13,11 @@ public class CustomerScript : MonoBehaviour
     public bool bond = false;
     public bool reject = false;
     public bool accept = false;
-    public bool walkout = true;     // set by GameManager (based on ingame time) unless "accept" 
+    public bool walkout = false;     // set by GameManager (based on ingame time) unless "accept" 
 
     // Attributes
-    private List<string> attributes;
+    public List<GameManager.Attribute> activeAttributes;
+    public GameObject cat;
 
     // pathing destination
     public AIDestinationSetter destination;
@@ -34,9 +35,9 @@ public class CustomerScript : MonoBehaviour
 
     }
 
-    public void SetAttributes(List<string> attr)
+    public void SetAttributes(List<GameManager.Attribute> attr)
     {
-        attributes = attr;
+        activeAttributes = new(attr);
     }
 
     public void SetDestination(GameObject target)
@@ -61,11 +62,6 @@ public class CustomerScript : MonoBehaviour
         }
 
         return false;
-    }
-
-    private void BondDecision(GameObject cat)
-    {
-        //if (cat.GetComponent<CatScript>.att)
     }
 
     public void Exit()

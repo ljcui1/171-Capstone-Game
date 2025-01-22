@@ -102,12 +102,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93346f30261409f4d93ff498405c3778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walk: 1
+  walkin: 1
   sit: 0
+  talk: 0
   bond: 0
   reject: 0
   accept: 0
-  destination: {fileID: 0}
+  walkout: 0
+  activeAttributes: 
+  cat: {fileID: 0}
+  destination: {fileID: 1891195440092459989}
+  buffer: {x: 0.1, y: 0.1, z: 0}
 --- !u!114 &9029794692462068264
 MonoBehaviour:
   m_ObjectHideFlags: 0
