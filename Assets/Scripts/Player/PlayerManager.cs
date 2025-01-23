@@ -41,6 +41,13 @@ public class PlayerManager : MonoBehaviour
                 idling = true;
             }
 
+            if (Player.inRangeTalk && Input.GetKeyDown(KeyCode.E))
+            {
+                idling = false;
+                walking = false;
+                talking = true;
+            }
+
             //checking if playing & talking are false and movement input is given to put player into walking state
             if (joyIn && !playing && !talking)
             {

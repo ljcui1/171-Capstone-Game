@@ -58,7 +58,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnFixedUpdate() { }
 
-        public override void OnExit() { }
+        public override void OnExit()
+        {
+            GetStateMachine<PlayerFSM>().PlayMan.idling = false;
+        }
     }
 
     public class WalkState : AbstractState
@@ -123,7 +126,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
                 GetStateMachine<PlayerFSM>().moveInput * GetStateMachine<PlayerFSM>().moveSpeed;
         }
 
-        public override void OnExit() { }
+        public override void OnExit()
+        {
+            GetStateMachine<PlayerFSM>().PlayMan.walking = false;
+        }
     }
 
     public class PlayState : AbstractState
@@ -148,12 +154,19 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnFixedUpdate() { }
 
-        public override void OnExit() { }
+        public override void OnExit()
+        {
+            GetStateMachine<PlayerFSM>().PlayMan.playing = false;
+        }
     }
 
     public class TalkState : AbstractState
     {
-        public override void OnEnter() { }
+        public override void OnEnter()
+        {
+            Collider2D convo = GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo;
+
+        }
 
         public override void OnUpdate()
         {
@@ -173,6 +186,9 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnFixedUpdate() { }
 
-        public override void OnExit() { }
+        public override void OnExit()
+        {
+            GetStateMachine<PlayerFSM>().PlayMan.talking = false;
+        }
     }
 }

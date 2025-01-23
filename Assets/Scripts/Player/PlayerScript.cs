@@ -6,6 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
     public Rigidbody2D rb;
     public bool inRangeTalk = false;
+    public Collider2D talkTo;
 
     // Start is called before the first frame update
     void Start()
@@ -16,8 +17,17 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update() { }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-
+        if (other.tag == "Customer" || other.tag == "Cat")
+        {
+            inRangeTalk = true;
+            talkTo = other;
+        }
+        else
+        {
+            inRangeTalk = false;
+            talkTo = null;
+        }
     }
 }
