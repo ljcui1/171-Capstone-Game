@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public bool inRangeTalk = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -12,8 +14,10 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void Update() { }
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+
     }
 }

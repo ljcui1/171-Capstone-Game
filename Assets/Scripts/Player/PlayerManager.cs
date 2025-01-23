@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using KevinCastejon.FiniteStateMachine;
+using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
     public PlayerScript Player;
-    [SerializeField] private PlayerFSM PlayerSM;
+
+    [SerializeField]
+    private PlayerFSM PlayerFSM;
 
     private Rigidbody2D rb;
 
@@ -25,12 +27,14 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         //unpaused
-        if(Time.timeScale != 0)
+        if (Time.timeScale != 0)
         {
             //checking input
             bool keyIn = Input.anyKey;
             bool conIn = Input.GetButton("Fire1");
-            bool joyIn = Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
+            bool joyIn =
+                Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f
+                || Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
 
             if (!keyIn && !conIn && !joyIn)
             {
@@ -47,18 +51,8 @@ public class PlayerManager : MonoBehaviour
             {
                 walking = false;
             }
-
-
-
         }
-
-        
-
-
     }
 
-    private void FixedUpdate()
-    {
-        
-    }
+    private void FixedUpdate() { }
 }
