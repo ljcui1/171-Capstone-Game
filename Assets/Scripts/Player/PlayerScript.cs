@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public LineRenderer lr;
     public bool inRangeTalk = false;
     public Collider2D talkTo;
 
@@ -12,6 +13,9 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        lr = GetComponent<LineRenderer>();
+        lr.enabled = false;
+        lr.positionCount = 2;
     }
 
     // Update is called once per frame

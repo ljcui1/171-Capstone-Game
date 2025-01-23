@@ -215,6 +215,23 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Vector2 startPos = GetStateMachine<PlayerFSM>().PlayMan.Player.transform.position;
+                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.SetPosition(0, startPos);
+                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.SetPosition(1, startPos);
+                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.enabled = true;
+            }
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Vector2 endPos = GetStateMachine<PlayerFSM>().PlayMan.Player.transform.position;
+                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.SetPosition(1, endPos);
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.enabled = false;
+            }
+
             if (GetStateMachine<PlayerFSM>().PlayMan.idling)
             {
                 TransitionToState(PlayerState.IDLE);
