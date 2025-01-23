@@ -20,6 +20,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
         WALK,
         PLAY,
         TALK,
+        MATCH,
     }
 
     private void Awake()
@@ -29,7 +30,8 @@ public class PlayerFSM : AbstractFiniteStateMachine
             AbstractState.Create<IdleState, PlayerState>(PlayerState.IDLE, this),
             AbstractState.Create<WalkState, PlayerState>(PlayerState.WALK, this),
             AbstractState.Create<PlayState, PlayerState>(PlayerState.PLAY, this),
-            AbstractState.Create<TalkState, PlayerState>(PlayerState.TALK, this)
+            AbstractState.Create<TalkState, PlayerState>(PlayerState.TALK, this),
+            AbstractState.Create<MatchState, PlayerState>(PlayerState.MATCH, this)
         );
 
         PlayMan = transform.GetComponent<PlayerManager>();
@@ -53,6 +55,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
             if (GetStateMachine<PlayerFSM>().PlayMan.talking)
             {
                 TransitionToState(PlayerState.TALK);
+            }
+            if (GetStateMachine<PlayerFSM>().PlayMan.matching)
+            {
+                TransitionToState(PlayerState.MATCH);
             }
         }
 
@@ -118,6 +124,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
             {
                 TransitionToState(PlayerState.TALK);
             }
+            if (GetStateMachine<PlayerFSM>().PlayMan.matching)
+            {
+                TransitionToState(PlayerState.MATCH);
+            }
         }
 
         public override void OnFixedUpdate()
@@ -150,6 +160,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
             {
                 TransitionToState(PlayerState.TALK);
             }
+            if (GetStateMachine<PlayerFSM>().PlayMan.matching)
+            {
+                TransitionToState(PlayerState.MATCH);
+            }
         }
 
         public override void OnFixedUpdate() { }
@@ -165,7 +179,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
         public override void OnEnter()
         {
             Collider2D convo = GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo;
-
         }
 
         public override void OnUpdate()
@@ -182,6 +195,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
             {
                 TransitionToState(PlayerState.WALK);
             }
+            if (GetStateMachine<PlayerFSM>().PlayMan.matching)
+            {
+                TransitionToState(PlayerState.MATCH);
+            }
         }
 
         public override void OnFixedUpdate() { }
@@ -189,6 +206,38 @@ public class PlayerFSM : AbstractFiniteStateMachine
         public override void OnExit()
         {
             GetStateMachine<PlayerFSM>().PlayMan.talking = false;
+        }
+    }
+
+    public class MatchState : AbstractState
+    {
+        public override void OnEnter() { }
+
+        public override void OnUpdate()
+        {
+            if (GetStateMachine<PlayerFSM>().PlayMan.idling)
+            {
+                TransitionToState(PlayerState.IDLE);
+            }
+            if (GetStateMachine<PlayerFSM>().PlayMan.playing)
+            {
+                TransitionToState(PlayerState.PLAY);
+            }
+            if (GetStateMachine<PlayerFSM>().PlayMan.walking)
+            {
+                TransitionToState(PlayerState.WALK);
+            }
+            if (GetStateMachine<PlayerFSM>().PlayMan.talking)
+            {
+                TransitionToState(PlayerState.TALK);
+            }
+        }
+
+        public override void OnFixedUpdate() { }
+
+        public override void OnExit()
+        {
+            GetStateMachine<PlayerFSM>().PlayMan.matching = false;
         }
     }
 }

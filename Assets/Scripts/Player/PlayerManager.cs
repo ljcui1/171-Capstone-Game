@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
     public bool walking = false;
     public bool playing = false;
     public bool talking = false;
+    public bool matching = false;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,7 @@ public class PlayerManager : MonoBehaviour
             }
 
             //checking if playing & talking are false and movement input is given to put player into walking state
-            if (joyIn && !playing && !talking)
+            if (joyIn && !playing && !talking && !matching)
             {
                 idling = false;
                 walking = true;
