@@ -112,7 +112,7 @@ MonoBehaviour:
   activeAttributes: 
   cat: {fileID: 0}
   destination: {fileID: 1891195440092459989}
-  buffer: {x: 0.1, y: 0.1, z: 0}
+  buffer: {x: 0.5, y: 0.5, z: 0}
 --- !u!114 &9029794692462068264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,8 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d40d448c61326e34ab9b251169f88f49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Manager: {fileID: 0}
-  Script: {fileID: 0}
+  Manager: {fileID: 1399518628680660237, guid: 401a5a027bc146048b9a0f37eeceec45, type: 3}
+  Script: {fileID: 8013201788611796640}
 --- !u!61 &4185958955973001762
 BoxCollider2D:
   m_ObjectHideFlags: 0
