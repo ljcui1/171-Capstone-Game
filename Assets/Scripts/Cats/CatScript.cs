@@ -4,65 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Pathfinding;
 using UnityEditor.Experimental.GraphView;
-public class CatScript : MonoBehaviour
+public class CatScript : BaseNPC
 {
-    [SerializeField] private bool walk = true;
-    [SerializeField] private bool sit = false;
-    [SerializeField] private bool talk = false;
-    [SerializeField] private bool bond = false;
-    [SerializeField] private bool reject = false;
-    [SerializeField] private bool accept = false;
-
-    [SerializeField] private List<GameManager.Attribute> activeAttributes = new List<GameManager.Attribute>();
-
-    public AIDestinationSetter aiDestinationSetter;
-
-    public AIPath aiPath;
-
-    private void Awake()
-    {
-        aiDestinationSetter = GetComponent<AIDestinationSetter>();
-        aiPath = GetComponent<AIPath>();
-        if (aiDestinationSetter == null)
-        {
-            Debug.LogError($"{name} is missing the AIDestinationSetter component!");
-        }
-        if (aiPath == null)
-        {
-            Debug.LogError($"{name} is missing the AIPath component!");
-        }
-    }
-    private void Start()
-    {
-        HandleAttributes();
-    }
-
-    public void SetPathTarget(GameObject location)
-    {
-        aiDestinationSetter.target = location.transform;
-    }
-
-
-    // Handle the active attributes
-    private void HandleAttributes()
-    {
-        foreach (var attribute in activeAttributes)
-        {
-            Debug.Log("Active attribute: " + attribute.ToString());
-            // Implement logic based on active attributes
-            if (attribute == GameManager.Attribute.Talkative)
-            {
-                // Example logic: make the cat talk
-            }
-            if (attribute == GameManager.Attribute.Foodie)
-            {
-                // Example logic: make the cat hungry
-            }
-            if (attribute == GameManager.Attribute.Active)
-            {
-                // Example logic: make the cat active
-            }
-        }
-    }
-
 }
