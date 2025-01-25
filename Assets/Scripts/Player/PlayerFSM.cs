@@ -20,7 +20,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
         WALK,
         PLAY,
         TALK,
-        MATCH,
     }
 
     private void Awake()
@@ -30,8 +29,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
             AbstractState.Create<IdleState, PlayerState>(PlayerState.IDLE, this),
             AbstractState.Create<WalkState, PlayerState>(PlayerState.WALK, this),
             AbstractState.Create<PlayState, PlayerState>(PlayerState.PLAY, this),
-            AbstractState.Create<TalkState, PlayerState>(PlayerState.TALK, this),
-            AbstractState.Create<MatchState, PlayerState>(PlayerState.MATCH, this)
+            AbstractState.Create<TalkState, PlayerState>(PlayerState.TALK, this)
         );
 
         PlayMan = transform.GetComponent<PlayerManager>();
@@ -55,10 +53,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
             if (GetStateMachine<PlayerFSM>().PlayMan.talking)
             {
                 TransitionToState(PlayerState.TALK);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.matching)
-            {
-                TransitionToState(PlayerState.MATCH);
             }
         }
 
@@ -124,10 +118,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
             {
                 TransitionToState(PlayerState.TALK);
             }
-            if (GetStateMachine<PlayerFSM>().PlayMan.matching)
-            {
-                TransitionToState(PlayerState.MATCH);
-            }
         }
 
         public override void OnFixedUpdate()
@@ -160,10 +150,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
             {
                 TransitionToState(PlayerState.TALK);
             }
-            if (GetStateMachine<PlayerFSM>().PlayMan.matching)
-            {
-                TransitionToState(PlayerState.MATCH);
-            }
         }
 
         public override void OnFixedUpdate() { }
@@ -195,10 +181,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
             {
                 TransitionToState(PlayerState.WALK);
             }
-            if (GetStateMachine<PlayerFSM>().PlayMan.matching)
-            {
-                TransitionToState(PlayerState.MATCH);
-            }
         }
 
         public override void OnFixedUpdate() { }
@@ -206,55 +188,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
         public override void OnExit()
         {
             GetStateMachine<PlayerFSM>().PlayMan.talking = false;
-        }
-    }
-
-    public class MatchState : AbstractState
-    {
-        public override void OnEnter() { }
-
-        public override void OnUpdate()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Vector2 startPos = GetStateMachine<PlayerFSM>().PlayMan.Player.transform.position;
-                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.SetPosition(0, startPos);
-                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.SetPosition(1, startPos);
-                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.enabled = true;
-            }
-            if (Input.GetKey(KeyCode.Space))
-            {
-                Vector2 endPos = GetStateMachine<PlayerFSM>().PlayMan.Player.transform.position;
-                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.SetPosition(1, endPos);
-            }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                GetStateMachine<PlayerFSM>().PlayMan.Player.lr.enabled = false;
-            }
-
-            if (GetStateMachine<PlayerFSM>().PlayMan.idling)
-            {
-                TransitionToState(PlayerState.IDLE);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.playing)
-            {
-                TransitionToState(PlayerState.PLAY);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.walking)
-            {
-                TransitionToState(PlayerState.WALK);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.talking)
-            {
-                TransitionToState(PlayerState.TALK);
-            }
-        }
-
-        public override void OnFixedUpdate() { }
-
-        public override void OnExit()
-        {
-            GetStateMachine<PlayerFSM>().PlayMan.matching = false;
         }
     }
 }

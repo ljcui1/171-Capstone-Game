@@ -16,7 +16,6 @@ public class PlayerManager : MonoBehaviour
     public bool walking = false;
     public bool playing = false;
     public bool talking = false;
-    public bool matching = false;
 
     // Start is called before the first frame update
     void Start()
@@ -48,16 +47,19 @@ public class PlayerManager : MonoBehaviour
                 walking = false;
                 talking = true;
             }
-
-            if (Input.GetKey(KeyCode.Space))
+            else
             {
-                idling = false;
-                walking = false;
-                matching = true;
+                talking = false;
+                idling = true;
+            }
+
+            if (!playing && !talking && Input.GetKey(KeyCode.Space))
+            {
+                matchLine();
             }
 
             //checking if playing & talking are false and movement input is given to put player into walking state
-            if (joyIn && !playing && !talking && !matching)
+            if (joyIn && !playing && !talking)
             {
                 idling = false;
                 walking = true;
@@ -70,4 +72,24 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void FixedUpdate() { }
+
+    private void matchLine()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Vector2 startPos = Player.transform.position;
+            Player.lr.SetPosition(0, startPos);
+            Player.lr.SetPosition(1, startPos);
+            Player.lr.enabled = true;
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Vector2 endPos = Player.transform.position;
+            Player.lr.SetPosition(1, endPos);
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Player.lr.enabled = false;
+        }
+    }
 }
