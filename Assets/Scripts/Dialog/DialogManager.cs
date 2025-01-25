@@ -16,14 +16,9 @@ public class DialogManager : MonoBehaviour
     public bool IsPlaying { get; private set; } = false;
 
     static Story story;
-    Text nametag;
-    Text message;
-    List<string> tags;
 
     public GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
-    static Choice choiceSelected;
-
     private static DialogManager instance;
 
     void Awake()
@@ -154,55 +149,7 @@ public class DialogManager : MonoBehaviour
         {
             choices[i].SetActive(false);
         }
+        ContinueStory();
     }
-
-    /*** Tag Parser ***/
-    /// In Inky, you can use tags which can be used to cue stuff in a game.
-    /// This is just one way of doing it. Not the only method on how to trigger events. 
-    // void ParseTags()
-    // {
-    //     tags = story.currentTags;
-    //     foreach (string t in tags)
-    //     {
-    //         string prefix = t.Split(' ')[0];
-    //         string param = t.Split(' ')[1];
-
-    //         switch (prefix.ToLower())
-    //         {
-    //             case "anim":
-    //                 SetAnimation(param);
-    //                 break;
-    //             case "color":
-    //                 SetTextColor(param);
-    //                 break;
-    //         }
-    //     }
-    // }
-    // void SetAnimation(string _name)
-    // {
-    //     CharacterScript cs = FindObjectOfType<CharacterScript>();
-    //     cs.PlayAnimation(_name);
-    // }
-    // void SetTextColor(string _color)
-    // {
-    //     switch (_color)
-    //     {
-    //         case "red":
-    //             message.color = Color.red;
-    //             break;
-    //         case "blue":
-    //             message.color = Color.cyan;
-    //             break;
-    //         case "green":
-    //             message.color = Color.green;
-    //             break;
-    //         case "white":
-    //             message.color = Color.white;
-    //             break;
-    //         default:
-    //             Debug.Log($"{_color} is not available as a text color");
-    //             break;
-    //     }
-    // }
 
 }
