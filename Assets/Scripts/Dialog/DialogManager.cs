@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Ink.Runtime;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class DialogManager : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class DialogManager : MonoBehaviour
     Text nametag;
     Text message;
     List<string> tags;
+
+    public GameObject[] choices;
+    private TextMeshProUGUI[] choicesText;
     static Choice choiceSelected;
 
     private static DialogManager instance;
@@ -35,6 +39,24 @@ public class DialogManager : MonoBehaviour
     {
         IsPlaying = false;
         dialogPanel.SetActive(false);
+        choicesText = new TextMeshProUGUI[choices.Length];
+
+        int index = 0;
+        foreach (GameObject choice in choices)
+        {
+            choices[index].SetActive(false);
+            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
+            index++;
+        }
+    }
+
+    private void Update()
+    {
+        if (!IsPlaying) return;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ContinueStory();
+        }
     }
 
     public static DialogManager GetInstance()
@@ -56,6 +78,10 @@ public class DialogManager : MonoBehaviour
         if (story.canContinue)
         {
             AdvanceDialog();
+            if (story.currentChoices.Count != 0)
+            {
+                DisplayChoices();
+            }
         }
         else
         {
@@ -71,21 +97,11 @@ public class DialogManager : MonoBehaviour
         StartCoroutine(TypeSentence(currentSentence));
     }
 
-
     private void ExitDialogMode()
     {
         IsPlaying = false;
         dialogPanel.SetActive(false);
         dialogText.text = "";
-    }
-
-    private void Update()
-    {
-        if (!IsPlaying) return;
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ContinueStory();
-        }
     }
 
 
@@ -98,54 +114,47 @@ public class DialogManager : MonoBehaviour
             dialogText.text += letter;
             yield return null;
         }
-        // CharacterScript tempSpeaker = FindObjectOfType<CharacterScript>();
-        // if (tempSpeaker.IsPlaying)
-        // {
-        //     SetAnimation("idle");
-        // }
         yield return null;
     }
 
-    // // Create then show the choices on the screen until one got selected
-    // IEnumerator ShowChoices()
-    // {
-    //     Debug.Log("There are choices need to be made here!");
-    //     List<Choice> _choices = story.currentChoices;
-
-    //     for (int i = 0; i < _choices.Count; i++)
-    //     {
-    //         GameObject temp = Instantiate(customButton, optionPanel.transform);
-    //         temp.transform.GetChild(0).GetComponent<Text>().text = _choices[i].text;
-    //         temp.AddComponent<Selectable>();
-    //         temp.GetComponent<Selectable>().element = _choices[i];
-    //         temp.GetComponent<Button>().onClick.AddListener(() => { temp.GetComponent<Selectable>().Decide(); });
-    //     }
-
-    //     optionPanel.SetActive(true);
-
-    //     yield return new WaitUntil(() => { return choiceSelected != null; });
-
-    //     AdvanceFromDecision();
-    // }
-
-    // // Tells the story which branch to go to
-    public static void SetDecision(object element)
+    private void DisplayChoices()
     {
-        choiceSelected = (Choice)element;
-        story.ChooseChoiceIndex(choiceSelected.index);
+        List<Choice> currentChoices = story.currentChoices;
+        if (currentChoices.Count > choices.Length)
+        {
+            Debug.LogError($"More choices given than the UI can support. {currentChoices.Count} choices given.");
+        }
+        int index = 0;
+        foreach (Choice choice in currentChoices)
+        {
+            choices[index].SetActive(true);
+            choicesText[index].text = choice.text;
+            index++;
+        }
+        // hide the leftover button choices
+        for (int i = index; i < choices.Length; i++)
+        {
+            choices[i].SetActive(false);
+        }
+        StartCoroutine(SelectFirstChoice());
     }
 
-    // // After a choice was made, turn off the panel and advance from that choice
-    // void AdvanceFromDecision()
-    // {
-    //     optionPanel.SetActive(false);
-    //     for (int i = 0; i < optionPanel.transform.childCount; i++)
-    //     {
-    //         Destroy(optionPanel.transform.GetChild(i).gameObject);
-    //     }
-    //     choiceSelected = null; // Forgot to reset the choiceSelected. Otherwise, it would select an option without player intervention.
-    //     AdvanceDialog();
-    // }
+    private IEnumerator SelectFirstChoice()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        yield return new WaitForEndOfFrame();
+        EventSystem.current.SetSelectedGameObject(choices[0]);
+    }
+
+    // // Tells the story which branch to go to
+    public void SetDecision(int choiceIndex)
+    {
+        story.ChooseChoiceIndex(choiceIndex);
+        for (int i = 0; i < choices.Length; i++)
+        {
+            choices[i].SetActive(false);
+        }
+    }
 
     /*** Tag Parser ***/
     /// In Inky, you can use tags which can be used to cue stuff in a game.

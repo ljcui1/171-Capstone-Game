@@ -13,13 +13,11 @@ public class DialogScript : MonoBehaviour
     [SerializeField] private TextAsset inkJSON;
     [SerializeField] private bool isPlayerInZone = false;
 
-    void Awake()
+
+    void Start()
     {
         visualCue.SetActive(false);
         isPlayerInZone = false;
-    }
-    void Start()
-    {
         triggerZone = GetComponent<Collider2D>();
     }
 
@@ -44,7 +42,7 @@ public class DialogScript : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerInZone)
+        if (isPlayerInZone && !DialogManager.GetInstance().IsPlaying)
         {
             visualCue.SetActive(true);
             if (Input.GetKeyDown(interactKey))

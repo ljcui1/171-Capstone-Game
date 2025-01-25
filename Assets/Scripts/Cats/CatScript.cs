@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using Pathfinding;
+using UnityEditor.Experimental.GraphView;
 public class CatScript : MonoBehaviour
 {
     [SerializeField] private bool walk = true;
@@ -16,12 +17,19 @@ public class CatScript : MonoBehaviour
 
     public AIDestinationSetter aiDestinationSetter;
 
+    public AIPath aiPath;
+
     private void Awake()
     {
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
+        aiPath = GetComponent<AIPath>();
         if (aiDestinationSetter == null)
         {
             Debug.LogError($"{name} is missing the AIDestinationSetter component!");
+        }
+        if (aiPath == null)
+        {
+            Debug.LogError($"{name} is missing the AIPath component!");
         }
     }
     private void Start()
@@ -33,6 +41,7 @@ public class CatScript : MonoBehaviour
     {
         aiDestinationSetter.target = location.transform;
     }
+
 
     // Handle the active attributes
     private void HandleAttributes()
