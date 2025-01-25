@@ -7,7 +7,17 @@ public class DialogScript : MonoBehaviour
     public Collider2D triggerZone;
     public KeyCode interactKey = KeyCode.E;
     public string character = "Fluffy";
+
+    [SerializeField] private GameObject visualCue;
+
+    [SerializeField] private TextAsset inkJSON;
     [SerializeField] private bool isPlayerInZone = false;
+
+    void Awake()
+    {
+        visualCue.SetActive(false);
+        isPlayerInZone = false;
+    }
     void Start()
     {
         triggerZone = GetComponent<Collider2D>();
@@ -34,10 +44,20 @@ public class DialogScript : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerInZone && Input.GetKeyDown(interactKey))
+        if (isPlayerInZone)
         {
-            Debug.Log($"{interactKey} key pressed: Start dialog interaction");
-            Debug.Log($"Interacted with {character}");
+            visualCue.SetActive(true);
+            if (Input.GetKeyDown(interactKey))
+            {
+                Debug.Log($"{interactKey} key pressed: Start dialog interaction");
+                Debug.Log($"Interacted with {character}");
+                DialogManager.GetInstance().EnterDialogMode(inkJSON);
+            }
         }
+        else
+        {
+            visualCue.SetActive(false);
+        }
+
     }
 }
