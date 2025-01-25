@@ -6,10 +6,8 @@ public class DialogScript : MonoBehaviour
 {
     public Collider2D triggerZone;
     public KeyCode interactKey = KeyCode.E;
-    public string character = "Fluffy";
 
     [SerializeField] private GameObject visualCue;
-
     [SerializeField] private TextAsset inkJSON;
     [SerializeField] private bool isPlayerInZone = false;
 
@@ -35,8 +33,6 @@ public class DialogScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInZone = false;
-            // trigger dialog to close
-            Debug.Log("exit");
         }
     }
 
@@ -47,8 +43,6 @@ public class DialogScript : MonoBehaviour
             visualCue.SetActive(true);
             if (Input.GetKeyDown(interactKey))
             {
-                Debug.Log($"{interactKey} key pressed: Start dialog interaction");
-                Debug.Log($"Interacted with {character}");
                 DialogManager.GetInstance().EnterDialogMode(inkJSON);
             }
         }

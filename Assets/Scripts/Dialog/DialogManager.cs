@@ -6,19 +6,21 @@ using Ink.Runtime;
 using TMPro;
 using UnityEngine.EventSystems;
 
+// taken from https://github.com/shapedbyrainstudios/ink-dialogue-system/blob/8-ink-external-functions-example/Assets/Scripts/Dialogue/DialogueManager.cs 
+// Credit:  shapedbyrainstudios https://www.youtube.com/watch?v=vY0Sk93YUhA 
 public class DialogManager : MonoBehaviour
 {
 
     [Header("Dialog UI")]
-
     public GameObject dialogPanel;
     public TextMeshProUGUI dialogText;
-    public bool IsPlaying { get; private set; } = false;
-
-    static Story story;
 
     public GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
+
+    public bool IsPlaying { get; private set; } = false;
+
+    private static Story story;
     private static DialogManager instance;
 
     void Awake()
@@ -28,6 +30,11 @@ public class DialogManager : MonoBehaviour
             Debug.LogWarning("Found more than one Dialogue Manager in the scene");
         }
         instance = this;
+    }
+
+    public static DialogManager GetInstance()
+    {
+        return instance;
     }
 
     void Start()
@@ -54,10 +61,6 @@ public class DialogManager : MonoBehaviour
         }
     }
 
-    public static DialogManager GetInstance()
-    {
-        return instance;
-    }
 
     public void EnterDialogMode(TextAsset inkJSON)
     {
