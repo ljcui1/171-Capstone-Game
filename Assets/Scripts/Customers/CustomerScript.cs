@@ -1,62 +1,41 @@
 using Pathfinding;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomerScript : MonoBehaviour
+public class CustomerScript : BaseNPC
 {
-    // All customer states FSM
+    // Customer-specific FSM-like flags
     public bool walkin = true;
     public bool sit = false;
     public bool talk = false;
     public bool bond = false;
     public bool reject = false;
     public bool accept = false;
-    public bool walkout = false;     // set by GameManager (based on ingame time) unless "accept" 
+    public bool walkout = false;
 
-    // Attributes
-    public List<GameManager.Attribute> activeAttributes;
-    public GameObject cat;
+    public GameObject cat; // Reference to the cat for interactions
+    [SerializeField] private Vector3 buffer; // Positional buffer for destination checking
 
-    // pathing destination
-    public AIDestinationSetter destination;
-    [SerializeField] private Vector3 buffer;
-
-    // Start is called before the first frame update
-    void Start()
+    public void SetAttributes(List<Attribute> attr)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void SetAttributes(List<GameManager.Attribute> attr)
-    {
-        activeAttributes = new(attr);
-    }
-
-    public void SetDestination(GameObject target)
-    {
-        destination.target = target.transform;
+        foreach (var attribute in attr)
+        {
+            SetAttribute(attribute, true);
+        }
     }
 
     public bool AtDestination()
     {
-        if (destination.target != null)
+        if (aiDestinationSetter.target != null)
         {
-            if (
-                destination.target.position.x - buffer.x <= transform.position.x
-                && transform.position.x <= destination.target.position.x + buffer.x
-                && destination.target.position.y - buffer.y <= transform.position.y
-                && transform.position.y <= destination.target.position.y + buffer.y
-            )
+            Vector3 targetPosition = aiDestinationSetter.target.position;
+            Vector3 currentPosition = transform.position;
+
+            // Check if within buffer bounds
+            if (Mathf.Abs(targetPosition.x - currentPosition.x) <= buffer.x &&
+                Mathf.Abs(targetPosition.y - currentPosition.y) <= buffer.y)
             {
-                destination.target = null;
+                aiDestinationSetter.target = null; // Clear the target once arrived
                 return true;
             }
         }

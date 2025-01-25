@@ -4,22 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 using Ink.Runtime;
 using TMPro;
+using UnityEngine.EventSystems;
 
+// taken from https://github.com/shapedbyrainstudios/ink-dialogue-system/blob/8-ink-external-functions-example/Assets/Scripts/Dialogue/DialogueManager.cs 
+// Credit:  shapedbyrainstudios https://www.youtube.com/watch?v=vY0Sk93YUhA 
 public class DialogManager : MonoBehaviour
 {
 
     [Header("Dialog UI")]
-
     public GameObject dialogPanel;
     public TextMeshProUGUI dialogText;
+
+    public GameObject[] choices;
+    private TextMeshProUGUI[] choicesText;
+
     public bool IsPlaying { get; private set; } = false;
 
-    static Story story;
-    Text nametag;
-    Text message;
-    List<string> tags;
-    static Choice choiceSelected;
-
+    private static Story story;
     private static DialogManager instance;
 
     void Awake()
@@ -31,16 +32,35 @@ public class DialogManager : MonoBehaviour
         instance = this;
     }
 
-    void Start()
-    {
-        IsPlaying = false;
-        dialogPanel.SetActive(false);
-    }
-
     public static DialogManager GetInstance()
     {
         return instance;
     }
+
+    void Start()
+    {
+        IsPlaying = false;
+        dialogPanel.SetActive(false);
+        choicesText = new TextMeshProUGUI[choices.Length];
+
+        int index = 0;
+        foreach (GameObject choice in choices)
+        {
+            choices[index].SetActive(false);
+            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
+            index++;
+        }
+    }
+
+    private void Update()
+    {
+        if (!IsPlaying) return;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ContinueStory();
+        }
+    }
+
 
     public void EnterDialogMode(TextAsset inkJSON)
     {
@@ -56,6 +76,10 @@ public class DialogManager : MonoBehaviour
         if (story.canContinue)
         {
             AdvanceDialog();
+            if (story.currentChoices.Count != 0)
+            {
+                DisplayChoices();
+            }
         }
         else
         {
@@ -71,21 +95,11 @@ public class DialogManager : MonoBehaviour
         StartCoroutine(TypeSentence(currentSentence));
     }
 
-
     private void ExitDialogMode()
     {
         IsPlaying = false;
         dialogPanel.SetActive(false);
         dialogText.text = "";
-    }
-
-    private void Update()
-    {
-        if (!IsPlaying) return;
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ContinueStory();
-        }
     }
 
 
@@ -98,102 +112,47 @@ public class DialogManager : MonoBehaviour
             dialogText.text += letter;
             yield return null;
         }
-        // CharacterScript tempSpeaker = FindObjectOfType<CharacterScript>();
-        // if (tempSpeaker.IsPlaying)
-        // {
-        //     SetAnimation("idle");
-        // }
         yield return null;
     }
 
-    // // Create then show the choices on the screen until one got selected
-    // IEnumerator ShowChoices()
-    // {
-    //     Debug.Log("There are choices need to be made here!");
-    //     List<Choice> _choices = story.currentChoices;
-
-    //     for (int i = 0; i < _choices.Count; i++)
-    //     {
-    //         GameObject temp = Instantiate(customButton, optionPanel.transform);
-    //         temp.transform.GetChild(0).GetComponent<Text>().text = _choices[i].text;
-    //         temp.AddComponent<Selectable>();
-    //         temp.GetComponent<Selectable>().element = _choices[i];
-    //         temp.GetComponent<Button>().onClick.AddListener(() => { temp.GetComponent<Selectable>().Decide(); });
-    //     }
-
-    //     optionPanel.SetActive(true);
-
-    //     yield return new WaitUntil(() => { return choiceSelected != null; });
-
-    //     AdvanceFromDecision();
-    // }
-
-    // // Tells the story which branch to go to
-    public static void SetDecision(object element)
+    private void DisplayChoices()
     {
-        choiceSelected = (Choice)element;
-        story.ChooseChoiceIndex(choiceSelected.index);
+        List<Choice> currentChoices = story.currentChoices;
+        if (currentChoices.Count > choices.Length)
+        {
+            Debug.LogError($"More choices given than the UI can support. {currentChoices.Count} choices given.");
+        }
+        int index = 0;
+        foreach (Choice choice in currentChoices)
+        {
+            choices[index].SetActive(true);
+            choicesText[index].text = choice.text;
+            index++;
+        }
+        // hide the leftover button choices
+        for (int i = index; i < choices.Length; i++)
+        {
+            choices[i].SetActive(false);
+        }
+        StartCoroutine(SelectFirstChoice());
     }
 
-    // // After a choice was made, turn off the panel and advance from that choice
-    // void AdvanceFromDecision()
-    // {
-    //     optionPanel.SetActive(false);
-    //     for (int i = 0; i < optionPanel.transform.childCount; i++)
-    //     {
-    //         Destroy(optionPanel.transform.GetChild(i).gameObject);
-    //     }
-    //     choiceSelected = null; // Forgot to reset the choiceSelected. Otherwise, it would select an option without player intervention.
-    //     AdvanceDialog();
-    // }
+    private IEnumerator SelectFirstChoice()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        yield return new WaitForEndOfFrame();
+        EventSystem.current.SetSelectedGameObject(choices[0]);
+    }
 
-    /*** Tag Parser ***/
-    /// In Inky, you can use tags which can be used to cue stuff in a game.
-    /// This is just one way of doing it. Not the only method on how to trigger events. 
-    // void ParseTags()
-    // {
-    //     tags = story.currentTags;
-    //     foreach (string t in tags)
-    //     {
-    //         string prefix = t.Split(' ')[0];
-    //         string param = t.Split(' ')[1];
-
-    //         switch (prefix.ToLower())
-    //         {
-    //             case "anim":
-    //                 SetAnimation(param);
-    //                 break;
-    //             case "color":
-    //                 SetTextColor(param);
-    //                 break;
-    //         }
-    //     }
-    // }
-    // void SetAnimation(string _name)
-    // {
-    //     CharacterScript cs = FindObjectOfType<CharacterScript>();
-    //     cs.PlayAnimation(_name);
-    // }
-    // void SetTextColor(string _color)
-    // {
-    //     switch (_color)
-    //     {
-    //         case "red":
-    //             message.color = Color.red;
-    //             break;
-    //         case "blue":
-    //             message.color = Color.cyan;
-    //             break;
-    //         case "green":
-    //             message.color = Color.green;
-    //             break;
-    //         case "white":
-    //             message.color = Color.white;
-    //             break;
-    //         default:
-    //             Debug.Log($"{_color} is not available as a text color");
-    //             break;
-    //     }
-    // }
+    // // Tells the story which branch to go to
+    public void SetDecision(int choiceIndex)
+    {
+        story.ChooseChoiceIndex(choiceIndex);
+        for (int i = 0; i < choices.Length; i++)
+        {
+            choices[i].SetActive(false);
+        }
+        ContinueStory();
+    }
 
 }

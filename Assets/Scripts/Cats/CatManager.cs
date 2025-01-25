@@ -24,11 +24,12 @@ public class CatManager : MonoBehaviour
     {
         foreach (var entry in spawnMapping)
         {
-            Vector3Int spawnLocation = entry.spawnLocation;
+            GameObject spawnLocation = entry.spawnLocation;
             GameObject catPrefab = entry.catPrefab;
 
             // Convert cell position to world position
-            Vector3 worldPosition = tilemap.CellToWorld(spawnLocation);
+            Vector3Int cellPosition = tilemap.WorldToCell(spawnLocation.transform.position);
+            Vector3 worldPosition = tilemap.CellToWorld(cellPosition);
 
             // Instantiate the specific cat prefab at the spawn location
             GameObject cat = Instantiate(catPrefab, worldPosition, Quaternion.identity);
@@ -57,7 +58,7 @@ public class CatManager : MonoBehaviour
             if (i < shuffledLocations.Count)
             {
                 GameObject uniqueLocation = shuffledLocations[i];
-                catScript.SetPathTarget(uniqueLocation);
+                catScript.SetDestination(uniqueLocation);
                 Debug.Log($"Set {cats[i].name}'s target to {uniqueLocation.name}");
             }
             else
@@ -75,7 +76,7 @@ public class CatManager : MonoBehaviour
             int randomIndex = Random.Range(0, locations.Length);
             GameObject randomLocation = locations[randomIndex];
             Debug.Log(randomLocation);
-            catScript.SetPathTarget(randomLocation);
+            catScript.SetDestination(randomLocation);
             Debug.Log($"Set {cat.name}'s target to {randomLocation.name}");
         }
         else
@@ -89,6 +90,6 @@ public class CatManager : MonoBehaviour
 [System.Serializable]
 public class LocationPrefabMapping
 {
-    public Vector3Int spawnLocation; // Tilemap cell position
+    public GameObject spawnLocation; // Tilemap cell position
     public GameObject catPrefab; // Corresponding cat prefab
 }

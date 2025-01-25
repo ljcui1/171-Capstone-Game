@@ -225,7 +225,7 @@ MonoBehaviour:
   repathRateCompatibility: NaN
   canSearchCompability: 0
   orientation: 1
-  enableRotation: 1
+  enableRotation: 0
   autoRepath:
     mode: 2
     interval: 0.5
@@ -237,7 +237,7 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 1.7
   pickNextWaypointDist: 0.2
-  endReachedDistance: 0.5
+  endReachedDistance: 1
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0

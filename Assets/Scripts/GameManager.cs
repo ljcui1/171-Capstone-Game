@@ -6,13 +6,4 @@ public class GameManager : MonoBehaviour
 {
 
 
-    public enum Attribute
-    {
-        Talkative,
-        Foodie,
-        Active
-    }
-
-
-
 }
