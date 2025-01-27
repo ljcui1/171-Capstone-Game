@@ -13,7 +13,6 @@ public class CustomerScript : BaseNPC
     public bool accept = false;
     public bool walkout = false;
 
-    public GameObject cat; // Reference to the cat for interactions
     [SerializeField] private Vector3 buffer; // Positional buffer for destination checking
 
     public void SetAttributes(List<Attribute> attr)
