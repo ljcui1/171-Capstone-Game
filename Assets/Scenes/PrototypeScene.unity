@@ -4901,6 +4901,7 @@ RectTransform:
   - {fileID: 2001940128}
   - {fileID: 1538357934}
   - {fileID: 1926321516}
+  - {fileID: 2101995297}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5221,6 +5222,14 @@ PrefabInstance:
     - target: {fileID: 7488816656853904804, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8255949434275689393, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8255949434275689393, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1401305955
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
