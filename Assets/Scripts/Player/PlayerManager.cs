@@ -85,6 +85,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Space))
         {
+            Debug.Log("line inprogress");
             Vector2 endPos = Player.transform.position;
             Player.lr.SetPosition(1, endPos);
         }
