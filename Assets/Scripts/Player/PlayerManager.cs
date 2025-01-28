@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
                 idling = true;
             }
 
-            if (Player.inRangeTalk && Input.GetKeyDown(KeyCode.E))
+            if (Player.inRange && Input.GetKeyDown(KeyCode.E))
             {
                 idling = false;
                 walking = false;
@@ -77,6 +77,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("line start");
             Vector2 startPos = Player.transform.position;
             Player.lr.SetPosition(0, startPos);
             Player.lr.SetPosition(1, startPos);
@@ -84,11 +85,13 @@ public class PlayerManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Space))
         {
+            Debug.Log("line inprogress");
             Vector2 endPos = Player.transform.position;
             Player.lr.SetPosition(1, endPos);
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            Debug.Log("line end");
             Player.lr.enabled = false;
         }
     }

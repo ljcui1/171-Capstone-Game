@@ -6,7 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
     public Rigidbody2D rb;
     public LineRenderer lr;
-    public bool inRangeTalk = false;
+    public bool inRange = false;
     public Collider2D talkTo;
 
     // Start is called before the first frame update
@@ -25,12 +25,12 @@ public class PlayerScript : MonoBehaviour
     {
         if (other.tag == "Customer" || other.tag == "Cat")
         {
-            inRangeTalk = true;
+            inRange = true;
             talkTo = other;
         }
         else
         {
-            inRangeTalk = false;
+            inRange = false;
             talkTo = null;
         }
     }
