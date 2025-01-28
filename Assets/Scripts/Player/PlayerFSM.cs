@@ -167,7 +167,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
-            Collider2D convo = GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo;
             Time.timeScale = 0;
         }
 

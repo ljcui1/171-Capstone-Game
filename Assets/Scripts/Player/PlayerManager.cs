@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    bool connecting = false;
+
     public bool idling = true;
     public bool walking = false;
     public bool playing = false;
@@ -41,7 +43,7 @@ public class PlayerManager : MonoBehaviour
                 idling = true;
             }
 
-            if (Player.inRange && Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 idling = false;
                 walking = false;
@@ -55,7 +57,10 @@ public class PlayerManager : MonoBehaviour
 
             if (!playing && !talking && Input.GetKey(KeyCode.Space))
             {
-                matchLine();
+                if (Player.inRange && Player.talkTo.tag == "Cat")
+                {
+                    matchLine(Player.talkTo.transform.position);
+                }
             }
 
             //checking if playing & talking are false and movement input is given to put player into walking state
@@ -73,12 +78,13 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate() { }
 
-    private void matchLine()
+    private void matchLine(Vector2 sPos)
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            connecting = true;
             Debug.Log("line start");
-            Vector2 startPos = Player.transform.position;
+            Vector2 startPos = new Vector3(sPos.x, sPos.y, 0);
             Player.lr.SetPosition(0, startPos);
             Player.lr.SetPosition(1, startPos);
             Player.lr.enabled = true;
@@ -86,13 +92,31 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             Debug.Log("line inprogress");
-            Vector2 endPos = Player.transform.position;
+            Vector2 endPos = new Vector3(
+                Player.transform.position.x,
+                Player.transform.position.y,
+                0
+            );
             Player.lr.SetPosition(1, endPos);
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            Debug.Log("line end");
-            Player.lr.enabled = false;
+            if (Player.inRange && Player.talkTo != null && Player.talkTo.tag == "Customer")
+            {
+                connecting = false;
+                Debug.Log("line end");
+                Vector3 customerPos = new Vector3(
+                    Player.talkTo.transform.position.x,
+                    Player.talkTo.transform.position.y,
+                    0
+                );
+                Player.lr.SetPosition(1, customerPos);
+            }
+            else
+            {
+                Debug.Log("no target");
+                Player.lr.enabled = false;
+            }
         }
     }
 }
