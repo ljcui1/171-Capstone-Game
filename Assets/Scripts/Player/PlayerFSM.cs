@@ -134,7 +134,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
     public class PlayState : AbstractState
     {
-        public override void OnEnter() { }
+        public override void OnEnter()
+        {
+            Time.timeScale = 0;
+        }
 
         public override void OnUpdate()
         {
@@ -165,6 +168,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
         public override void OnEnter()
         {
             Collider2D convo = GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo;
+            Time.timeScale = 0;
         }
 
         public override void OnUpdate()
