@@ -5,14 +5,17 @@ using UnityEngine;
 
 // clock code taken from https://github.com/kvanarsd/Bountiful-Game-Jam/blob/main/Assets/Scripts/GlobalManager.cs
 // Credit: Katrina Vanarsdale (from a Game Jam Project)
+
+// tenary statement snippet taken from https://discussions.unity.com/t/how-to-typecast-boolean-to-float-and-viceversa/420059/10
 public class GameManager : MonoBehaviour
 {
+    [Header("Managers")]
+    [SerializeField] private CustomerManager customerManager; // to handle customer spawning
     [SerializeField] private DialogManager dialogManager; // to check on dialog status
 
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI clockText;
-    [SerializeField] private Canvas pauseMenu;
-    [SerializeField] private Canvas dialogMenu;
+    [SerializeField] private GameObject pauseMenu;
 
     // Booleans
     private bool isPauseMenuOn = false;
@@ -36,12 +39,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // if (pauseMenu.enabled)
+        // if (isPauseMenuOn)
         // {
-        //     isPauseMenuOn = true;
         //     Time.timeScale = 0;
         // }
-
+        // else if (!isPauseMenuOn)
+        // {
+        //     Time.timeScale = 1;
+        // }
         // // pause game when in dialog mode
         // if (!dialogManager.IsPlaying && !isPauseMenuOn && Time.timeScale == 0)
         // {
@@ -56,12 +61,12 @@ public class GameManager : MonoBehaviour
 
         minute += minutesIncrement;
 
-        UpdateClockUI();
+        UpdateClock();
 
         StartCoroutine(IncrementClock());
     }
 
-    private void UpdateClockUI()
+    private void UpdateClock()
     {
         if (minute >= 60)
         {
@@ -79,6 +84,7 @@ public class GameManager : MonoBehaviour
             }
 
             minute = minute - 60;
+            customerManager.CustomerWave();
         }
 
         if (minute == 0)
@@ -96,5 +102,12 @@ public class GameManager : MonoBehaviour
             Debug.Log("Game reached 5:00PM");
             Time.timeScale = 0;
         }
+    }
+
+    public void PauseButton()
+    {
+        pauseMenu.SetActive(!isPauseMenuOn);
+        isPauseMenuOn = !isPauseMenuOn;
+        Time.timeScale = isPauseMenuOn ? 0f : 1f;
     }
 }
