@@ -370,6 +370,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogTrigger
       objectReference: {fileID: 0}
+    - target: {fileID: 2979369208049582255, guid: 6a3534638d7fd4046b042364ff0a75e6, type: 3}
+      propertyPath: m_TagString
+      value: Cat
+      objectReference: {fileID: 0}
     - target: {fileID: 7139328623319168105, guid: 6a3534638d7fd4046b042364ff0a75e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
