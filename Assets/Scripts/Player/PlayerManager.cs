@@ -57,7 +57,7 @@ public class PlayerManager : MonoBehaviour
 
             if (!playing && !talking && Input.GetKey(KeyCode.Space))
             {
-                if (Player.inRange && Player.talkTo.tag == "Cat")
+                if (Player.inRange && Player.talkTo != null)
                 {
                     matchLine(Player.talkTo.transform.position);
                 }
@@ -99,7 +99,7 @@ public class PlayerManager : MonoBehaviour
             );
             Player.lr.SetPosition(1, endPos);
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        /*if (Input.GetKeyUp(KeyCode.Space))
         {
             if (Player.inRange && Player.talkTo != null && Player.talkTo.tag == "Customer")
             {
@@ -117,6 +117,44 @@ public class PlayerManager : MonoBehaviour
                 Debug.Log("no target");
                 Player.lr.enabled = false;
             }
+        }*/
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Debug.Log("Waiting for target...");
+
+            // Don't disable the line immediately, just mark the connection as pending.
+            connecting = false;
+
+            StartCoroutine(WaitForSecondNPC());
         }
+    }
+
+    // Coroutine to wait for second NPC connection
+    private IEnumerator WaitForSecondNPC()
+    {
+        float waitTime = 1.5f; // Allow some time to find the second NPC
+        float timer = 0f;
+
+        while (timer < waitTime)
+        {
+            if (Player.inRange && Player.talkTo != null && Player.talkTo.tag == "Customer")
+            {
+                Debug.Log("Line connected to Customer!");
+                Vector3 customerPos = new Vector3(
+                    Player.talkTo.transform.position.x,
+                    Player.talkTo.transform.position.y,
+                    0
+                );
+                Player.lr.SetPosition(1, customerPos);
+                yield break; // Exit coroutine early if a Customer is found
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // If no customer is found after wait time, disable line
+        Debug.Log("No target found, disabling line.");
+        Player.lr.enabled = false;
     }
 }
