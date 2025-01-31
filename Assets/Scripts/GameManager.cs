@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     {
         clockText.text = "8:00 am";
         StartCoroutine(IncrementClock());
+        
     }
 
     private void Update()
@@ -84,7 +85,7 @@ public class GameManager : MonoBehaviour
             }
 
             minute = minute - 60;
-            customerManager.CustomerWave();
+            StartCoroutine(customerManager.CustomerWave());
         }
 
         if (minute == 0)

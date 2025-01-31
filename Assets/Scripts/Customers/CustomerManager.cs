@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
@@ -20,7 +21,7 @@ public class CustomerManager : MonoBehaviour
 
     // Cafe chairs
     [SerializeField] private List<GameObject> chairs;
-    private List<bool> chairOccupied;
+    private List<bool> chairOccupied = new List<bool>();
 
     void Start()
     {
@@ -34,15 +35,21 @@ public class CustomerManager : MonoBehaviour
         }
 
         // Initialize chair occupancy
-        chairOccupied = new List<bool>(new bool[chairs.Count]);
+        for (int i = 0; i < chairs.Count; i++)
+        {
+            chairOccupied.Add(false);
+        }
     }
 
     public GameObject GetPooledCustomer()
     {
         foreach (var customer in customerPool)
         {
-            if (!customer.activeInHierarchy)
+            Debug.Log(customer + " " + customer.activeSelf);
+            if (!customer.activeSelf)
+            {
                 return customer;
+            }     
         }
         return null;
     }
@@ -93,7 +100,11 @@ public class CustomerManager : MonoBehaviour
     {
         // Check for available chair
         GameObject chair = SelectDestination();
-        if (chair == null) return;
+        if (chair == null)
+        {
+            Debug.Log("No unoccupied chairs available");
+            return;
+        }
 
         // Generate customer attributes
         List<Attribute> attr = new();
@@ -114,6 +125,9 @@ public class CustomerManager : MonoBehaviour
             script.SetDestination(chair);
             customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
+        } else
+        {
+            Debug.Log("Failed to get pooled customer");
         }
     }
 
