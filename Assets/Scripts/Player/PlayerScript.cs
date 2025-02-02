@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
     public LineRenderer lr;
     public bool inRange = false;
     public Collider2D talkTo;
+    public bool startPlay = false;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,11 @@ public class PlayerScript : MonoBehaviour
         {
             inRange = true;
             talkTo = other;
+        }
+        else if (other.tag == "mouse")
+        {
+            startPlay = true;
+            Debug.Log("q to start");
         }
         else
         {
