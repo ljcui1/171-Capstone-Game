@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using KevinCastejon.FiniteStateMachine;
+using Pathfinding;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -12,7 +13,9 @@ public class PlayerManager : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    bool connecting = false;
+    int selectNum = 0;
+    AIDestinationSetter currCat = null;
+    GameObject currNPC;
 
     public bool idling = true;
     public bool walking = false;
@@ -59,7 +62,11 @@ public class PlayerManager : MonoBehaviour
             {
                 if (Player.inRange && Player.talkTo != null)
                 {
-                    //select npc
+                    matchTint(Player.talkTo);
+                }
+                else
+                {
+                    selectNum = 0;
                 }
             }
 
@@ -77,4 +84,22 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void FixedUpdate() { }
+
+    private void matchTint(Collider2D npc)
+    {
+        if (npc.tag == "Cat" && selectNum == 0)
+        {
+            selectNum = 1;
+            Player.npcSprite.color = Color.red;
+            currNPC = Player.npc;
+            currCat = Player.npcTarget;
+        }
+        else if (npc.tag == "Customer" && selectNum == 1)
+        {
+            selectNum = 2;
+            Player.npcSprite.color = Color.red;
+            currNPC = Player.npc;
+            currCat.target = currNPC.transform;
+        }
+    }
 }
