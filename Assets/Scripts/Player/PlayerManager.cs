@@ -69,6 +69,8 @@ public class PlayerManager : MonoBehaviour
                 else
                 {
                     selectNum = 0;
+                    currCat = null;
+                    currNPC = null;
                 }
             }
 
@@ -107,9 +109,59 @@ public class PlayerManager : MonoBehaviour
             //tint sprite color/highlight
             Player.npcSprite.color = Color.red;
             //set currentNPC to customer
-            currNPC = Player.npc;
+            currNPC = npc.gameObject;
             //set cat target to customer
             currCat.target = currNPC.transform;
         }
     }
+
+    /*private void matchTint(Collider2D npc)
+{
+    if (npc.tag == "Cat" && selectNum == 0)
+    {
+        Debug.Log("select cat");
+        selectNum = 1;
+
+        if (Player.npcSprite != null)
+        {
+            Player.npcSprite.color = Color.red;
+        }
+        else
+        {
+            Debug.LogError("Player.npcSprite is not assigned!");
+        }
+
+        currCat = Player.npcTarget;
+
+        if (currCat == null)
+        {
+            Debug.LogError("No valid cat assigned!");
+        }
+    }
+    else if (npc.tag == "Customer" && selectNum == 1)
+    {
+        Debug.Log("select customer");
+        selectNum = 2;
+
+        if (Player.npcSprite != null)
+        {
+            Player.npcSprite.color = Color.green;
+        }
+        else
+        {
+            Debug.LogError("Player.npcSprite is not assigned!");
+        }
+
+        currNPC = Player.npc;
+
+        if (currCat != null && currNPC != null)
+        {
+            currCat.target = currNPC.transform;
+        }
+        else
+        {
+            Debug.LogError("currCat or currNPC is not assigned!");
+        }
+    }
+}*/
 }
