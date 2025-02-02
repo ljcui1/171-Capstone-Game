@@ -31,24 +31,36 @@ public class MinigameManager : MonoBehaviour
     public void MouseMiniGamePlay()
     {
         mouseGame.enabled = true;
-        pawa.enabled = false;
+        /*pawa.enabled = false;
         paws.enabled = false;
         pawd.enabled = false;
-        pawf.enabled = false;
+        pawf.enabled = false;*/
         if (Input.GetKey(KeyCode.A))
         {
             pawa.enabled = true;
+            paws.enabled = false;
+            pawd.enabled = false;
+            pawf.enabled = false;
         }
-        if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.S))
         {
+            pawa.enabled = false;
             paws.enabled = true;
+            pawd.enabled = false;
+            pawf.enabled = false;
         }
-        if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
+            pawa.enabled = false;
+            paws.enabled = false;
             pawd.enabled = true;
+            pawf.enabled = false;
         }
-        if (Input.GetKey(KeyCode.F))
+        else if (Input.GetKey(KeyCode.F))
         {
+            pawa.enabled = false;
+            paws.enabled = false;
+            pawd.enabled = false;
             pawf.enabled = true;
         }
     }
