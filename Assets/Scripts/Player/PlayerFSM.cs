@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using KevinCastejon.FiniteStateMachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerFSM : AbstractFiniteStateMachine
@@ -136,11 +137,33 @@ public class PlayerFSM : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
-            Time.timeScale = 0;
+            Time.timeScale = 0f;
+            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame.enabled = true;
         }
 
         public override void OnUpdate()
         {
+            if (GetStateMachine<PlayerFSM>().PlayMan == null)
+            {
+                Debug.LogError("PlayMan is NULL!");
+                return;
+            }
+            if (GetStateMachine<PlayerFSM>().PlayMan.MiniMan == null)
+            {
+                Debug.LogError("MiniMan is NULL!");
+                return;
+            }
+            if (GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame == null)
+            {
+                Debug.LogError("mouseGame is NULL!");
+                return;
+            }
+            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.MouseMiniGamePlay();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Time.timeScale = 1f;
+            }
+
             if (GetStateMachine<PlayerFSM>().PlayMan.idling)
             {
                 TransitionToState(PlayerState.IDLE);
@@ -159,6 +182,8 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnExit()
         {
+            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame.enabled = false;
+            GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay = false;
             GetStateMachine<PlayerFSM>().PlayMan.playing = false;
         }
     }
@@ -167,7 +192,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
-            Time.timeScale = 0;
+            Time.timeScale = 0f;
         }
 
         public override void OnUpdate()

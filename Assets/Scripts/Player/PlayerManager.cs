@@ -8,6 +8,8 @@ public class PlayerManager : MonoBehaviour
 {
     public PlayerScript Player;
 
+    public MinigameManager MiniMan;
+
     [SerializeField]
     private PlayerFSM PlayerFSM;
 
@@ -32,8 +34,9 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         //unpaused
-        if (Time.timeScale != 0)
+        if (Time.timeScale != 0f)
         {
+            playing = false;
             //checking input
             bool keyIn = Input.anyKey;
             bool conIn = Input.GetButton("Fire1");
@@ -74,6 +77,13 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
+            if (Player.startPlay && Input.GetKey(KeyCode.Q))
+            {
+                idling = false;
+                walking = false;
+                playing = true;
+            }
+
             //checking if playing & talking are false and movement input is given to put player into walking state
             if (joyIn && !playing && !talking)
             {
@@ -83,6 +93,15 @@ public class PlayerManager : MonoBehaviour
             else
             {
                 walking = false;
+            }
+        }
+        else
+        {
+            if (!talking)
+            {
+                idling = false;
+                walking = false;
+                playing = true;
             }
         }
     }

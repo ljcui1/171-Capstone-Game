@@ -11,6 +11,7 @@ public class PlayerScript : MonoBehaviour
     public SpriteRenderer npcSprite;
     public AIDestinationSetter npcTarget;
     public GameObject npc;
+    public bool startPlay = false;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,11 @@ public class PlayerScript : MonoBehaviour
             npcSprite = other.gameObject.GetComponent<SpriteRenderer>();
             npcTarget = other.gameObject.GetComponent<AIDestinationSetter>();
             npc = other.gameObject;
+        }
+        else if (other.tag == "mouse")
+        {
+            startPlay = true;
+            Debug.Log("q to start");
         }
         else
         {
