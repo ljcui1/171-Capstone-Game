@@ -60,10 +60,12 @@ public class PlayerManager : MonoBehaviour
 
             if (!playing && !talking && Input.GetKey(KeyCode.Space))
             {
+                //check if player can interact with an npc
                 if (Player.inRange && Player.talkTo != null)
                 {
                     matchTint(Player.talkTo);
                 }
+                //else, set select to 0 to reset process
                 else
                 {
                     selectNum = 0;
@@ -89,16 +91,24 @@ public class PlayerManager : MonoBehaviour
     {
         if (npc.tag == "Cat" && selectNum == 0)
         {
+            Debug.Log("select cat");
+            //set select to 1
             selectNum = 1;
+            //tint sprite color/highlight
             Player.npcSprite.color = Color.red;
-            currNPC = Player.npc;
+            //set current cat to cat (aidestinationsetter)
             currCat = Player.npcTarget;
         }
         else if (npc.tag == "Customer" && selectNum == 1)
         {
+            Debug.Log("select customer");
+            //set select to 1
             selectNum = 2;
+            //tint sprite color/highlight
             Player.npcSprite.color = Color.red;
+            //set currentNPC to customer
             currNPC = Player.npc;
+            //set cat target to customer
             currCat.target = currNPC.transform;
         }
     }
