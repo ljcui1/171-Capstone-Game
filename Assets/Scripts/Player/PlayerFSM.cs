@@ -215,6 +215,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnExit()
         {
+            Time.timeScale = 1f;
             GetStateMachine<PlayerFSM>().PlayMan.talking = false;
         }
     }

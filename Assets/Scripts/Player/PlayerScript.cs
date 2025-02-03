@@ -8,7 +8,8 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D rb;
     public bool inRange = false;
     public Collider2D talkTo;
-    public SpriteRenderer npcSprite;
+    public SpriteRenderer catSprite;
+    public SpriteRenderer custSprite;
     public AIDestinationSetter npcTarget;
     public GameObject npc;
     public bool startPlay = false;
@@ -24,12 +25,18 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Customer" || other.tag == "Cat")
+        if (other.tag == "Cat")
         {
             inRange = true;
             talkTo = other;
-            npcSprite = other.gameObject.GetComponent<SpriteRenderer>();
+            catSprite = other.gameObject.GetComponent<SpriteRenderer>();
             npcTarget = other.gameObject.GetComponent<AIDestinationSetter>();
+        }
+        else if (other.tag == "Customer")
+        {
+            inRange = true;
+            talkTo = other;
+            custSprite = other.gameObject.GetComponent<SpriteRenderer>();
             npc = other.gameObject;
         }
         else if (other.tag == "mouse")
