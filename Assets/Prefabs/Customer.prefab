@@ -172,7 +172,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
 --- !u!114 &7601598113354178502
 MonoBehaviour:
@@ -360,7 +360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2979369208049582255, guid: 6a3534638d7fd4046b042364ff0a75e6, type: 3}
       propertyPath: m_TagString
-      value: Customer
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7139328623319168105, guid: 6a3534638d7fd4046b042364ff0a75e6, type: 3}
       propertyPath: m_LocalPosition.x
