@@ -16,8 +16,8 @@ public class PlayerManager : MonoBehaviour
     private Rigidbody2D rb;
 
     int selectNum = 0;
-    AIDestinationSetter currCat = null;
-    GameObject currNPC;
+    // AIDestinationSetter currCat = null;
+    // GameObject currNPC;
 
     public bool idling = true;
     public bool walking = false;
@@ -68,14 +68,14 @@ public class PlayerManager : MonoBehaviour
                 if (Player.inRange && Player.talkTo != null)
                 {
                     Debug.Log("enter match");
-                    matchTint(Player.talkTo);
+                    MatchTint(Player.talkTo);
                 }
                 //else, set select to 0 to reset process
                 else
                 {
                     selectNum = 0;
-                    currCat = null;
-                    currNPC = null;
+                    // currCat = null;
+                    // currNPC = null;
                 }
             }
 
@@ -110,7 +110,7 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate() { }
 
-    private void matchTint(Collider2D npc)
+    private void MatchTint(Collider2D npc)
     {
         Debug.Log("tag" + npc.tag);
         if (npc.tag == "Cat" && selectNum == 0)
@@ -119,9 +119,7 @@ public class PlayerManager : MonoBehaviour
             //set select to 1
             selectNum = 1;
             //tint sprite color/highlight
-            Player.catSprite.color = Color.red;
-            //set current cat to cat (aidestinationsetter)
-            currCat = Player.npcTarget;
+            Player.cat.mainSprite.color = Color.red;
         }
         else if (npc.tag == "Customer" && selectNum == 1)
         {
@@ -129,11 +127,9 @@ public class PlayerManager : MonoBehaviour
             //set select to 1
             selectNum = 2;
             //tint sprite color/highlight
-            Player.custSprite.color = Color.red;
-            //set currentNPC to customer
-            currNPC = npc.gameObject;
+            Player.customer.mainSprite.color = Color.red;
             //set cat target to customer
-            currCat.target = currNPC.transform;
+            Player.cat.SetDestination(Player.npcTarget);
         }
     }
 

@@ -7,9 +7,13 @@ public class BaseNPC : MonoBehaviour
 {
 
 
-    [SerializeField] public List<AttributePair> attributes = new List<AttributePair>();
-    [SerializeField] public AIDestinationSetter aiDestinationSetter;
-    [SerializeField] private AIPath aiPath;
+    public List<AttributePair> attributes = new List<AttributePair>();
+    public AIDestinationSetter aiDestinationSetter;
+    private AIPath aiPath;
+
+    public SpriteRenderer mainSprite;
+    public Collider2D playerInteract;
+
 
     protected virtual void Awake()
     {

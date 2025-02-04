@@ -192,7 +192,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
-            Time.timeScale = 0f;
+            // Time.timeScale = 0f;
         }
 
         public override void OnUpdate()
@@ -215,7 +215,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnExit()
         {
-            Time.timeScale = 1f;
+            // Time.timeScale = 1f;
             GetStateMachine<PlayerFSM>().PlayMan.talking = false;
         }
     }
