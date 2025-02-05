@@ -53,6 +53,8 @@ MonoBehaviour:
   numCustomersToSpawn: 0
   minWait: 0.5
   maxWait: 3
+  minHours: 1
+  maxHours: 2
   customerPrefab: {fileID: 3734384574543545590, guid: 81c11c682ded1ae43a8c0a53d4a481ce, type: 3}
   amountToPool: 10
   entrance: {fileID: 0}
