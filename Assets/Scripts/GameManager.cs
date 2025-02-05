@@ -69,8 +69,11 @@ public class GameManager : MonoBehaviour
 
     private void UpdateClock()
     {
+        // end of hour
         if (minute >= 60)
         {
+            // Check how long customer has been here 
+            customerManager.CustomerHours();
             hour++;
             displayHour++;
 

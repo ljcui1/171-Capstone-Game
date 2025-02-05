@@ -12,6 +12,8 @@ public class CustomerManager : MonoBehaviour
     public int numCustomersToSpawn; // Number of customers to spawn
     [SerializeField] private float minWait; // Minimum wait time for spawn
     [SerializeField] private float maxWait; // Maximum wait time for spawn
+    [SerializeField] private int minHours; // Minimum amount of time in the cafe
+    [SerializeField] private int maxHours; // Maximum amount of time in the cafe
 
     // Object pool for customers
     private List<GameObject> customerPool;
@@ -41,7 +43,7 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    public GameObject GetPooledCustomer()
+    private GameObject GetPooledCustomer()
     {
         foreach (var customer in customerPool)
         {
@@ -129,6 +131,10 @@ public class CustomerManager : MonoBehaviour
         {
             Debug.Log("Failed to get pooled customer");
         }
+        else
+        {
+            Debug.Log("Failed to get pooled customer");
+        }
     }
 
     public IEnumerator CustomerWave()
@@ -137,6 +143,42 @@ public class CustomerManager : MonoBehaviour
         {
             SpawnCustomer();
             yield return new WaitForSeconds(Random.Range(minWait, maxWait));
+        }
+    }
+
+    private void SendCustomerOut(CustomerScript customer)
+    {
+        customer.walkout = true;
+    }
+
+    public void CustomerHours()
+    {
+        foreach (var customer in customerPool)
+        {
+            // if customer is in the cafe then they've been there for +1 hour
+            if (customer.activeSelf)
+            {
+                CustomerScript script = customer.GetComponent<CustomerScript>();
+                script.hourStayed++;
+
+                // send customer out if they've been here for EX. 1 or 2 hours
+                if (script.hourStayed >= Random.Range(minHours, maxHours))
+                {
+                    SendCustomerOut(script);
+                }
+            }
+        }
+    }
+
+    public void ClosedCustomersLeave()
+    {
+        foreach (var customer in customerPool)
+        {
+            // if customer is in the cafe then they've been there for +1 hour
+            if (customer.activeSelf)
+            {
+                SendCustomerOut(customer.GetComponent<CustomerScript>());
+            }
         }
     }
 }

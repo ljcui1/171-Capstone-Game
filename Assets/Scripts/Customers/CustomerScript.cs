@@ -13,6 +13,7 @@ public class CustomerScript : BaseNPC
     public bool accept = false;
     public bool walkout = false;
 
+    public int hourStayed = 0; // how long a customer has been in the cafe
     [SerializeField] private Vector3 buffer; // Positional buffer for destination checking
 
     public void SetAttributes(List<Attribute> attr)
