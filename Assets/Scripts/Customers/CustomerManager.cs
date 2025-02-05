@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -13,45 +12,45 @@ public class CustomerManager : MonoBehaviour
     public int numCustomersToSpawn;                     // num set by mini games
     [SerializeField] private float minWait;             // wait time for spawn
     [SerializeField] private float maxWait;             // wait time for spawn
+    [SerializeField] private int minHours; // Minimum amount of time in the cafe
+    [SerializeField] private int maxHours; // Maximum amount of time in the cafe
 
-    // customer pool - code referenced from https://learn.unity.com/tutorial/introduction-to-object-pooling
+    // Object pool for customers
     private List<GameObject> customerPool;
     [SerializeField] private GameObject customerPrefab;
     [SerializeField] private int amountToPool;
-    public GameObject entrance;
+    public GameObject entrance; // Entrance point for customers
 
     // Cafe chairs
-    [SerializeField] private List<GameObject> chair;
-    private List<bool> chairOccupied;
+    [SerializeField] private List<GameObject> chairs;
+    private List<bool> chairOccupied = new List<bool>();
 
-    // Start is called before the first frame update
     void Start()
     {
-        // Set up customer pool
+        // Initialize customer pool
         customerPool = new List<GameObject>();
-        GameObject tmpCustomer;
         for (int i = 0; i < amountToPool; i++)
         {
-            tmpCustomer = Instantiate(customerPrefab, transform);
+            GameObject tmpCustomer = Instantiate(customerPrefab, transform);
             tmpCustomer.SetActive(false);
             customerPool.Add(tmpCustomer);
         }
 
-        // set chairs as unoccupied
-        chairOccupied = new();
-        for (int i = 0; i < chair.Count; i++)
+        // Initialize chair occupancy
+        for (int i = 0; i < chairs.Count; i++)
         {
             chairOccupied.Add(false);
         }
     }
 
-    public GameObject GetPooledCustomer()
+    private GameObject GetPooledCustomer()
     {
-        for (int i = 0; i < amountToPool; i++)
+        foreach (var customer in customerPool)
         {
-            if (!customerPool[i].activeInHierarchy)
+            Debug.Log(customer + " " + customer.activeSelf);
+            if (!customer.activeSelf)
             {
-                return customerPool[i];
+                return customer;
             }
         }
         return null;
@@ -67,19 +66,19 @@ public class CustomerManager : MonoBehaviour
         return sum;
     }
 
-    private void SelectAttribute(List<GameManager.Attribute> attr, List<GameManager.Attribute> restOfAttr, List<float> restOfWeight)
+    private void SelectAttribute(List<Attribute> attr, List<Attribute> remainingAttr, List<float> remainingWeights)
     {
         float randomNum = Random.Range(0f, SumOfWeights());
-        float cumWeight = 0f;
-        for (int i = 0; i < restOfAttr.Count; i++)
+        float cumulativeWeight = 0f;
+
+        for (int i = 0; i < remainingAttr.Count; i++)
         {
-            cumWeight += restOfWeight[i];
-            if (randomNum <= cumWeight)
+            cumulativeWeight += remainingWeights[i];
+            if (randomNum <= cumulativeWeight)
             {
-                attr.Add(restOfAttr[i]);
-                // removes selected attribute from list so it's not selected again
-                restOfAttr.RemoveAt(i);
-                restOfWeight.RemoveAt(i);
+                attr.Add(remainingAttr[i]);
+                remainingAttr.RemoveAt(i);
+                remainingWeights.RemoveAt(i);
                 return;
             }
         }
@@ -87,12 +86,12 @@ public class CustomerManager : MonoBehaviour
 
     private GameObject SelectDestination()
     {
-        for (int i = 0; i < chair.Count; i++)
+        for (int i = 0; i < chairs.Count; i++)
         {
             if (!chairOccupied[i])
             {
                 chairOccupied[i] = true;
-                return chair[i];
+                return chairs[i];
             }
         }
 
@@ -101,23 +100,25 @@ public class CustomerManager : MonoBehaviour
 
     private void SpawnCustomer()
     {
-        // check if there's unoccupied seats, if not don't spawn
+        // Check for available chair
         GameObject chair = SelectDestination();
         if (chair == null)
         {
+            Debug.Log("No unoccupied chairs available");
             return;
         }
 
-        // Select attributes for customers
-        List<GameManager.Attribute> attr = new();
-        List<GameManager.Attribute> restOfAttr = new(attributes);
-        List<float> restOfWeight = new(attributeWeights);
+        // Generate customer attributes
+        List<Attribute> attr = new();
+        List<Attribute> remainingAttr = new(attributes);
+        List<float> remainingWeights = new(attributeWeights);
+
         for (int i = 0; i < numAttributes; i++)
         {
-            SelectAttribute(attr, restOfAttr, restOfWeight);
+            SelectAttribute(attr, remainingAttr, remainingWeights);
         }
 
-        // spawn in customer at entrance
+        // Spawn customer
         GameObject customer = GetPooledCustomer();
         if (customer != null)
         {
@@ -127,28 +128,54 @@ public class CustomerManager : MonoBehaviour
             customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
         }
+        else
+        {
+            Debug.Log("Failed to get pooled customer");
+        }
     }
 
-    // Generate customers with random wait times between customers (Called by GameManager)
     public IEnumerator CustomerWave()
     {
-        float waitTime = Random.Range(minWait, maxWait);
-
         for (int i = 0; i < numCustomersToSpawn; i++)
         {
             SpawnCustomer();
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(Random.Range(minWait, maxWait));
         }
     }
 
-    /*public void BondDecision(CustomerScript customer)
+    private void SendCustomerOut(CustomerScript customer)
     {
-        foreach (string cusAttr in customer.attributes)
-        {
-            foreach (string catAttr in customer.cat.activeAttributes)
-            {
+        customer.walkout = true;
+    }
 
+    public void CustomerHours()
+    {
+        foreach (var customer in customerPool)
+        {
+            // if customer is in the cafe then they've been there for +1 hour
+            if (customer.activeSelf)
+            {
+                CustomerScript script = customer.GetComponent<CustomerScript>();
+                script.hourStayed++;
+
+                // send customer out if they've been here for EX. 1 or 2 hours
+                if (script.hourStayed >= Random.Range(minHours, maxHours))
+                {
+                    SendCustomerOut(script);
+                }
             }
         }
-    }*/
+    }
+
+    public void ClosedCustomersLeave()
+    {
+        foreach (var customer in customerPool)
+        {
+            // if customer is in the cafe then they've been there for +1 hour
+            if (customer.activeSelf)
+            {
+                SendCustomerOut(customer.GetComponent<CustomerScript>());
+            }
+        }
+    }
 }

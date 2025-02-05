@@ -13,27 +13,11 @@ public class CustomerScript : MonoBehaviour
     public bool bond = false;
     public bool reject = false;
     public bool accept = false;
-    public bool walkout = false;     // set by GameManager (based on ingame time) unless "accept" 
+    public bool walkout = false;
 
-    // Attributes
-    public List<GameManager.Attribute> activeAttributes;
-    public GameObject cat;
+    public int hourStayed = 0; // how long a customer has been in the cafe
 
-    // pathing destination
-    public AIDestinationSetter destination;
-    [SerializeField] private Vector3 buffer;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    [SerializeField] private Vector3 buffer; // Positional buffer for destination checking
 
     public void SetAttributes(List<GameManager.Attribute> attr)
     {

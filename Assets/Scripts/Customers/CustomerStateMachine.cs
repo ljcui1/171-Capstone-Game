@@ -74,6 +74,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         }
         public override void OnExit()
         {
+            GetStateMachine<CustomerStateMachine>().Script.sit = false;
         }
     }
 
@@ -98,6 +99,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         }
         public override void OnExit()
         {
+            GetStateMachine<CustomerStateMachine>().Script.talk = false;
         }
     }
 
@@ -122,6 +124,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         }
         public override void OnExit()
         {
+            GetStateMachine<CustomerStateMachine>().Script.bond = false;
         }
     }
 
@@ -146,6 +149,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         }
         public override void OnExit()
         {
+            GetStateMachine<CustomerStateMachine>().Script.reject = false;
         }
     }
 
@@ -153,6 +157,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
+            // animation
         }
         public override void OnUpdate()
         {
@@ -165,6 +170,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         }
         public override void OnExit()
         {
+            GetStateMachine<CustomerStateMachine>().Script.accept = false;
         }
     }
 
@@ -181,6 +187,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
 
             if (FSM.Script.AtDestination())
             {
+                FSM.Script.walkout = false;
                 FSM.Script.Exit();
             }
         }
