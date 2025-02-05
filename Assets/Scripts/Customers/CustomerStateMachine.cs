@@ -19,6 +19,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
     }
     private void Awake()
     {
+        Manager = transform.parent.gameObject.GetComponent<CustomerManager>();
         Init(
             CustomerFSM.WALKIN,
             AbstractState.Create<WalkInState, CustomerFSM>(CustomerFSM.WALKIN, this),

@@ -47,11 +47,10 @@ public class CustomerManager : MonoBehaviour
     {
         foreach (var customer in customerPool)
         {
-            Debug.Log(customer + " " + customer.activeSelf);
             if (!customer.activeSelf)
             {
                 return customer;
-            }     
+            }
         }
         return null;
     }
@@ -127,9 +126,6 @@ public class CustomerManager : MonoBehaviour
             script.SetDestination(chair);
             customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
-        } else
-        {
-            Debug.Log("Failed to get pooled customer");
         }
         else
         {

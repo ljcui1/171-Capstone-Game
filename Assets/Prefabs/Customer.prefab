@@ -114,6 +114,7 @@ MonoBehaviour:
   reject: 0
   accept: 0
   walkout: 0
+  hourStayed: 0
   buffer: {x: 0.5, y: 0.5, z: 0}
 --- !u!114 &9029794692462068264
 MonoBehaviour:
@@ -127,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d40d448c61326e34ab9b251169f88f49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Manager: {fileID: 1399518628680660237, guid: 401a5a027bc146048b9a0f37eeceec45, type: 3}
+  Manager: {fileID: 0}
   Script: {fileID: 8013201788611796640}
 --- !u!61 &4185958955973001762
 BoxCollider2D:
@@ -136,7 +137,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3734384574543545590}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -237,9 +238,9 @@ MonoBehaviour:
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5
   rotationSpeed: 360
-  slowdownDistance: 1.7
+  slowdownDistance: 0.5
   pickNextWaypointDist: 0.2
-  endReachedDistance: 1
+  endReachedDistance: 0
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
