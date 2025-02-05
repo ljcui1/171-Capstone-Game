@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using KevinCastejon.FiniteStateMachine;
+using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
     public PlayerScript Player;
-    [SerializeField] private PlayerFSM PlayerSM;
+
+    public MinigameManager MiniMan;
+
+    [SerializeField]
+    private PlayerFSM PlayerFSM;
 
     private Rigidbody2D rb;
+
+    bool connecting = false;
 
     public bool idling = true;
     public bool walking = false;
@@ -25,16 +31,46 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         //unpaused
-        if(Time.timeScale != 0)
+        if (Time.timeScale != 0f)
         {
+            playing = false;
             //checking input
             bool keyIn = Input.anyKey;
             bool conIn = Input.GetButton("Fire1");
-            bool joyIn = Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
+            bool joyIn =
+                Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f
+                || Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
 
             if (!keyIn && !conIn && !joyIn)
             {
                 idling = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                idling = false;
+                walking = false;
+                talking = true;
+            }
+            else
+            {
+                talking = false;
+                idling = true;
+            }
+
+            if (!playing && !talking && Input.GetKey(KeyCode.Space))
+            {
+                if (Player.inRange && Player.talkTo != null)
+                {
+                    //select npc
+                }
+            }
+
+            if (Player.startPlay && Input.GetKey(KeyCode.Q))
+            {
+                idling = false;
+                walking = false;
+                playing = true;
             }
 
             //checking if playing & talking are false and movement input is given to put player into walking state
@@ -47,18 +83,17 @@ public class PlayerManager : MonoBehaviour
             {
                 walking = false;
             }
-
-
-
         }
-
-        
-
-
+        else
+        {
+            if (!talking)
+            {
+                idling = false;
+                walking = false;
+                playing = true;
+            }
+        }
     }
 
-    private void FixedUpdate()
-    {
-        
-    }
+    private void FixedUpdate() { }
 }

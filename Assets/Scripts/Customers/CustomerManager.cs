@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
-    // Customer spawn chance
-    [SerializeField] private List<GameManager.Attribute> attributes;   // all available attributes
-    public List<float> attributeWeights;                // customer attribute probability
-    [SerializeField] private int numAttributes;         // how many attributes customers have
-    public int numCustomersToSpawn;                     // num set by mini games
-    [SerializeField] private float minWait;             // wait time for spawn
-    [SerializeField] private float maxWait;             // wait time for spawn
+    // Customer spawn parameters
+    [SerializeField] private List<Attribute> attributes; // All available attributes
+    public List<float> attributeWeights; // Attribute probabilities
+    [SerializeField] private int numAttributes; // Number of attributes per customer
+    public int numCustomersToSpawn; // Number of customers to spawn
+    [SerializeField] private float minWait; // Minimum wait time for spawn
+    [SerializeField] private float maxWait; // Maximum wait time for spawn
     [SerializeField] private int minHours; // Minimum amount of time in the cafe
     [SerializeField] private int maxHours; // Maximum amount of time in the cafe
 
@@ -51,7 +51,7 @@ public class CustomerManager : MonoBehaviour
             if (!customer.activeSelf)
             {
                 return customer;
-            }
+            }     
         }
         return null;
     }
@@ -127,6 +127,9 @@ public class CustomerManager : MonoBehaviour
             script.SetDestination(chair);
             customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
+        } else
+        {
+            Debug.Log("Failed to get pooled customer");
         }
         else
         {

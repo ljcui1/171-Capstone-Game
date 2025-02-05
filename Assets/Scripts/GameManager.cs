@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     {
         clockText.text = "8:00 am";
         StartCoroutine(IncrementClock());
-
+        
     }
 
     private void Update()

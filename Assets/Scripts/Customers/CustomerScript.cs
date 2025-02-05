@@ -1,12 +1,10 @@
 using Pathfinding;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomerScript : MonoBehaviour
+public class CustomerScript : BaseNPC
 {
-    // All customer states FSM
+    // Customer-specific FSM-like flags
     public bool walkin = true;
     public bool sit = false;
     public bool talk = false;
@@ -16,31 +14,28 @@ public class CustomerScript : MonoBehaviour
     public bool walkout = false;
 
     public int hourStayed = 0; // how long a customer has been in the cafe
-
     [SerializeField] private Vector3 buffer; // Positional buffer for destination checking
 
-    public void SetAttributes(List<GameManager.Attribute> attr)
+    public void SetAttributes(List<Attribute> attr)
     {
-        activeAttributes = new(attr);
-    }
-
-    public void SetDestination(GameObject target)
-    {
-        destination.target = target.transform;
+        foreach (var attribute in attr)
+        {
+            SetAttribute(attribute, true);
+        }
     }
 
     public bool AtDestination()
     {
-        if (destination.target != null)
+        if (aiDestinationSetter.target != null)
         {
-            if (
-                destination.target.position.x - buffer.x <= transform.position.x
-                && transform.position.x <= destination.target.position.x + buffer.x
-                && destination.target.position.y - buffer.y <= transform.position.y
-                && transform.position.y <= destination.target.position.y + buffer.y
-            )
+            Vector3 targetPosition = aiDestinationSetter.target.position;
+            Vector3 currentPosition = transform.position;
+
+            // Check if within buffer bounds
+            if (Mathf.Abs(targetPosition.x - currentPosition.x) <= buffer.x &&
+                Mathf.Abs(targetPosition.y - currentPosition.y) <= buffer.y)
             {
-                destination.target = null;
+                aiDestinationSetter.target = null; // Clear the target once arrived
                 return true;
             }
         }
