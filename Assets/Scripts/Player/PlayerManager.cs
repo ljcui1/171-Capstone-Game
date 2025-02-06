@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using KevinCastejon.FiniteStateMachine;
+using Pathfinding;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -14,7 +15,9 @@ public class PlayerManager : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    bool connecting = false;
+    int selectNum = 0;
+    // AIDestinationSetter currCat = null;
+    // GameObject currNPC;
 
     public bool idling = true;
     public bool walking = false;
@@ -60,9 +63,19 @@ public class PlayerManager : MonoBehaviour
 
             if (!playing && !talking && Input.GetKey(KeyCode.Space))
             {
+                Debug.Log("space clicked");
+                //check if player can interact with an npc
                 if (Player.inRange && Player.talkTo != null)
                 {
-                    //select npc
+                    Debug.Log("enter match");
+                    MatchTint(Player.talkTo);
+                }
+                //else, set select to 0 to reset process
+                else
+                {
+                    selectNum = 0;
+                    // currCat = null;
+                    // currNPC = null;
                 }
             }
 
@@ -96,4 +109,77 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void FixedUpdate() { }
+
+    private void MatchTint(Collider2D npc)
+    {
+        Debug.Log("tag" + npc.tag);
+        if (npc.tag == "Cat" && selectNum == 0)
+        {
+            Debug.Log("select cat " + npc);
+            //set select to 1
+            selectNum = 1;
+            //tint sprite color/highlight
+            Player.cat.mainSprite.color = Color.red;
+        }
+        else if (npc.tag == "Customer" && selectNum == 1)
+        {
+            Debug.Log("select customer " + npc);
+            //set select to 1
+            selectNum = 2;
+            //tint sprite color/highlight
+            Player.customer.mainSprite.color = Color.red;
+            //set cat target to customer
+            Player.cat.SetDestination(Player.npcTarget);
+        }
+    }
+
+    /*private void matchTint(Collider2D npc)
+{
+    if (npc.tag == "Cat" && selectNum == 0)
+    {
+        Debug.Log("select cat");
+        selectNum = 1;
+
+        if (Player.npcSprite != null)
+        {
+            Player.npcSprite.color = Color.red;
+        }
+        else
+        {
+            Debug.LogError("Player.npcSprite is not assigned!");
+        }
+
+        currCat = Player.npcTarget;
+
+        if (currCat == null)
+        {
+            Debug.LogError("No valid cat assigned!");
+        }
+    }
+    else if (npc.tag == "Customer" && selectNum == 1)
+    {
+        Debug.Log("select customer");
+        selectNum = 2;
+
+        if (Player.npcSprite != null)
+        {
+            Player.npcSprite.color = Color.green;
+        }
+        else
+        {
+            Debug.LogError("Player.npcSprite is not assigned!");
+        }
+
+        currNPC = Player.npc;
+
+        if (currCat != null && currNPC != null)
+        {
+            currCat.target = currNPC.transform;
+        }
+        else
+        {
+            Debug.LogError("currCat or currNPC is not assigned!");
+        }
+    }
+}*/
 }

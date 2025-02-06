@@ -17,6 +17,7 @@ public class DialogScript : MonoBehaviour
         visualCue.SetActive(false);
         isPlayerInZone = false;
         triggerZone = GetComponent<Collider2D>();
+        Debug.Log(triggerZone);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,7 +25,7 @@ public class DialogScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInZone = true;
-            Debug.Log($"press {interactKey} to interact");
+            // Debug.Log($"press {interactKey} to interact");
         }
     }
 
