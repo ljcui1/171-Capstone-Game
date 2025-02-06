@@ -44,3 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56691358a9ba6a94ba803f57be1c0163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseGame: {fileID: 0}
+  pawa: {fileID: 0}
+  paws: {fileID: 0}
+  pawd: {fileID: 0}
+  pawf: {fileID: 0}
+  CustomerMan: {fileID: 0}
+  scorePercentage:
+  - 0.9
+  - 0.7
+  - 0.3
+  customersToAdd: 040000000200000001000000

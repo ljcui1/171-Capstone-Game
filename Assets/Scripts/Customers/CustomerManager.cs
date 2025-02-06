@@ -6,27 +6,43 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {
     // Customer spawn parameters
+    [Header("Spawn Parameters")]
     [SerializeField] private List<Attribute> attributes; // All available attributes
-    public List<float> attributeWeights; // Attribute probabilities
+    //public List<float> attributeWeights; // Attribute probabilities
+    private Dictionary<Attribute, float> attributeWeights = new Dictionary<Attribute, float>(); // Attribute probabilities
     [SerializeField] private int numAttributes; // Number of attributes per customer
     public int numCustomersToSpawn; // Number of customers to spawn
+
+
+    [Header("Spawn Delay")]
     [SerializeField] private float minWait; // Minimum wait time for spawn
     [SerializeField] private float maxWait; // Maximum wait time for spawn
+
+    [Header("Cafe Stay")]
     [SerializeField] private int minHours; // Minimum amount of time in the cafe
     [SerializeField] private int maxHours; // Maximum amount of time in the cafe
 
     // Object pool for customers
-    private List<GameObject> customerPool;
-    [SerializeField] private GameObject customerPrefab;
-    [SerializeField] private int amountToPool;
-    public GameObject entrance; // Entrance point for customers
+    [Header("Object Pool")]
 
+    [SerializeField] private GameObject customerPrefab;
+    private List<GameObject> customerPool;
+    [SerializeField] private int amountToPool;
+
+    [Header("Destinations")]
+    public GameObject entrance; // Entrance point for customers
     // Cafe chairs
     [SerializeField] private List<GameObject> chairs;
     private List<bool> chairOccupied = new List<bool>();
 
     void Start()
     {
+        // populate attributeWeights with all possible attributes and set to 0s
+        foreach (Attribute att in attributes)
+        {
+            attributeWeights.Add(att, 0);
+        }
+
         // Initialize customer pool
         customerPool = new List<GameObject>();
         for (int i = 0; i < amountToPool; i++)
@@ -41,6 +57,12 @@ public class CustomerManager : MonoBehaviour
         {
             chairOccupied.Add(false);
         }
+    }
+
+    public void AddCustomerProbability(int addCustomer, float addweight, Attribute attribute)
+    {
+        numCustomersToSpawn += addCustomer;
+        attributeWeights[attribute] += addweight;
     }
 
     private GameObject GetPooledCustomer()
@@ -58,26 +80,25 @@ public class CustomerManager : MonoBehaviour
     private float SumOfWeights()
     {
         float sum = 0f;
-        foreach (float weight in attributeWeights)
+        foreach (KeyValuePair<Attribute, float> att in attributeWeights)
         {
-            sum += weight;
+            sum += att.Value;
         }
         return sum;
     }
 
-    private void SelectAttribute(List<Attribute> attr, List<Attribute> remainingAttr, List<float> remainingWeights)
+    private void SelectAttribute(List<Attribute> attr, Dictionary<Attribute, float> remainingAttr)
     {
         float randomNum = Random.Range(0f, SumOfWeights());
         float cumulativeWeight = 0f;
 
-        for (int i = 0; i < remainingAttr.Count; i++)
+        foreach (KeyValuePair<Attribute, float> remaining in remainingAttr)
         {
-            cumulativeWeight += remainingWeights[i];
+            cumulativeWeight += remaining.Value;
             if (randomNum <= cumulativeWeight)
             {
-                attr.Add(remainingAttr[i]);
-                remainingAttr.RemoveAt(i);
-                remainingWeights.RemoveAt(i);
+                attr.Add(remaining.Key);
+                remainingAttr.Remove(remaining.Key);
                 return;
             }
         }
@@ -109,12 +130,11 @@ public class CustomerManager : MonoBehaviour
 
         // Generate customer attributes
         List<Attribute> attr = new();
-        List<Attribute> remainingAttr = new(attributes);
-        List<float> remainingWeights = new(attributeWeights);
+        Dictionary<Attribute, float> remainingAttr = new(attributeWeights);
 
         for (int i = 0; i < numAttributes; i++)
         {
-            SelectAttribute(attr, remainingAttr, remainingWeights);
+            SelectAttribute(attr, remainingAttr);
         }
 
         // Spawn customer
