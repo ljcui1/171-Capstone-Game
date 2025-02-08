@@ -914,7 +914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51a6d4bce6ead14db19b042420684de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayMan: {fileID: 2061302423127924015}
+  PlayMan: {fileID: 432045284}
   cam: {fileID: 519420031}
 --- !u!1 &611960005
 GameObject:
@@ -9623,17 +9623,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 432045283}
   m_SourcePrefab: {fileID: 100100000, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
---- !u!114 &2061302423127924015 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
-  m_PrefabInstance: {fileID: 2061302423127924014}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 432045280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a78386e300089d4fa1a69de1a903868, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5961774516626846797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9980,14 +9969,6 @@ PrefabInstance:
     - target: {fileID: 7488816656853904804, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8255949434275689393, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8255949434275689393, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -1401305955
       objectReference: {fileID: 0}
     - target: {fileID: 8723169349687791046, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
       propertyPath: m_SortingOrder
