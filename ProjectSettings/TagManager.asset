@@ -8,6 +8,8 @@ TagManager:
   - Cat
   - Location
   - mouse
+  - Minigame
+  - Bean
   layers:
   - Default
   - TransparentFX

@@ -6,14 +6,14 @@ public class BeanSpawner : MonoBehaviour
 {
     public GameObject bean;
     public GameObject fur;
-    public float spawnRate = 2;
-    public float widthOffset = 2;
+    public float spawnRate = 2f;
+    public float widthOffset = 2f;
 
     [SerializeField] private float timer = 0;
 
     void Start()
     {
-        spawnBean();
+        SpawnBean();
     }
 
     void Update()
@@ -24,12 +24,12 @@ public class BeanSpawner : MonoBehaviour
         }
         else
         {
-            spawnBean();
+            SpawnBean();
             timer = 0;
         }
     }
 
-    void spawnBean()
+    void SpawnBean()
     {
         float leftPoint = transform.position.x - widthOffset;
         float rightPoint = transform.position.x + widthOffset;
