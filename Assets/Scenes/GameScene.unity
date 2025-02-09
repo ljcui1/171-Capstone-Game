@@ -874,6 +874,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
+--- !u!114 &432045284 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
+  m_PrefabInstance: {fileID: 2061302423127924014}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432045280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a78386e300089d4fa1a69de1a903868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &466166323
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,7 +997,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1011,7 +1022,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 3.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1038,7 +1049,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1056,6 +1067,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayMan: {fileID: 432045284}
   cam: {fileID: 519420031}
+  minX: -0.75
+  maxX: 0.75
+  minY: -3.5
+  maxY: 3.5
 --- !u!1 &611960005
 GameObject:
   m_ObjectHideFlags: 0
