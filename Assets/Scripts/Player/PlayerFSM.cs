@@ -43,14 +43,16 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
             {
                 GetStateMachine<PlayerFSM>().PlayMan.talking = true;
+                TransitionToState(PlayerState.TALK);
             }
 
             if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && Input.GetKey(KeyCode.Q))
             {
                 GetStateMachine<PlayerFSM>().PlayMan.playing = true;
+                TransitionToState(PlayerState.PLAY);
             }
 
             if (
@@ -60,19 +62,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
             )
             {
                 GetStateMachine<PlayerFSM>().PlayMan.walking = true;
-            }
-
-            if (GetStateMachine<PlayerFSM>().PlayMan.walking)
-            {
                 TransitionToState(PlayerState.WALK);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.playing)
-            {
-                TransitionToState(PlayerState.PLAY);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.talking)
-            {
-                TransitionToState(PlayerState.TALK);
             }
         }
 
@@ -90,18 +80,22 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
             {
                 GetStateMachine<PlayerFSM>().PlayMan.talking = true;
+                TransitionToState(PlayerState.TALK);
             }
 
             if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && Input.GetKey(KeyCode.Q))
             {
                 GetStateMachine<PlayerFSM>().PlayMan.playing = true;
+                TransitionToState(PlayerState.PLAY);
             }
+
             if (!GetStateMachine<PlayerFSM>().PlayMan.joyIn)
             {
                 GetStateMachine<PlayerFSM>().PlayMan.idling = true;
+                TransitionToState(PlayerState.IDLE);
             }
             /*Debug.Log("Vertical" + Input.GetAxis("Vertical"));
             // movement
@@ -137,19 +131,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
             {
                 GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
                     Quaternion.Euler(0, 180, 0);
-            }
-
-            if (GetStateMachine<PlayerFSM>().PlayMan.idling)
-            {
-                TransitionToState(PlayerState.IDLE);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.playing)
-            {
-                TransitionToState(PlayerState.PLAY);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.talking)
-            {
-                TransitionToState(PlayerState.TALK);
             }
         }
 
@@ -200,14 +181,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
             {
                 TransitionToState(PlayerState.IDLE);
             }
-            if (GetStateMachine<PlayerFSM>().PlayMan.walking)
-            {
-                TransitionToState(PlayerState.WALK);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.talking)
-            {
-                TransitionToState(PlayerState.TALK);
-            }
         }
 
         public override void OnFixedUpdate() { }
@@ -232,14 +205,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
             if (GetStateMachine<PlayerFSM>().PlayMan.idling)
             {
                 TransitionToState(PlayerState.IDLE);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.playing)
-            {
-                TransitionToState(PlayerState.PLAY);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.walking)
-            {
-                TransitionToState(PlayerState.WALK);
             }
         }
 
