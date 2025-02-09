@@ -43,6 +43,25 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.talking = true;
+            }
+
+            if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && Input.GetKey(KeyCode.Q))
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.playing = true;
+            }
+
+            if (
+                GetStateMachine<PlayerFSM>().PlayMan.joyIn
+                && !GetStateMachine<PlayerFSM>().PlayMan.playing
+                && !GetStateMachine<PlayerFSM>().PlayMan.talking
+            )
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.walking = true;
+            }
+
             if (GetStateMachine<PlayerFSM>().PlayMan.walking)
             {
                 TransitionToState(PlayerState.WALK);
@@ -71,6 +90,19 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.talking = true;
+            }
+
+            if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && Input.GetKey(KeyCode.Q))
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.playing = true;
+            }
+            if (!GetStateMachine<PlayerFSM>().PlayMan.joyIn)
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.idling = true;
+            }
             /*Debug.Log("Vertical" + Input.GetAxis("Vertical"));
             // movement
             speedX = 0f;
