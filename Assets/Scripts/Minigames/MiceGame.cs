@@ -92,11 +92,11 @@ public class MiceGame : BaseMinigame
         float startTime = Time.realtimeSinceStartup;
         while (Time.realtimeSinceStartup - startTime < seconds)
         {
-            float waitTime = Random.Range(1f, 3f);
-            yield return new WaitForSecondsRealtime(waitTime);
-
             // Toggle visibility
             mouseNum.enabled = !mouseNum.enabled;
+
+            float waitTime = Random.Range(1f, 3f);
+            yield return new WaitForSecondsRealtime(waitTime);
         }
     }
 
