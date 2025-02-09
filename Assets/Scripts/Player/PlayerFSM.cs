@@ -151,7 +151,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
         public override void OnEnter()
         {
             Time.timeScale = 0f;
-            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame.enabled = true;
+            if (GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo.tag == "mouse")
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouse.mouseGame.enabled = true;
+            }
         }
 
         public override void OnUpdate()
@@ -165,13 +168,13 @@ public class PlayerFSM : AbstractFiniteStateMachine
             {
                 Debug.LogError("MiniMan is NULL!");
                 return;
-            }
+            }/*
             if (GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame == null)
             {
                 Debug.LogError("mouseGame is NULL!");
                 return;
-            }
-            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.MouseMiniGamePlay();
+            }*/
+            //GetStateMachine<PlayerFSM>().PlayMan.MiniMan.MouseMiniGamePlay();
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Time.timeScale = 1f;
@@ -187,7 +190,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnExit()
         {
-            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame.enabled = false;
+            if (GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo.tag == "mouse")
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouse.mouseGame.enabled = false;
+            }
             GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay = false;
             GetStateMachine<PlayerFSM>().PlayMan.playing = false;
         }

@@ -7,6 +7,8 @@ public class MinigameManager : MonoBehaviour
 {
     public static MinigameManager instance { get; private set; }
 
+    public MiceGame mouse;
+
     [Header("Customer")]
     [SerializeField] private CustomerManager CustomerMan;
 

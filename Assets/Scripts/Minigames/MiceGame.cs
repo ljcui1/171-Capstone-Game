@@ -19,6 +19,18 @@ public class MiceGame : BaseMinigame
 
     [SerializeField]
     private Image pawf;
+
+    [SerializeField]
+    private Image mouse1;
+
+    [SerializeField]
+    private Image mouse2;
+
+    [SerializeField]
+    private Image mouse3;
+
+    [SerializeField]
+    private Image mouse4;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +40,12 @@ public class MiceGame : BaseMinigame
     // Update is called once per frame
     void Update()
     {
+        MouseMiniGamePlay();
 
+        StartCoroutine(MousePop(30f, mouse1));
+        StartCoroutine(MousePop(30f, mouse2));
+        StartCoroutine(MousePop(30f, mouse3));
+        StartCoroutine(MousePop(30f, mouse4));
     }
 
 
@@ -69,5 +86,19 @@ public class MiceGame : BaseMinigame
             pawf.enabled = true;
         }
     }
+
+    private IEnumerator MousePop(float seconds, Image mouseNum)
+    {
+        float startTime = Time.realtimeSinceStartup;
+        while (Time.realtimeSinceStartup - startTime < seconds)
+        {
+            float waitTime = Random.Range(1f, 3f);
+            yield return new WaitForSecondsRealtime(waitTime);
+
+            // Toggle visibility
+            mouseNum.enabled = !mouseNum.enabled;
+        }
+    }
+
 }
 
