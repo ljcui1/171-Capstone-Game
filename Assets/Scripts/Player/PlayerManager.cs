@@ -25,6 +25,8 @@ public class PlayerManager : MonoBehaviour
     public bool talking = false;
 
     public bool joyIn = false;
+
+    private Collider2D talkTo;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +72,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     Debug.Log("enter match");
                     MatchTint(Player.talkTo);
+                    talkTo = Player.talkTo;
                 }
                 //else, set select to 0 to reset process
                 else

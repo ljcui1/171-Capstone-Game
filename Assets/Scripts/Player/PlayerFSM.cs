@@ -151,8 +151,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
         public override void OnEnter()
         {
             Time.timeScale = 0f;
+            Debug.Log(GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo);
             if (GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo.tag == "mouse")
             {
+                Debug.Log("MOUSE ENABLED");
                 GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouse.mouseGame.enabled = true;
             }
         }
