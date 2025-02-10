@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MiceGame : BaseMinigame
 {
 
-    public Canvas mouseGame;
+    //public Canvas mouseGame;
 
     [SerializeField]
     private Image pawa;
@@ -31,32 +31,26 @@ public class MiceGame : BaseMinigame
 
     [SerializeField]
     private Image mouse4;
-    // Start is called before the first frame update
-    void Start()
+    public override void StartGame()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        MouseMiniGamePlay();
-
+        base.StartGame();
         StartCoroutine(MousePop(30f, mouse1));
         StartCoroutine(MousePop(30f, mouse2));
         StartCoroutine(MousePop(30f, mouse3));
         StartCoroutine(MousePop(30f, mouse4));
     }
 
-
-
-    public void MouseMiniGamePlay()
+    // Update is called once per frame
+    void Update()
     {
-        mouseGame.enabled = true;
-        /*pawa.enabled = false;
-        paws.enabled = false;
-        pawd.enabled = false;
-        pawf.enabled = false;*/
+        Debug.Log("Mice game is updating");
+        GameInput();
+    }
+
+
+
+    public void GameInput()
+    {
         if (Input.GetKey(KeyCode.A))
         {
             pawa.enabled = true;

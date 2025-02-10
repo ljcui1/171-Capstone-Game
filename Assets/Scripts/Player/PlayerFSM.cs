@@ -150,39 +150,26 @@ public class PlayerFSM : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
-            Time.timeScale = 0f;
             Debug.Log(GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo);
-            if (GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo.tag == "mouse")
+            if (GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo.tag == "Minigame")
             {
-                Debug.Log("MOUSE ENABLED");
-                GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouse.mouseGame.enabled = true;
+                GetStateMachine<PlayerFSM>()
+                    .PlayMan.MiniMan.StartMinigame(
+                        GetStateMachine<PlayerFSM>()
+                            .PlayMan.Player.talkTo.GetComponent<BaseMinigame>()
+                            .attribute
+                    );
+            }
+            else
+            {
+                Debug.Log("Entered play state with no minigame to play");
+                TransitionToState(PlayerState.IDLE);
             }
         }
 
         public override void OnUpdate()
         {
-            if (GetStateMachine<PlayerFSM>().PlayMan == null)
-            {
-                Debug.LogError("PlayMan is NULL!");
-                return;
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.MiniMan == null)
-            {
-                Debug.LogError("MiniMan is NULL!");
-                return;
-            }/*
-            if (GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame == null)
-            {
-                Debug.LogError("mouseGame is NULL!");
-                return;
-            }*/
-            //GetStateMachine<PlayerFSM>().PlayMan.MiniMan.MouseMiniGamePlay();
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Time.timeScale = 1f;
-            }
-
-            if (GetStateMachine<PlayerFSM>().PlayMan.idling)
+            if (GetStateMachine<PlayerFSM>().PlayMan.idling || Input.GetKeyDown(KeyCode.Escape))
             {
                 TransitionToState(PlayerState.IDLE);
             }
@@ -192,10 +179,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnExit()
         {
-            if (GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo.tag == "mouse")
-            {
-                GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouse.mouseGame.enabled = false;
-            }
+            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.StopMinigame();
             GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay = false;
             GetStateMachine<PlayerFSM>().PlayMan.playing = false;
         }

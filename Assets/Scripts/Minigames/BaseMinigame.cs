@@ -6,36 +6,22 @@ public class BaseMinigame : MonoBehaviour
 {
     [SerializeField] private int maxScore;
     private int curScore = 0;
-    [SerializeField] private Attribute attribute;
+    public Attribute attribute;
+    public Canvas gameCanvas;
 
     private MinigameManager manager = MinigameManager.instance;
 
-    // Start is called before the first frame update
-    void Start()
+    public virtual void GameOver()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private void GameOver()
-    {
+        gameCanvas.enabled = false;
         manager.GameScore(curScore, maxScore, attribute);
         curScore = 0;
+        enabled = false;
     }
-    /*
-        // function is referenced from https://discussions.unity.com/t/waitforseconds-while-time-scale-0/552937
-        private IEnumerator WaitForRealSecond(float seconds)
-        {
-            float startTime = Time.realtimeSinceStartup;
-            while (Time.realtimeSinceStartup - startTime < seconds)
-            {
-                yield return null;
-            }
-        }
-    */
+
+    public virtual void StartGame()
+    {
+        Time.timeScale = 0f;
+        gameCanvas.enabled = true;
+    }
 }
