@@ -34,8 +34,8 @@ public class BasketCanvasScript : MonoBehaviour
         float halfCanvasWidth = canvasRect.rect.width * 0.5f;
 
         // Corrected minX and maxX calculation
-        minX = -halfCanvasWidth + halfBasketWidth;  // Left boundary
-        maxX = halfCanvasWidth - halfBasketWidth;   // Right boundary
+        maxX = -halfCanvasWidth + halfBasketWidth;  // Left boundary
+        minX = halfCanvasWidth - halfBasketWidth;   // Right boundary
 
         Debug.Log($"Canvas Width: {canvasRect.rect.width}, MinX: {minX}, MaxX: {maxX}");
     }
