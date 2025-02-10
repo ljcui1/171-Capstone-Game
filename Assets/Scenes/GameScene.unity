@@ -463,7 +463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &323627453
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7605,8 +7605,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 957504575}
   - {fileID: 1625200674}
+  - {fileID: 957504575}
   - {fileID: 1730787189}
   - {fileID: 2103881682}
   - {fileID: 2092056634}
@@ -7704,7 +7704,7 @@ GameObject:
   - component: {fileID: 1625200675}
   - component: {fileID: 1625200677}
   m_Layer: 0
-  m_Name: minigame station
+  m_Name: Micegame station
   m_TagString: Minigame
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7935,7 +7935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxScore: 10
   attribute: 2
-  gameCanvas: {fileID: 323627454}
+  gameCanvas: {fileID: 323627452}
   pawa: {fileID: 1519818721}
   paws: {fileID: 466166325}
   pawd: {fileID: 1187036183}

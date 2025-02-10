@@ -26,6 +26,7 @@ public class MinigameManager : MonoBehaviour
         else
         {
             instance = this;
+            Debug.Log(instance);
         }
     }
 
