@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseMinigame : MonoBehaviour
 {
     [SerializeField] private int maxScore;
-    private int curScore = 0;
+    protected float curScore = 0;
     public Attribute attribute;
     public GameObject gameCanvas;
 
@@ -24,4 +24,6 @@ public class BaseMinigame : MonoBehaviour
         Time.timeScale = 0f;
 
     }
+
+    protected virtual void GameInput() { }
 }

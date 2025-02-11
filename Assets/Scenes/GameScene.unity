@@ -4371,6 +4371,13 @@ MonoBehaviour:
   beat2: {fileID: 1942439269}
   beat3: {fileID: 1326303145}
   beat4: {fileID: 669345351}
+  beatHeight: 1
+  barPos: {fileID: 1194303321}
+  barHeight: 1
+  buffer: 0.2
+  startPos: 679
+  conductor: {fileID: 0}
+  fallSpeed: 2
 --- !u!1839735485 &1049053844
 Tilemap:
   m_ObjectHideFlags: 0
