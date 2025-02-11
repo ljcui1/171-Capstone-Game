@@ -43,17 +43,26 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
-            if (GetStateMachine<PlayerFSM>().PlayMan.walking)
+            if (Input.GetKeyDown(KeyCode.E) && GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
             {
-                TransitionToState(PlayerState.WALK);
+                GetStateMachine<PlayerFSM>().PlayMan.talking = true;
+                TransitionToState(PlayerState.TALK);
             }
-            if (GetStateMachine<PlayerFSM>().PlayMan.playing)
+
+            if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && Input.GetKey(KeyCode.Q))
             {
+                GetStateMachine<PlayerFSM>().PlayMan.playing = true;
                 TransitionToState(PlayerState.PLAY);
             }
-            if (GetStateMachine<PlayerFSM>().PlayMan.talking)
+
+            if (
+                GetStateMachine<PlayerFSM>().PlayMan.joyIn
+                && !GetStateMachine<PlayerFSM>().PlayMan.playing
+                && !GetStateMachine<PlayerFSM>().PlayMan.talking
+            )
             {
-                TransitionToState(PlayerState.TALK);
+                GetStateMachine<PlayerFSM>().PlayMan.walking = true;
+                TransitionToState(PlayerState.WALK);
             }
         }
 
@@ -71,6 +80,23 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
+            if (Input.GetKeyDown(KeyCode.E) && GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.talking = true;
+                TransitionToState(PlayerState.TALK);
+            }
+
+            if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && Input.GetKey(KeyCode.Q))
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.playing = true;
+                TransitionToState(PlayerState.PLAY);
+            }
+
+            if (!GetStateMachine<PlayerFSM>().PlayMan.joyIn)
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.idling = true;
+                TransitionToState(PlayerState.IDLE);
+            }
             /*Debug.Log("Vertical" + Input.GetAxis("Vertical"));
             // movement
             speedX = 0f;
@@ -106,19 +132,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
                 GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
                     Quaternion.Euler(0, 180, 0);
             }
-
-            if (GetStateMachine<PlayerFSM>().PlayMan.idling)
-            {
-                TransitionToState(PlayerState.IDLE);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.playing)
-            {
-                TransitionToState(PlayerState.PLAY);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.talking)
-            {
-                TransitionToState(PlayerState.TALK);
-            }
         }
 
         public override void OnFixedUpdate()
@@ -137,44 +150,28 @@ public class PlayerFSM : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
-            Time.timeScale = 0f;
-            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame.enabled = true;
+            Debug.Log(GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo);
+            if (GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo.tag == "Minigame")
+            {
+                GetStateMachine<PlayerFSM>()
+                    .PlayMan.MiniMan.StartMinigame(
+                        GetStateMachine<PlayerFSM>()
+                            .PlayMan.Player.talkTo.GetComponent<BaseMinigame>()
+                            .attribute
+                    );
+            }
+            else
+            {
+                Debug.Log("Entered play state with no minigame to play");
+                TransitionToState(PlayerState.IDLE);
+            }
         }
 
         public override void OnUpdate()
         {
-            if (GetStateMachine<PlayerFSM>().PlayMan == null)
-            {
-                Debug.LogError("PlayMan is NULL!");
-                return;
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.MiniMan == null)
-            {
-                Debug.LogError("MiniMan is NULL!");
-                return;
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame == null)
-            {
-                Debug.LogError("mouseGame is NULL!");
-                return;
-            }
-            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.MouseMiniGamePlay();
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Time.timeScale = 1f;
-            }
-
-            if (GetStateMachine<PlayerFSM>().PlayMan.idling)
+            if (GetStateMachine<PlayerFSM>().PlayMan.idling || Input.GetKeyDown(KeyCode.Escape))
             {
                 TransitionToState(PlayerState.IDLE);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.walking)
-            {
-                TransitionToState(PlayerState.WALK);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.talking)
-            {
-                TransitionToState(PlayerState.TALK);
             }
         }
 
@@ -182,7 +179,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnExit()
         {
-            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.mouseGame.enabled = false;
+            GetStateMachine<PlayerFSM>().PlayMan.MiniMan.StopMinigame();
             GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay = false;
             GetStateMachine<PlayerFSM>().PlayMan.playing = false;
         }
@@ -200,14 +197,6 @@ public class PlayerFSM : AbstractFiniteStateMachine
             if (GetStateMachine<PlayerFSM>().PlayMan.idling)
             {
                 TransitionToState(PlayerState.IDLE);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.playing)
-            {
-                TransitionToState(PlayerState.PLAY);
-            }
-            if (GetStateMachine<PlayerFSM>().PlayMan.walking)
-            {
-                TransitionToState(PlayerState.WALK);
             }
         }
 

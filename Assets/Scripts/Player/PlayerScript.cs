@@ -42,9 +42,10 @@ public class PlayerScript : MonoBehaviour
             npcTarget = other.gameObject;
             talkTo = other;
         }
-        else if (other.tag == "mouse")
+        else if (other.tag == "Minigame")
         {
             startPlay = true;
+            talkTo = other;
             Debug.Log("q to start");
         }
         else

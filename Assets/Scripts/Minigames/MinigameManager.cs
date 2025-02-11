@@ -1,24 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MinigameManager : MonoBehaviour
 {
     public static MinigameManager instance { get; private set; }
-    public Canvas mouseGame;
 
-    [SerializeField]
-    private Image pawa;
-
-    [SerializeField]
-    private Image paws;
-
-    [SerializeField]
-    private Image pawd;
-
-    [SerializeField]
-    private Image pawf;
+    public List<BaseMinigame> games;
 
     [Header("Customer")]
     [SerializeField] private CustomerManager CustomerMan;
@@ -36,17 +26,46 @@ public class MinigameManager : MonoBehaviour
         else
         {
             instance = this;
+            Debug.Log(instance);
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        mouseGame.enabled = false;
+        foreach (BaseMinigame game in games)
+        {
+            game.enabled = false;
+        }
     }
 
-    // Update is called once per frame
-    void Update() { }
+    public void StartMinigame(Attribute attribute)
+    {
+        foreach (BaseMinigame game in games)
+        {
+            if (game.attribute == attribute)
+            {
+                game.enabled = true;
+                game.StartGame();
+                return;
+            }
+        }
+
+        Debug.Log("Failed to find minigame matching found attribute");
+    }
+
+    public void StopMinigame()
+    {
+        foreach (BaseMinigame game in games)
+        {
+            if (game.enabled == true)
+            {
+                game.GameOver();
+                game.enabled = false;
+                Debug.Log("Stoping " + game);
+            }
+        }
+
+    }
 
     public void GameScore(int score, int maxScore, Attribute attribute)
     {
@@ -57,43 +76,6 @@ public class MinigameManager : MonoBehaviour
                 CustomerMan.AddCustomerProbability(customersToAdd[i], customersToAdd[i] / 100, attribute);
                 return;
             }
-        }
-    }
-
-    public void MouseMiniGamePlay()
-    {
-        mouseGame.enabled = true;
-        /*pawa.enabled = false;
-        paws.enabled = false;
-        pawd.enabled = false;
-        pawf.enabled = false;*/
-        if (Input.GetKey(KeyCode.A))
-        {
-            pawa.enabled = true;
-            paws.enabled = false;
-            pawd.enabled = false;
-            pawf.enabled = false;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            pawa.enabled = false;
-            paws.enabled = true;
-            pawd.enabled = false;
-            pawf.enabled = false;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            pawa.enabled = false;
-            paws.enabled = false;
-            pawd.enabled = true;
-            pawf.enabled = false;
-        }
-        else if (Input.GetKey(KeyCode.F))
-        {
-            pawa.enabled = false;
-            paws.enabled = false;
-            pawd.enabled = false;
-            pawf.enabled = true;
         }
     }
 }

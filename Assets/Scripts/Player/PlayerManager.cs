@@ -24,6 +24,9 @@ public class PlayerManager : MonoBehaviour
     public bool playing = false;
     public bool talking = false;
 
+    public bool joyIn = false;
+
+    private Collider2D talkTo;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +43,7 @@ public class PlayerManager : MonoBehaviour
             //checking input
             bool keyIn = Input.anyKey;
             bool conIn = Input.GetButton("Fire1");
-            bool joyIn =
+            joyIn =
                 Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f
                 || Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
 
@@ -49,7 +52,7 @@ public class PlayerManager : MonoBehaviour
                 idling = true;
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            /*if (Input.GetKeyDown(KeyCode.E))
             {
                 idling = false;
                 walking = false;
@@ -59,7 +62,7 @@ public class PlayerManager : MonoBehaviour
             {
                 talking = false;
                 idling = true;
-            }
+            }*/
 
             if (!playing && !talking && Input.GetKey(KeyCode.Space))
             {
@@ -69,6 +72,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     Debug.Log("enter match");
                     MatchTint(Player.talkTo);
+                    talkTo = Player.talkTo;
                 }
                 //else, set select to 0 to reset process
                 else
@@ -79,7 +83,7 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
-            if (Player.startPlay && Input.GetKey(KeyCode.Q))
+            /*if (Player.startPlay && Input.GetKey(KeyCode.Q))
             {
                 idling = false;
                 walking = false;
@@ -95,7 +99,7 @@ public class PlayerManager : MonoBehaviour
             else
             {
                 walking = false;
-            }
+            }*/
         }
         else
         {
