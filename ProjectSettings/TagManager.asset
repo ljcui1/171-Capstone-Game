@@ -55,3 +55,6 @@ TagManager:
   - name: Foreground
     uniqueID: 2893661341
     locked: 0
+  - name: Minigame
+    uniqueID: 723225693
+    locked: 0

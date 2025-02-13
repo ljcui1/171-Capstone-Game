@@ -10,7 +10,6 @@ public class ToeBeansUI : MonoBehaviour
     public TextMeshProUGUI scoreUI;
     public TextMeshProUGUI timerUI;
 
-
     public void UpdateScoreUI(float curScore)
     {
         scoreUI.SetText(curScore.ToString());

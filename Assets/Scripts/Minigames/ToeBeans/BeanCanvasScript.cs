@@ -24,7 +24,6 @@ public class BeanCanvasScript : MonoBehaviour
         // Destroy bean if it goes below the canvas bounds
         if (beanRect.anchoredPosition.y < deadZone)
         {
-            Debug.Log("Bean Destroyed");
             Destroy(gameObject);
         }
     }

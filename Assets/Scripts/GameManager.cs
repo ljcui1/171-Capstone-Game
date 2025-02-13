@@ -38,19 +38,19 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-        // // pause game when in dialog mode
-        if (dialogManager.IsPlaying && !isPauseMenuOn)
-        {
-            Time.timeScale = 0;
-        }
-        if (!dialogManager.IsPlaying)
-        {
-            Time.timeScale = 1;
-        }
+    // private void Update()
+    // {
+    //     // // pause game when in dialog mode
+    //     if (dialogManager.IsPlaying && !isPauseMenuOn)
+    //     {
+    //         Time.timeScale = 0;
+    //     }
+    //     if (!dialogManager.IsPlaying)
+    //     {
+    //         Time.timeScale = 1;
+    //     }
 
-    }
+    // }
 
     private IEnumerator IncrementClock()
     {

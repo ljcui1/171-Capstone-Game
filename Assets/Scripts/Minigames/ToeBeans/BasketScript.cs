@@ -11,11 +11,12 @@ public class BasketScript : MonoBehaviour
     private float minX, maxX;
     public ToeBeansMinigame manager;
 
-    void Start()
+    void Awake()
     {
         // Get the camera's left and right edges in world space
         Camera mainCamera = Camera.main;
         float halfWidth = GetComponent<SpriteRenderer>().bounds.extents.x; // Half width of the basket
+        manager = FindObjectOfType<ToeBeansMinigame>();
 
         minX = mainCamera.ScreenToWorldPoint(Vector3.zero).x + halfWidth;
         maxX = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x - halfWidth;
@@ -33,6 +34,7 @@ public class BasketScript : MonoBehaviour
     void MoveBasket()
     {
         float moveX = Input.GetAxis("Horizontal");
+        // Debug.Log("MOVEX: " + moveX);
         float newX = transform.position.x + (moveX * speed * Time.unscaledDeltaTime);
 
         // Clamp position to stay within bounds
@@ -43,10 +45,8 @@ public class BasketScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"BASKET TRIGGERED {collision.gameObject.name}");
         if (collision.gameObject.tag == "Bean" && movementOn)
         {
-            Debug.Log("adding score");
             manager.AddScore(1);
             Destroy(collision.gameObject);
         }
