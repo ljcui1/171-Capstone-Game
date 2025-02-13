@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using KevinCastejon.FiniteStateMachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerFSM : AbstractFiniteStateMachine
 {
     public PlayerManager PlayMan { get; set; }
     private Rigidbody2D rb;
 
+    // adding a Unity event to increment 30 minutes after minigame completion
+
     [SerializeField]
     private float moveSpeed;
+    [SerializeField] public UnityEvent onMinigameCompletion;
 
     //float speedX, speedY = 0;
     private Vector2 moveInput;
@@ -182,6 +186,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
             GetStateMachine<PlayerFSM>().PlayMan.MiniMan.StopMinigame();
             GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay = false;
             GetStateMachine<PlayerFSM>().PlayMan.playing = false;
+            GetStateMachine<PlayerFSM>().onMinigameCompletion.Invoke();
         }
     }
 

@@ -825,6 +825,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
+  onMinigameCompletion:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6081611447647905932}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: MinigamesFinished
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &432045284 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
@@ -10316,6 +10331,34 @@ PrefabInstance:
       propertyPath: PlayerFSM
       value: 
       objectReference: {fileID: 432045283}
+    - target: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
+      propertyPath: onMinigameCompletion.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
+      propertyPath: onMinigameCompletion.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
+      propertyPath: onMinigameCompletion.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6081611447647905932}
+    - target: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
+      propertyPath: onMinigameCompletion.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
+      propertyPath: onMinigameCompletion.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MinigamesFinished
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
+      propertyPath: onMinigameCompletion.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
+      propertyPath: onMinigameCompletion.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

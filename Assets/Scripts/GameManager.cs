@@ -29,8 +29,6 @@ public class GameManager : MonoBehaviour
 
     // Booleans
     private bool isPauseMenuOn = false;
-    private bool isMinigameOn = false;
-    private bool isGameOver = false;
 
     // Clock
     private int hour;
@@ -157,5 +155,11 @@ public class GameManager : MonoBehaviour
     public void StartNextDay()
     {
         StartCoroutine(SwitchToDay());
+    }
+
+    public void MinigamesFinished()
+    {
+        minute += 30;
+        UpdateClock();
     }
 }
