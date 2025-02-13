@@ -35,36 +35,35 @@ public class GameManager : MonoBehaviour
     {
         clockText.text = "8:00 am";
         StartCoroutine(IncrementClock());
-        
+
     }
 
     private void Update()
     {
-        // if (isPauseMenuOn)
-        // {
-        //     Time.timeScale = 0;
-        // }
-        // else if (!isPauseMenuOn)
-        // {
-        //     Time.timeScale = 1;
-        // }
         // // pause game when in dialog mode
-        // if (!dialogManager.IsPlaying && !isPauseMenuOn && Time.timeScale == 0)
-        // {
-
-        // }
+        if (dialogManager.IsPlaying && !isPauseMenuOn)
+        {
+            Time.timeScale = 0;
+        }
+        if (!dialogManager.IsPlaying)
+        {
+            Time.timeScale = 1;
+        }
 
     }
 
     private IEnumerator IncrementClock()
     {
-        yield return new WaitForSeconds(secondsBeforeIncrement);
+        while (hour != endHour && !isPauseMenuOn)
+        {
+            yield return new WaitForSeconds(secondsBeforeIncrement);
 
-        minute += minutesIncrement;
+            minute += minutesIncrement;
 
-        UpdateClock();
+            UpdateClock();
 
-        StartCoroutine(IncrementClock());
+            // StartCoroutine(IncrementClock());
+        }
     }
 
     private void UpdateClock()
@@ -102,9 +101,8 @@ public class GameManager : MonoBehaviour
 
         if (hour >= endHour)
         {
-            isGameOver = true;
-            Debug.Log("Game reached 5:00PM");
-            Time.timeScale = 0;
+            // StopCoroutine(IncrementClock());
+            customerManager.ClosedCustomersLeave();
         }
     }
 
@@ -113,5 +111,9 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(!isPauseMenuOn);
         isPauseMenuOn = !isPauseMenuOn;
         Time.timeScale = isPauseMenuOn ? 0f : 1f;
+        if (isPauseMenuOn == false)
+        {
+            StartCoroutine(IncrementClock());
+        }
     }
 }
