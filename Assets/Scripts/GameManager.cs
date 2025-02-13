@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
@@ -23,8 +24,9 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false;
 
     // Clock
-    private int hour = 8;
-    private int displayHour = 8;
+    private int hour;
+    private int displayHour;
+    private int startHour = 8;
     private int endHour = 17;
     private int minute = 0;
     private int minutesIncrement = 10;
@@ -33,37 +35,39 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        hour = startHour;
+        displayHour = hour;
         clockText.text = "8:00 am";
         StartCoroutine(IncrementClock());
 
     }
 
-    // private void Update()
-    // {
-    //     // // pause game when in dialog mode
-    //     if (dialogManager.IsPlaying && !isPauseMenuOn)
-    //     {
-    //         Time.timeScale = 0;
-    //     }
-    //     if (!dialogManager.IsPlaying)
-    //     {
-    //         Time.timeScale = 1;
-    //     }
+    private void Update()
+    {
+        // // pause game when in dialog mode
+        // if (dialogManager.IsPlaying && !isPauseMenuOn)
+        // {
+        //     Time.timeScale = 0;
+        // }
+        // if (!dialogManager.IsPlaying)
+        // {
+        //     Time.timeScale = 1;
+        // }
 
-    // }
+    }
 
     private IEnumerator IncrementClock()
     {
-        while (hour != endHour && !isPauseMenuOn)
+        while (hour < endHour)
         {
             yield return new WaitForSeconds(secondsBeforeIncrement);
 
             minute += minutesIncrement;
 
             UpdateClock();
-
-            // StartCoroutine(IncrementClock());
         }
+        customerManager.ClosedCustomersLeave();
+        SwitchToDay();
     }
 
     private void UpdateClock()
@@ -98,12 +102,26 @@ public class GameManager : MonoBehaviour
         {
             clockText.text = displayHour + ":" + minute + " " + clockSuffix;
         }
+    }
 
-        if (hour >= endHour)
-        {
-            // StopCoroutine(IncrementClock());
-            customerManager.ClosedCustomersLeave();
-        }
+    private void ResetClock()
+    {
+        hour = startHour;
+        displayHour = hour;
+        minute = 0;
+        clockSuffix = "am";
+    }
+
+    private void SwitchToNight()
+    {
+
+    }
+
+    public void SwitchToDay()
+    {
+        Debug.Log("switch to day");
+        ResetClock();
+        StartCoroutine(IncrementClock());
     }
 
     public void PauseButton()
@@ -111,9 +129,5 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(!isPauseMenuOn);
         isPauseMenuOn = !isPauseMenuOn;
         Time.timeScale = isPauseMenuOn ? 0f : 1f;
-        if (isPauseMenuOn == false)
-        {
-            StartCoroutine(IncrementClock());
-        }
     }
 }
