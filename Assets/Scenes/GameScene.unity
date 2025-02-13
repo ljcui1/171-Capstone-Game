@@ -8708,7 +8708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1556212504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12731,8 +12731,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxScore: 0
-  attribute: 0
-  gameCanvas: {fileID: 0}
+  attribute: 1
+  gameCanvas: {fileID: 1556212503}
   gameOver: 0
   gameTime: 60
   gameUI: {fileID: 0}
