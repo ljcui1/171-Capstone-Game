@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private CustomerManager customerManager; // to handle customer spawning
     [SerializeField] private DialogManager dialogManager; // to check on dialog status
+    [SerializeField] private PlayerManager playerManager;
 
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI clockText;
@@ -53,15 +54,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // // pause game when in dialog mode
-        // if (dialogManager.IsPlaying && !isPauseMenuOn)
-        // {
-        //     Time.timeScale = 0;
-        // }
-        // if (!dialogManager.IsPlaying)
-        // {
-        //     Time.timeScale = 1;
-        // }
+        // pause game when in dialog mode
+        if (dialogManager.IsPlaying && !isPauseMenuOn && !playerManager.playing)
+        {
+            Time.timeScale = 0;
+        }
+        if (!dialogManager.IsPlaying && !isPauseMenuOn && !playerManager.playing)
+        {
+            Time.timeScale = 1;
+        }
 
     }
 

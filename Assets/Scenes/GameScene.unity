@@ -153,6 +153,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2114420288}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &26682966 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1960660281376067748, guid: 0dee8432af6f1496db4870f9cffc5007, type: 3}
+  m_PrefabInstance: {fileID: 810265144}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7503b6ba83dfd4232a43776623603dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &36881068 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3664928274512678109, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
@@ -10531,9 +10542,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2014111168}
     - target: {fileID: 8323388868892476059, guid: b2cdb1a91f58c594c88a4020e7515824, type: 3}
+      propertyPath: dialogManager
+      value: 
+      objectReference: {fileID: 26682966}
+    - target: {fileID: 8323388868892476059, guid: b2cdb1a91f58c594c88a4020e7515824, type: 3}
       propertyPath: nightTimeMode
       value: 
       objectReference: {fileID: 752042964}
+    - target: {fileID: 8323388868892476059, guid: b2cdb1a91f58c594c88a4020e7515824, type: 3}
+      propertyPath: playerManager
+      value: 
+      objectReference: {fileID: 432045284}
     - target: {fileID: 8323388868892476059, guid: b2cdb1a91f58c594c88a4020e7515824, type: 3}
       propertyPath: transitionTime
       value: 2
