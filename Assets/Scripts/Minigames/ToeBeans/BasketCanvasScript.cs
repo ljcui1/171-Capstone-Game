@@ -48,7 +48,7 @@ public class BasketCanvasScript : MonoBehaviour
     {
         float moveX = Input.GetAxis("Horizontal"); // Use GetAxisRaw for instant response
         float currentX = basketRect.anchoredPosition.x;
-        float moveStep = moveX * speed * Time.deltaTime;
+        float moveStep = moveX * speed * Time.unscaledDeltaTime;
 
 
         if (moveStep != 0) // Only update if there's movement

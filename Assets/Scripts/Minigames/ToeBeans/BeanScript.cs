@@ -16,9 +16,9 @@ public class BeanScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = transform.position + Vector3.down * moveSpeed * Time.deltaTime;
-        transform.rotation = transform.rotation * Quaternion.Euler(Vector3.forward * rotationSpeed * Time.deltaTime);
-        Debug.Log(Quaternion.Euler(Vector3.forward * rotationSpeed * Time.deltaTime));
+        transform.position = transform.position + Vector3.down * moveSpeed * Time.unscaledDeltaTime;
+        transform.rotation = transform.rotation * Quaternion.Euler(Vector3.forward * rotationSpeed * Time.unscaledDeltaTime);
+        Debug.Log(Quaternion.Euler(Vector3.forward * rotationSpeed * Time.unscaledDeltaTime));
         if (transform.position.y < deadZone)
         {
             Debug.Log("Bean Destroyed");

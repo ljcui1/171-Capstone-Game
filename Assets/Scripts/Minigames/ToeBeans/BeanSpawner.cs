@@ -20,7 +20,7 @@ public class BeanSpawner : MonoBehaviour
     {
         if (timer < spawnRate)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
         }
         else
         {

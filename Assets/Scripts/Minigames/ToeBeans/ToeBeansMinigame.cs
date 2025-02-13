@@ -31,7 +31,7 @@ public class ToeBeansMinigame : BaseMinigame
     {
         if (!gameOver)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             int timeRemaining = Mathf.Max(0, (int)(gameTime - timer));
             gameUI.UpdateTimerUI(timeRemaining);
 

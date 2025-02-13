@@ -19,7 +19,7 @@ public class BeanCanvasScript : MonoBehaviour
     void Update()
     {
         // Move bean down using RectTransform
-        beanRect.anchoredPosition += Vector2.down * moveSpeed * Time.deltaTime;
+        beanRect.anchoredPosition += Vector2.down * moveSpeed * Time.unscaledDeltaTime;
 
         // Destroy bean if it goes below the canvas bounds
         if (beanRect.anchoredPosition.y < deadZone)

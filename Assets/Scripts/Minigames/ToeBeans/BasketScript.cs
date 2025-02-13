@@ -33,7 +33,7 @@ public class BasketScript : MonoBehaviour
     void MoveBasket()
     {
         float moveX = Input.GetAxis("Horizontal");
-        float newX = transform.position.x + (moveX * speed * Time.deltaTime);
+        float newX = transform.position.x + (moveX * speed * Time.unscaledDeltaTime);
 
         // Clamp position to stay within bounds
         newX = Mathf.Clamp(newX, minX, maxX);

@@ -29,7 +29,7 @@ public class BeanSpawnerCanvasScript : MonoBehaviour
     {
         if (timer < spawnRate)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
         }
         else
         {
