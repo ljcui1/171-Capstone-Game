@@ -18,6 +18,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI clockText;
     [SerializeField] private GameObject pauseMenu;
 
+    [Header("Day/Night Transition")]
+    [SerializeField] private GameObject nightTimeMode;
+    [SerializeField] private GameObject nightTransitionMsg;
+    [SerializeField] private GameObject dayTimeMode;
+    [SerializeField] private GameObject dayTransitionMsg;
+    [SerializeField] private float msgTime; // time that the transition message stays on screen
+    [SerializeField] private float transitionTime;
+
     // Booleans
     private bool isPauseMenuOn = false;
     private bool isMinigameOn = false;
@@ -35,11 +43,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        pauseMenu.SetActive(false);
+        nightTimeMode.SetActive(false);
         hour = startHour;
         displayHour = hour;
         clockText.text = "8:00 am";
         StartCoroutine(IncrementClock());
-
     }
 
     private void Update()
@@ -56,6 +65,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // MARK: Clock Functions
     private IEnumerator IncrementClock()
     {
         while (hour < endHour)
@@ -67,7 +77,7 @@ public class GameManager : MonoBehaviour
             UpdateClock();
         }
         customerManager.ClosedCustomersLeave();
-        SwitchToDay();
+        StartCoroutine(SwitchToNight());
     }
 
     private void UpdateClock()
@@ -112,22 +122,39 @@ public class GameManager : MonoBehaviour
         clockSuffix = "am";
     }
 
-    private void SwitchToNight()
+    // MARK: Day/Night
+    private IEnumerator SwitchToNight()
     {
-
+        yield return new WaitForSeconds(transitionTime); // waits for the customers to leave
+        clockText.text = "12:00 am"; // time is arbitrary; just set it to some feasible night time hour
+        nightTimeMode.SetActive(true);
+        nightTransitionMsg.SetActive(true);
+        yield return new WaitForSeconds(msgTime);
+        nightTransitionMsg.SetActive(false);
     }
 
-    public void SwitchToDay()
+    private IEnumerator SwitchToDay()
     {
-        Debug.Log("switch to day");
+        // Debug.Log("switch to day");
+        nightTimeMode.SetActive(false);
+        dayTransitionMsg.SetActive(true);
         ResetClock();
+        clockText.text = "8:00 am";
+        yield return new WaitForSeconds(msgTime);
+        dayTransitionMsg.SetActive(false);
         StartCoroutine(IncrementClock());
     }
 
+    // MARK: Button Functions
     public void PauseButton()
     {
         pauseMenu.SetActive(!isPauseMenuOn);
         isPauseMenuOn = !isPauseMenuOn;
         Time.timeScale = isPauseMenuOn ? 0f : 1f;
+    }
+
+    public void StartNextDay()
+    {
+        StartCoroutine(SwitchToDay());
     }
 }
