@@ -10,6 +10,8 @@ TagManager:
   - Dialog
   - Undefined
   - mouse
+  - Minigame
+  - Bean
   layers:
   - Default
   - TransparentFX

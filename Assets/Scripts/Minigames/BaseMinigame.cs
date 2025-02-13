@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseMinigame : MonoBehaviour
 {
-    [SerializeField] private int maxScore;
+    [SerializeField] protected int maxScore;
     protected float curScore = 0;
     public Attribute attribute;
     public GameObject gameCanvas;

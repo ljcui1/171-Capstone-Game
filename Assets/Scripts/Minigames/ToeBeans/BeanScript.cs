@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class BeanScript : MonoBehaviour
+{
+    public float moveSpeed = 5;
+    public float deadZone = -200;
+    private float rotationSpeed; // Randomize spin speed // Make rotation speed variable
+
+    void Start()
+    {
+        rotationSpeed = Random.Range(-100f, 100f);
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position = transform.position + Vector3.down * moveSpeed * Time.deltaTime;
+        transform.rotation = transform.rotation * Quaternion.Euler(Vector3.forward * rotationSpeed * Time.deltaTime);
+        Debug.Log(Quaternion.Euler(Vector3.forward * rotationSpeed * Time.deltaTime));
+        if (transform.position.y < deadZone)
+        {
+            Debug.Log("Bean Destroyed");
+            Destroy(gameObject);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D obj)
+    {
+        // Debug.Log($"BEAN TRIGGERED {obj.gameObject.name}");
+        if (obj.gameObject.name == "Ground")
+        {
+            GetComponent<SpriteRenderer>().color = Color.red;
+            Destroy(gameObject);
+        }
+    }
+}
