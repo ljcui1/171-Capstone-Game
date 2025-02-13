@@ -12735,6 +12735,7 @@ MonoBehaviour:
   gameCanvas: {fileID: 0}
   gameOver: 0
   gameTime: 60
+  gameUI: {fileID: 0}
 --- !u!1839735485 &2142508530
 Tilemap:
   m_ObjectHideFlags: 0
@@ -13254,7 +13255,19 @@ PrefabInstance:
     - target: {fileID: 5407817086231068393, guid: c2a583f260ece68418692604c4851ce8, type: 3}
       propertyPath: tilemap
       value: 
+      objectReference: {fileID: 1501963227}
+    - target: {fileID: 5407817086231068393, guid: c2a583f260ece68418692604c4851ce8, type: 3}
+      propertyPath: cats.Array.size
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5407817086231068393, guid: c2a583f260ece68418692604c4851ce8, type: 3}
+      propertyPath: spawnMapping.Array.data[0].catPrefab
+      value: 
+      objectReference: {fileID: 3080046264931565611, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
+    - target: {fileID: 5407817086231068393, guid: c2a583f260ece68418692604c4851ce8, type: 3}
+      propertyPath: spawnMapping.Array.data[0].spawnLocation
+      value: 
+      objectReference: {fileID: 345488922}
     - target: {fileID: 8121747742657058956, guid: c2a583f260ece68418692604c4851ce8, type: 3}
       propertyPath: m_Name
       value: CatManager
