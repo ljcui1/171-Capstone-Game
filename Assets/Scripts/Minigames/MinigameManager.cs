@@ -67,7 +67,7 @@ public class MinigameManager : MonoBehaviour
 
     }
 
-    public void GameScore(int score, int maxScore, Attribute attribute)
+    public void GameScore(float score, float maxScore, Attribute attribute)
     {
         for (int i = 0; i < scorePercentage.Count; i++)
         {

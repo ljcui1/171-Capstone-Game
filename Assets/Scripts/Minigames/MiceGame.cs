@@ -48,7 +48,7 @@ public class MiceGame : BaseMinigame
 
 
 
-    public void GameInput()
+    protected override void GameInput()
     {
         if (Input.GetKey(KeyCode.A))
         {
