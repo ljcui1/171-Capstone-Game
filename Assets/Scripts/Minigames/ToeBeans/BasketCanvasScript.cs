@@ -4,7 +4,7 @@ public class BasketCanvasScript : MonoBehaviour
 {
     public float speed = 20f; // UI-based movement requires high speed
     public bool movementOn = true;
-    public Minigame2Manager manager;
+    public ToeBeansMinigame manager;
 
     private RectTransform basketRect;
     private RectTransform canvasRect;
@@ -15,8 +15,12 @@ public class BasketCanvasScript : MonoBehaviour
         basketRect = GetComponent<RectTransform>();
         canvasRect = GetComponentInParent<Canvas>().GetComponent<RectTransform>();
 
+        Rect basketPixelRect = RectTransformUtility.PixelAdjustRect(basketRect, canvasRect.GetComponent<Canvas>());
+        Rect canvasPixelRect = RectTransformUtility.PixelAdjustRect(canvasRect, canvasRect.GetComponent<Canvas>());
+
+
         // Ensure correct boundary calculation
-        float halfBasketWidth = basketRect.rect.width * 0.5f;
+        float halfBasketWidth = basketPixelRect.width * 0.5f;
         float halfCanvasWidth = canvasRect.rect.width * 0.5f;
 
         Debug.Log(halfBasketWidth);

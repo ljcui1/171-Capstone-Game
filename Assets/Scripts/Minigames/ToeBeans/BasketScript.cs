@@ -9,7 +9,7 @@ public class BasketScript : MonoBehaviour
     public float speed;
     public bool movementOn = true;
     private float minX, maxX;
-    public Minigame2Manager manager;
+    public ToeBeansMinigame manager;
 
     void Start()
     {

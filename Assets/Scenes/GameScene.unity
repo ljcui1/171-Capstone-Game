@@ -4371,9 +4371,13 @@ MonoBehaviour:
   beat2: {fileID: 1942439269}
   beat3: {fileID: 1326303145}
   beat4: {fileID: 669345351}
-  beatHeight: 1
-  barPos: {fileID: 1194303321}
-  barHeight: 1
+  sound1: {fileID: 0}
+  sound2: {fileID: 0}
+  sound3: {fileID: 0}
+  sound4: {fileID: 0}
+  beatSpace: 0
+  barTransform: {fileID: 0}
+  barSpace: 0
   buffer: 0.2
   startPos: 679
   conductor: {fileID: 0}
@@ -8684,7 +8688,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1556212504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12703,12 +12707,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2142508525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6edab6b0aaef26240bb12db0d2aca18a, type: 3}
+  m_Script: {fileID: 11500000, guid: 28c6a2107668d45e9a33eb886ee632ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScore: 10
-  attribute: 1
-  gameCanvas: {fileID: 1556212503}
+  maxScore: 0
+  attribute: 0
+  gameCanvas: {fileID: 0}
+  gameOver: 0
+  gameTime: 60
 --- !u!1839735485 &2142508530
 Tilemap:
   m_ObjectHideFlags: 0

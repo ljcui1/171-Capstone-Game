@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/ToeBeansMinigame.unity
+    guid: 5c2db394c6fff439aa754983f1e28dd4
   m_configObjects: {}
