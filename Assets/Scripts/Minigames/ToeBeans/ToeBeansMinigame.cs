@@ -21,6 +21,7 @@ public class ToeBeansMinigame : MonoBehaviour
     void Awake()
     {
         catchGame = FindObjectOfType<CatchGame>();
+        Physics2D.simulationMode = SimulationMode2D.Script;
         ResetGame();
     }
     void Start()
@@ -47,6 +48,7 @@ public class ToeBeansMinigame : MonoBehaviour
 
             if (timer >= gameTime)
             {
+                gameOver = true;
                 catchGame.GameOver();
             }
         }
@@ -56,6 +58,8 @@ public class ToeBeansMinigame : MonoBehaviour
         {
             ResetGame();
         }
+
+        Physics2D.Simulate(Time.unscaledDeltaTime);
     }
 
     void ResetGame()

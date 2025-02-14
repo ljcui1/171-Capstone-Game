@@ -15,13 +15,15 @@ public class CatchGame : BaseMinigame
         Debug.Log("Unloaded Scene: " + SceneManager.GetActiveScene().name);
         SceneManager.UnloadSceneAsync(s);
         curScore = 0;
-        UnpauseMainScene();
+        // UnpauseMainScene();
+        Time.timeScale = 1f;
         enabled = false;
     }
 
     public override void StartGame()
     {
-        PauseMainScene();
+        // PauseMainScene();
+        Time.timeScale = 0f;
         StartCoroutine(StartGameCoroutine());
     }
 
