@@ -34,7 +34,7 @@ public class BasketScript : MonoBehaviour
     void MoveBasket()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
-        Debug.Log("MOVEX: " + moveX);
+        // Debug.Log("MOVEX: " + moveX);
         float newX = transform.position.x + (moveX * speed * Time.unscaledDeltaTime);
 
         // Clamp position to stay within bounds

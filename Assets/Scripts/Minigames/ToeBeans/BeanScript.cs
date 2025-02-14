@@ -20,7 +20,7 @@ public class BeanScript : MonoBehaviour
         transform.rotation = transform.rotation * Quaternion.Euler(Vector3.forward * rotationSpeed * Time.unscaledDeltaTime);
         if (transform.position.y < deadZone)
         {
-            Debug.Log("Bean Destroyed");
+            // Debug.Log("Bean Destroyed");
             Destroy(gameObject);
         }
     }
