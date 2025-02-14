@@ -15,15 +15,15 @@ public class CatchGame : BaseMinigame
         Debug.Log("Unloaded Scene: " + SceneManager.GetActiveScene().name);
         SceneManager.UnloadSceneAsync(s);
         curScore = 0;
-        // UnpauseMainScene();
+        gameCanvas.SetActive(false);
         Time.timeScale = 1f;
         enabled = false;
     }
 
     public override void StartGame()
     {
-        // PauseMainScene();
         Time.timeScale = 0f;
+        gameCanvas.SetActive(true);
         StartCoroutine(StartGameCoroutine());
     }
 
@@ -36,11 +36,11 @@ public class CatchGame : BaseMinigame
         if (scene.IsValid())
         {
             SceneManager.SetActiveScene(scene); // Set the loaded scene as active
-            Debug.Log("Active Scene: " + SceneManager.GetActiveScene().name);
+            // Debug.Log("Active Scene: " + SceneManager.GetActiveScene().name);
         }
         else
         {
-            Debug.LogError("Failed to find ToeBeansMinigame scene!");
+            // Debug.LogError("Failed to find ToeBeansMinigame scene!");
             yield break; // Stop execution if scene wasn't found
         }
 
@@ -51,60 +51,12 @@ public class CatchGame : BaseMinigame
         toeBeansMinigame = FindObjectOfType<ToeBeansMinigame>();
         if (toeBeansMinigame != null)
         {
-            Debug.Log("ToeBeansMinigame found: " + toeBeansMinigame.name);
+            // Debug.Log("ToeBeansMinigame found: " + toeBeansMinigame.name);
             toeBeansMinigame.maxScore = maxScore;
         }
         else
         {
-            Debug.LogError("ToeBeansMinigame script not found in scene!");
+            // Debug.LogError("ToeBeansMinigame script not found in scene!");
         }
     }
-
-    public void PauseMainScene()
-    {
-        // Freeze physics for all Rigidbodies in the main scene
-        foreach (Rigidbody rb in FindObjectsOfType<Rigidbody>())
-        {
-            if (rb.gameObject.scene == SceneManager.GetActiveScene()) // Only affect main scene
-            {
-                rb.isKinematic = true; // Stop physics simulation
-                rb.detectCollisions = false; // Stop collisions
-            }
-        }
-
-        // Optionally disable scripts that need to pause
-        foreach (MonoBehaviour script in FindObjectsOfType<MonoBehaviour>())
-        {
-            if (script.gameObject.scene == SceneManager.GetActiveScene() && script != this)
-            {
-                script.enabled = false;
-            }
-        }
-    }
-
-    private void UnpauseMainScene()
-    {
-        // Restore physics for all rigidbodies in the main scene
-        foreach (Rigidbody rb in FindObjectsOfType<Rigidbody>())
-        {
-            if (rb.gameObject.scene == SceneManager.GetActiveScene()) // Only affect main scene
-            {
-                rb.isKinematic = false; // Resume physics
-                rb.detectCollisions = true;
-            }
-        }
-
-        // Re-enable paused scripts
-        foreach (MonoBehaviour script in FindObjectsOfType<MonoBehaviour>())
-        {
-            if (script.gameObject.scene == SceneManager.GetActiveScene() && script != this)
-            {
-                script.enabled = true;
-            }
-        }
-
-        // Reset time scale
-        Time.timeScale = 1f;
-    }
-
 }

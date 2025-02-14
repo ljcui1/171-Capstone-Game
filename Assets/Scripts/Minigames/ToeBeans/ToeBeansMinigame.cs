@@ -21,13 +21,13 @@ public class ToeBeansMinigame : MonoBehaviour
     void Awake()
     {
         catchGame = FindObjectOfType<CatchGame>();
-        Physics2D.simulationMode = SimulationMode2D.Script;
         ResetGame();
     }
     void Start()
     {
         gameUI.UpdateScoreUI(curScore);
         gameUI.UpdateTimerUI((int)gameTime);
+        Physics2D.simulationMode = SimulationMode2D.Script;
     }
 
     public void AddScore(int scoreToAdd)
@@ -49,6 +49,7 @@ public class ToeBeansMinigame : MonoBehaviour
             if (timer >= gameTime)
             {
                 gameOver = true;
+                Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
                 catchGame.GameOver();
             }
         }
