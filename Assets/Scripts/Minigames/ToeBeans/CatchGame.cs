@@ -11,13 +11,7 @@ public class CatchGame : BaseMinigame
     {
         curScore = toeBeansMinigame.curScore;
         MinigameManager.instance.GameScore(curScore, maxScore, attribute);
-        string s = SceneManager.GetActiveScene().name;
-        Debug.Log("Unloaded Scene: " + SceneManager.GetActiveScene().name);
-        SceneManager.UnloadSceneAsync(s);
-        curScore = 0;
-        gameCanvas.SetActive(false);
-        Time.timeScale = 1f;
-        enabled = false;
+        StartCoroutine(UnloadGameCoroutine());
     }
 
     public override void StartGame()
@@ -25,6 +19,30 @@ public class CatchGame : BaseMinigame
         Time.timeScale = 0f;
         gameCanvas.SetActive(true);
         StartCoroutine(StartGameCoroutine());
+        enabled = true;
+        Physics2D.simulationMode = SimulationMode2D.Script;
+    }
+
+    private IEnumerator UnloadGameCoroutine()
+    {
+        string s = SceneManager.GetActiveScene().name;
+        AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(s);
+        yield return new WaitUntil(() => asyncUnload.isDone);
+        Debug.Log("Unloaded Scene: " + SceneManager.GetActiveScene().name);
+        yield return null;
+        yield return null;
+        curScore = 0;
+        gameCanvas.SetActive(false);
+        Time.timeScale = 1f;
+        Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
+        enabled = false;
+        Debug.Log("Scene Game Over");
+    }
+
+    private IEnumerator WaitFor(float seconds)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+
     }
 
     private IEnumerator StartGameCoroutine()
@@ -51,12 +69,11 @@ public class CatchGame : BaseMinigame
         toeBeansMinigame = FindObjectOfType<ToeBeansMinigame>();
         if (toeBeansMinigame != null)
         {
-            // Debug.Log("ToeBeansMinigame found: " + toeBeansMinigame.name);
             toeBeansMinigame.maxScore = maxScore;
         }
         else
         {
-            // Debug.LogError("ToeBeansMinigame script not found in scene!");
+            Debug.LogError("ToeBeansMinigame script not found in scene!");
         }
     }
 }

@@ -122,6 +122,8 @@ public class PlayerFSM : AbstractFiniteStateMachine
             //movement 2
             GetStateMachine<PlayerFSM>().moveInput.x = Input.GetAxisRaw("Horizontal");
             GetStateMachine<PlayerFSM>().moveInput.y = Input.GetAxisRaw("Vertical");
+            // Debug.Log(GetStateMachine<PlayerFSM>().moveInput.x);
+            // Debug.Log(GetStateMachine<PlayerFSM>().moveInput.y);
 
             GetStateMachine<PlayerFSM>().moveInput.Normalize();
 
@@ -142,6 +144,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
         {
             GetStateMachine<PlayerFSM>().rb.velocity =
                 GetStateMachine<PlayerFSM>().moveInput * GetStateMachine<PlayerFSM>().moveSpeed;
+            Debug.Log(GetStateMachine<PlayerFSM>().rb.velocity);
         }
 
         public override void OnExit()

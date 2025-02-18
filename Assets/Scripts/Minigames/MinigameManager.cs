@@ -60,7 +60,7 @@ public class MinigameManager : MonoBehaviour
             if (game.enabled == true)
             {
                 game.GameOver();
-                game.enabled = false;
+                // game.enabled = false;
                 Debug.Log("Stoping " + game);
             }
         }
