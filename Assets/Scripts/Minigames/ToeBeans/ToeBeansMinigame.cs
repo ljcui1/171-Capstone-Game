@@ -33,8 +33,11 @@ public class ToeBeansMinigame : MonoBehaviour
     public void AddScore(int scoreToAdd)
     {
         if (gameOver) return; // Prevent adding score after game over
+        if (!(curScore == 0 && scoreToAdd < 0))
+        {
+            curScore += scoreToAdd;
+        }
 
-        curScore += scoreToAdd;
         gameUI.UpdateScoreUI(curScore);
     }
 

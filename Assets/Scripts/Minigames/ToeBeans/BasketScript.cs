@@ -50,5 +50,10 @@ public class BasketScript : MonoBehaviour
             manager.AddScore(1);
             Destroy(collision.gameObject);
         }
+        if (collision.gameObject.tag == "Fur" && movementOn)
+        {
+            manager.AddScore(-1);
+            Destroy(collision.gameObject);
+        }
     }
 }

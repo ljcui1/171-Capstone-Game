@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BeanScript : MonoBehaviour
+public class FallingObjectScript : MonoBehaviour
 {
     public float moveSpeed = 5;
     public float deadZone = -200;
     private float rotationSpeed; // Randomize spin speed // Make rotation speed variable
+
+    public GameObject popAnimation;
 
     void Start()
     {
@@ -31,6 +33,7 @@ public class BeanScript : MonoBehaviour
         if (obj.gameObject.name == "Ground")
         {
             GetComponent<SpriteRenderer>().color = Color.red;
+            Instantiate(popAnimation, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

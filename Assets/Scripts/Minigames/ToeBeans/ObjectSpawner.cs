@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BeanSpawner : MonoBehaviour
+public class ObjectSpawner : MonoBehaviour
 {
-    public GameObject bean;
-    public GameObject fur;
+    public GameObject fallingObj;
     public float spawnRate = 2f;
     public float widthOffset = 2f;
 
@@ -13,7 +12,7 @@ public class BeanSpawner : MonoBehaviour
 
     void Start()
     {
-        SpawnBean();
+        SpawnObject();
     }
 
     void Update()
@@ -24,16 +23,16 @@ public class BeanSpawner : MonoBehaviour
         }
         else
         {
-            SpawnBean();
+            SpawnObject();
             timer = 0;
         }
     }
 
-    void SpawnBean()
+    void SpawnObject()
     {
         float leftPoint = transform.position.x - widthOffset;
         float rightPoint = transform.position.x + widthOffset;
-        Instantiate(bean, new Vector3(Random.Range(leftPoint, rightPoint), transform.position.y, 0), transform.rotation);
+        Instantiate(fallingObj, new Vector3(Random.Range(leftPoint, rightPoint), transform.position.y, 0), transform.rotation);
     }
 
 }

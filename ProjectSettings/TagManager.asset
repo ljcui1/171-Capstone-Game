@@ -12,6 +12,7 @@ TagManager:
   - mouse
   - Minigame
   - Bean
+  - Fur
   layers:
   - Default
   - TransparentFX

@@ -20,6 +20,8 @@ public class CatchGame : BaseMinigame
         gameCanvas.SetActive(true);
         StartCoroutine(StartGameCoroutine());
         enabled = true;
+        // Changes physics to be automated 
+        // https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Physics2D.Simulate.html
         Physics2D.simulationMode = SimulationMode2D.Script;
     }
 
@@ -28,7 +30,7 @@ public class CatchGame : BaseMinigame
         string s = SceneManager.GetActiveScene().name;
         AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(s);
         yield return new WaitUntil(() => asyncUnload.isDone);
-        Debug.Log("Unloaded Scene: " + SceneManager.GetActiveScene().name);
+        // Debug.Log("Unloaded Scene: " + SceneManager.GetActiveScene().name);
         yield return null;
         yield return null;
         curScore = 0;
@@ -36,7 +38,7 @@ public class CatchGame : BaseMinigame
         Time.timeScale = 1f;
         Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
         enabled = false;
-        Debug.Log("Scene Game Over");
+        // Debug.Log("Scene Game Over");
     }
 
     private IEnumerator WaitFor(float seconds)

@@ -144,7 +144,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
         {
             GetStateMachine<PlayerFSM>().rb.velocity =
                 GetStateMachine<PlayerFSM>().moveInput * GetStateMachine<PlayerFSM>().moveSpeed;
-            Debug.Log(GetStateMachine<PlayerFSM>().rb.velocity);
+            // Debug.Log(GetStateMachine<PlayerFSM>().rb.velocity);
         }
 
         public override void OnExit()
