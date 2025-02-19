@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2610327902594530340}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44,8 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08173b093fd01c546b4c6ff38b37f035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customerManager: {fileID: 1399518628680660237, guid: 401a5a027bc146048b9a0f37eeceec45, type: 3}
-  dialogManager: {fileID: 1960660281376067748, guid: 0dee8432af6f1496db4870f9cffc5007, type: 3}
+  customerManager: {fileID: 0}
+  dialogManager: {fileID: 0}
+  playerManager: {fileID: 0}
   clockText: {fileID: 0}
   pauseMenu: {fileID: 0}
-  secondsBeforeIncrement: 5
+  nightTimeMode: {fileID: 0}
+  nightTransitionMsg: {fileID: 0}
+  dayTimeMode: {fileID: 0}
+  dayTransitionMsg: {fileID: 0}
+  msgTime: 2
+  transitionTime: 2
+  secondsBeforeIncrement: 2

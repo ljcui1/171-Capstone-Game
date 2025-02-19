@@ -118,6 +118,7 @@ MonoBehaviour:
   walkout: 0
   hourStayed: 0
   buffer: {x: 0.5, y: 0.5, z: 0}
+  chair: 0
 --- !u!114 &9029794692462068264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,7 +222,7 @@ MonoBehaviour:
   radius: 0.72
   height: 2
   canMove: 1
-  maxSpeed: 1
+  maxSpeed: 1.25
   gravity: {x: 0, y: 0, z: 0}
   groundMask:
     serializedVersion: 2

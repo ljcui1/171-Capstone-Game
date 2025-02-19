@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
             }
 
             minute = minute - 60;
+            //Debug.Log("CustomerWave");
             StartCoroutine(customerManager.CustomerWave());
         }
 

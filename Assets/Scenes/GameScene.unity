@@ -548,7 +548,7 @@ Transform:
   m_GameObject: {fileID: 345488922}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.32, y: -3.76, z: -0.02156221}
+  m_LocalPosition: {x: -2.67, y: -3.76, z: -0.02156221}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -613,7 +613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b0624d170d74844b8e963c4b8f73382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 2.5
   onMinigameCompletion:
     m_PersistentCalls:
       m_Calls:
@@ -718,7 +718,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.5
+  orthographic size: 2.51
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -763,10 +763,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayMan: {fileID: 432045284}
   cam: {fileID: 519420031}
-  minX: -0.75
-  maxX: 0.75
-  minY: -3.5
-  maxY: 3.5
+  minX: -0.5
+  maxX: -0.5
+  minY: -1.5
+  maxY: 2.5
 --- !u!114 &643527282 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1300153466742314676, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
@@ -2067,7 +2067,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1}
+  m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
 --- !u!483693784 &1049053842
 TilemapRenderer:
@@ -3783,7 +3783,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 2.5, y: 4.13}
+  m_Offset: {x: 2.5, y: 4.31}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3794,7 +3794,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
 --- !u!114 &1625200678
 MonoBehaviour:
@@ -4857,7 +4857,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -3.83, y: 11.47}
+  m_Offset: {x: -4.07, y: 11.47}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4868,7 +4868,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
 --- !u!483693784 &2142508528
 TilemapRenderer:
@@ -5256,7 +5256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1399518628680660237, guid: 401a5a027bc146048b9a0f37eeceec45, type: 3}
       propertyPath: numCustomersToSpawn
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1399518628680660237, guid: 401a5a027bc146048b9a0f37eeceec45, type: 3}
       propertyPath: chairs.Array.data[0]
@@ -5440,10 +5440,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8323388868892476059, guid: b2cdb1a91f58c594c88a4020e7515824, type: 3}
-      propertyPath: msgTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8323388868892476059, guid: b2cdb1a91f58c594c88a4020e7515824, type: 3}
       propertyPath: clockText
       value: 
       objectReference: {fileID: 1371462655}
@@ -5468,10 +5464,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 432045284}
     - target: {fileID: 8323388868892476059, guid: b2cdb1a91f58c594c88a4020e7515824, type: 3}
-      propertyPath: transitionTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8323388868892476059, guid: b2cdb1a91f58c594c88a4020e7515824, type: 3}
       propertyPath: customerManager
       value: 
       objectReference: {fileID: 1049411363}
@@ -5483,10 +5475,6 @@ PrefabInstance:
       propertyPath: nightTransitionMsg
       value: 
       objectReference: {fileID: 725721513}
-    - target: {fileID: 8323388868892476059, guid: b2cdb1a91f58c594c88a4020e7515824, type: 3}
-      propertyPath: secondsBeforeIncrement
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5627,6 +5615,14 @@ PrefabInstance:
     - target: {fileID: 7488816656853904804, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431071588096272398, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
+      propertyPath: m_LinearDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431071588096272398, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8723169349687791046, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
       propertyPath: m_SortingOrder

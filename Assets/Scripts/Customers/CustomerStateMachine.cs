@@ -189,6 +189,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
             if (FSM.Script.AtDestination())
             {
                 FSM.Script.walkout = false;
+                Debug.Log("Exiting");
                 FSM.Script.Exit();
             }
         }

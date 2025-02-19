@@ -16,6 +16,8 @@ public class CustomerScript : BaseNPC
     public int hourStayed = 0; // how long a customer has been in the cafe
     [SerializeField] private Vector3 buffer; // Positional buffer for destination checking
 
+    public int chair;
+
     public void SetAttributes(List<Attribute> attr)
     {
         foreach (var attribute in attr)
@@ -45,6 +47,7 @@ public class CustomerScript : BaseNPC
 
     public void Exit()
     {
+        Debug.Log("Despawning Customer");
         gameObject.SetActive(false);
     }
 }

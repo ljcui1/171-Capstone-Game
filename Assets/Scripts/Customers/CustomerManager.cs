@@ -104,29 +104,30 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    private GameObject SelectDestination()
+    private int SelectDestination()
     {
         for (int i = 0; i < chairs.Count; i++)
         {
             if (!chairOccupied[i])
             {
                 chairOccupied[i] = true;
-                return chairs[i];
+                return i;
             }
         }
 
-        return null;
+        return -1;
     }
 
     private void SpawnCustomer()
     {
         // Check for available chair
-        GameObject chair = SelectDestination();
-        if (chair == null)
+        int chairIndex = SelectDestination();
+        if (chairIndex == -1)
         {
             Debug.Log("No unoccupied chairs available");
             return;
         }
+        GameObject chair = chairs[chairIndex];
 
         // Generate customer attributes
         List<Attribute> attr = new();
@@ -146,6 +147,7 @@ public class CustomerManager : MonoBehaviour
             script.SetDestination(chair);
             customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
+            script.chair = chairIndex;
         }
         else
         {
@@ -160,11 +162,14 @@ public class CustomerManager : MonoBehaviour
             SpawnCustomer();
             yield return new WaitForSeconds(Random.Range(minWait, maxWait));
         }
+
+        numCustomersToSpawn /= 3;
     }
 
     private void SendCustomerOut(CustomerScript customer)
     {
         customer.walkout = true;
+        chairOccupied[customer.chair] = false;
     }
 
     public void CustomerHours()
