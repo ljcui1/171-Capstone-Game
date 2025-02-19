@@ -20,6 +20,8 @@ public class BasketScript : MonoBehaviour
 
         minX = mainCamera.ScreenToWorldPoint(Vector3.zero).x + halfWidth;
         maxX = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x - halfWidth;
+
+        Physics2D.IgnoreLayerCollision(0, 9, true);
     }
 
     void Update()
@@ -55,5 +57,10 @@ public class BasketScript : MonoBehaviour
             manager.AddScore(-1);
             Destroy(collision.gameObject);
         }
+    }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject);
     }
 }

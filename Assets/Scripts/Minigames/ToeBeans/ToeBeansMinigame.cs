@@ -8,10 +8,10 @@ using System.Collections;
 public class ToeBeansMinigame : MonoBehaviour
 {
     public bool gameOver = false;
-    private float timer = 0f;
-    public float gameTime = 60f;
+    public float gameTime = 20f;
 
     public ToeBeansUI gameUI;
+    private LinearTimer linearTimer;
 
     private CatchGame catchGame;
 
@@ -21,12 +21,16 @@ public class ToeBeansMinigame : MonoBehaviour
     void Awake()
     {
         catchGame = FindObjectOfType<CatchGame>();
+        linearTimer = FindObjectOfType<LinearTimer>();
+        linearTimer.StartTimer(gameTime);
+
+        // subscribe to timer event
+        linearTimer.OnTimerEnd += HandleGameOver;
         ResetGame();
     }
     void Start()
     {
         gameUI.UpdateScoreUI(curScore);
-        gameUI.UpdateTimerUI((int)gameTime);
         Physics2D.simulationMode = SimulationMode2D.Script;
     }
 
@@ -43,20 +47,6 @@ public class ToeBeansMinigame : MonoBehaviour
 
     void Update()
     {
-        if (!gameOver)
-        {
-            timer += Time.unscaledDeltaTime;
-            int timeRemaining = Mathf.Max(0, (int)(gameTime - timer));
-            gameUI.UpdateTimerUI(timeRemaining);
-
-            if (timer >= gameTime)
-            {
-                gameOver = true;
-                Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
-                catchGame.GameOver();
-            }
-        }
-
         // Debug Reset
         if (gameOver && Input.GetKeyDown(KeyCode.Space))
         {
@@ -69,11 +59,18 @@ public class ToeBeansMinigame : MonoBehaviour
     void ResetGame()
     {
         gameOver = false;
-        timer = 0;
         curScore = 0;
-
+        linearTimer.StartTimer(gameTime);
+        // subscribe to timer event
+        linearTimer.OnTimerEnd += HandleGameOver;
         gameUI.UpdateScoreUI(curScore);
-        gameUI.UpdateTimerUI((int)gameTime);
+    }
+
+    void HandleGameOver()
+    {
+        gameOver = true;
+        Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
+        catchGame.GameOver();
     }
 
 }

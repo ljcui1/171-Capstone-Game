@@ -15,8 +15,8 @@ public class ToeBeansUI : MonoBehaviour
         scoreUI.SetText(curScore.ToString());
     }
 
-    public void UpdateTimerUI(int timeRemaining)
-    {
-        timerUI.SetText(timeRemaining.ToString());
-    }
+    // public void UpdateTimerUI(int timeRemaining)
+    // {
+    //     timerUI.SetText(timeRemaining.ToString());
+    // }
 }
