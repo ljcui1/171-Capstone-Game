@@ -9,6 +9,9 @@ public class BaseMinigame : MonoBehaviour
     public Attribute attribute;
     public GameObject gameCanvas;
 
+    [SerializeField] protected float gameDuration;
+    protected float startTime;
+
     public virtual void GameOver()
     {
         gameCanvas.SetActive(false);
@@ -20,9 +23,9 @@ public class BaseMinigame : MonoBehaviour
 
     public virtual void StartGame()
     {
+        startTime = Time.realtimeSinceStartup;
         gameCanvas.SetActive(true);
         Time.timeScale = 0f;
-
     }
 
     protected virtual void GameInput() { }

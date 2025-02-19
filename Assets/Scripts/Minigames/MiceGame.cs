@@ -7,7 +7,7 @@ public class MiceGame : BaseMinigame
 {
 
     //public Canvas mouseGame;
-
+    [Header("Paw Images")]
     [SerializeField]
     private Image pawa;
 
@@ -20,6 +20,7 @@ public class MiceGame : BaseMinigame
     [SerializeField]
     private Image pawf;
 
+    [Header("Mice Images")]
     [SerializeField]
     private Image mouse1;
 
@@ -31,19 +32,28 @@ public class MiceGame : BaseMinigame
 
     [SerializeField]
     private Image mouse4;
+
+    [Header("Game Variables")]
+    [SerializeField] private float minTime;
+    [SerializeField] private float maxTime;
     public override void StartGame()
     {
         base.StartGame();
-        StartCoroutine(MousePop(30f, mouse1));
-        StartCoroutine(MousePop(30f, mouse2));
-        StartCoroutine(MousePop(30f, mouse3));
-        StartCoroutine(MousePop(30f, mouse4));
+        StartCoroutine(MousePop(gameDuration, mouse1));
+        StartCoroutine(MousePop(gameDuration, mouse2));
+        StartCoroutine(MousePop(gameDuration, mouse3));
+        StartCoroutine(MousePop(gameDuration, mouse4));
     }
 
     // Update is called once per frame
     void Update()
     {
         GameInput();
+
+        if (Time.realtimeSinceStartup - startTime < gameDuration)
+        {
+            GameOver();
+        }
     }
 
 
@@ -82,15 +92,12 @@ public class MiceGame : BaseMinigame
 
     private IEnumerator MousePop(float seconds, Image mouseNum)
     {
-        float startTime = Time.realtimeSinceStartup;
-        while (Time.realtimeSinceStartup - startTime < seconds)
-        {
-            // Toggle visibility
-            mouseNum.enabled = !mouseNum.enabled;
+        // Toggle visibility
+        mouseNum.enabled = !mouseNum.enabled;
 
-            float waitTime = Random.Range(1f, 3f);
-            yield return new WaitForSecondsRealtime(waitTime);
-        }
+        float waitTime = Random.Range(minTime, maxTime);
+        yield return new WaitForSecondsRealtime(waitTime);
+        StartCoroutine(MousePop(seconds, mouseNum));
     }
 
 }
