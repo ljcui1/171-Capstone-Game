@@ -103,7 +103,7 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            if (!talking)
+            if (!talking && Player.talkTo.CompareTag("Minigame"))
             {
                 idling = false;
                 walking = false;
@@ -124,6 +124,22 @@ public class PlayerManager : MonoBehaviour
             selectNum = 1;
             //tint sprite color/highlight
             Player.cat.mainSprite.color = Color.red;
+
+            /*if(selectNum == 0) 
+            {
+            Debug.Log("select cat " + npc);
+            //set select to 1
+            selectNum = 1;
+            //tint sprite color/highlight
+            Player.cat.mainSprite.color = Color.red;
+            }else if(selectNum == 1)
+            {
+            Debug.Log("deselect cat " + npc);
+            //set select to 1
+            selectNum = 0;
+            //tint sprite color/highlight
+            Player.cat.mainSprite.color = Color.white;
+            }*/
         }
         else if (npc.tag == "Customer" && selectNum == 1)
         {
