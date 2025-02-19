@@ -39,10 +39,10 @@ public class MiceGame : BaseMinigame
     public override void StartGame()
     {
         base.StartGame();
-        StartCoroutine(MousePop(gameDuration, mouse1));
-        StartCoroutine(MousePop(gameDuration, mouse2));
-        StartCoroutine(MousePop(gameDuration, mouse3));
-        StartCoroutine(MousePop(gameDuration, mouse4));
+        StartCoroutine(MousePop(mouse1));
+        StartCoroutine(MousePop(mouse2));
+        StartCoroutine(MousePop(mouse3));
+        StartCoroutine(MousePop(mouse4));
     }
 
     // Update is called once per frame
@@ -50,7 +50,7 @@ public class MiceGame : BaseMinigame
     {
         GameInput();
 
-        if (Time.realtimeSinceStartup - startTime < gameDuration)
+        if (Time.realtimeSinceStartup - startTime > gameDuration)
         {
             GameOver();
         }
@@ -90,14 +90,14 @@ public class MiceGame : BaseMinigame
         }
     }
 
-    private IEnumerator MousePop(float seconds, Image mouseNum)
+    private IEnumerator MousePop(Image mouseNum)
     {
         // Toggle visibility
         mouseNum.enabled = !mouseNum.enabled;
 
         float waitTime = Random.Range(minTime, maxTime);
         yield return new WaitForSecondsRealtime(waitTime);
-        StartCoroutine(MousePop(seconds, mouseNum));
+        StartCoroutine(MousePop(mouseNum));
     }
 
 }

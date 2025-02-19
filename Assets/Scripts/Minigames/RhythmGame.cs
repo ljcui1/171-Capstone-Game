@@ -18,29 +18,51 @@ public class RhythmGame : BaseMinigame
     [SerializeField] private AudioClip sound4;
 
     [Header("Positions")]
-    [SerializeField] private float beatSpace;
-    [SerializeField] private Transform barTransform;
+    private float beatSpace;
+    [SerializeField] private Image bar;
     private float barPos;
-    [SerializeField] private float barSpace;
-    [SerializeField] private float buffer;
-    [SerializeField] private float startPos;
+    private float barSpace;
+    private float buffer;
+    private Vector3 startPos;
+    private Vector3 endPos;
 
-    [SerializeField] private Conductor conductor;
-
+    [Header("Game Variables")]
     [SerializeField] private float fallSpeed;
-    private float distanceToHitBar;
+    [SerializeField] private float minTime;
+    [SerializeField] private float maxTime;
+    private Vector3[] corners;
 
-    // Start is called before the first frame update
-    void Start()
+    public override void StartGame()
     {
-        barPos = barTransform.position.y;
-        distanceToHitBar = barPos - startPos;
+        base.StartGame();
+
+        corners = new Vector3[4];
+
+        beatSpace = beat1.GetComponent<RectTransform>().rect.height / 2;
+        barSpace = bar.GetComponent<RectTransform>().rect.height / 2;
+
+        startPos = Vector3.down * (gameCanvas.GetComponent<RectTransform>().rect.height / 2 + beatSpace);
+        endPos = -startPos;
+
+        StartCoroutine(RandomBeat(gameDuration, beat1));
+        StartCoroutine(RandomBeat(gameDuration, beat2));
+        StartCoroutine(RandomBeat(gameDuration, beat3));
+        StartCoroutine(RandomBeat(gameDuration, beat4));
+
+        //barPos = barTransform.position.y;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
         GameInput();
+
+        if (Time.realtimeSinceStartup - startTime > gameDuration)
+        {
+            GameOver();
+        }
     }
 
     protected override void GameInput()
@@ -63,6 +85,12 @@ public class RhythmGame : BaseMinigame
         }
     }
 
+    private RectTransform ObjectHeight(Image image)
+    {
+        RectTransform size = image.GetComponent<RectTransform>();
+        return size;
+    }
+
     private void CheckBeat(float pos, Image beat)
     {
         if (pos + beatSpace <= barPos + barSpace + buffer
@@ -71,33 +99,31 @@ public class RhythmGame : BaseMinigame
             // Beat is within bar
             beat.enabled = false;
             curScore += (pos - barPos) / barSpace;
+            Debug.Log("Beat " + (pos - barPos) / barSpace + " curScore " + curScore);
         }
     }
 
-    // referenced from https://chatgpt.com/share/67abaa3a-83a0-800b-9188-598d8dfb3fd6
-    private void Beats(Image beatNum)
+    private IEnumerator RandomBeat(float seconds, Image beatNum)
     {
-        Vector3 pos = beatNum.transform.position;
-        pos.y = barPos;
-        Debug.Log("Before " + beatNum.transform.position);
-        beatNum.transform.position = pos;
-        Debug.Log("after " + beatNum.transform.position);
+        float startTime = Time.realtimeSinceStartup;
+        beatNum.transform.position += startPos;
         beatNum.enabled = true;
 
-        float timeToReachBar = distanceToHitBar / fallSpeed;
-        float spawnTime = timeToReachBar;
-
-        // Ensure note spawns at correct time
-        StartCoroutine(SpawnAtTime(spawnTime));
+        float waitTime = Random.Range(minTime, maxTime);
+        yield return new WaitForSecondsRealtime(waitTime);
+        StartCoroutine(RandomBeat(seconds, beatNum));
     }
 
-    IEnumerator SpawnAtTime(float targetTime)
+    private void BeatDrop(Image beatNum)
     {
-        while (conductor.songPosition < targetTime)
+        if (beatNum.enabled)
         {
-            yield return null;
+            beatNum.transform.position += Vector3.down * fallSpeed * Time.unscaledDeltaTime;
+            if (beatNum.transform.position.y > endPos.y)
+            {
+                beatNum.enabled = false;
+            }
         }
-
     }
 }
 
