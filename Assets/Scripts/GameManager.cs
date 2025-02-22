@@ -133,6 +133,10 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(msgTime);
         nightTransitionMsg.SetActive(false);
     }
+    public bool IsNightTime()
+    {
+        return nightTimeMode.activeSelf;
+    }
 
     private IEnumerator SwitchToDay()
     {

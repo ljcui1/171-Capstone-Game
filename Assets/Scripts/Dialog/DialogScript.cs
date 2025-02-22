@@ -11,6 +11,8 @@ public class DialogScript : MonoBehaviour
 
     [SerializeField] private GameObject visualCue;
 
+    [SerializeField] private GameManager gameManager;
+
     public List<DialogueEntry> dialogueEntries = new List<DialogueEntry>();
     private bool isPlayerInZone = false;
 
@@ -26,6 +28,11 @@ public class DialogScript : MonoBehaviour
         if (dialogueEntries.Count == 0)
         {
             Debug.LogWarning("No dialog available for this object", transform.parent.gameObject);
+        }
+
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
         }
     }
 
@@ -55,6 +62,8 @@ public class DialogScript : MonoBehaviour
                 // Filter the dialogues to only those that haven't been played yet
                 List<DialogueEntry> availableDialogues = dialogueEntries.FindAll(entry => !entry.played);
 
+                // commented out for testing
+                // if (availableDialogues.Count > 0 && gameManager.IsNightTime())
                 if (availableDialogues.Count > 0)
                 {
                     int randomIndex = Random.Range(0, availableDialogues.Count);
