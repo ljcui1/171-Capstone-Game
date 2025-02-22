@@ -44,12 +44,12 @@ public class VisualIndicator : MonoBehaviour
                 active.SetActive(true);
                 foodie.SetActive(false);
             }
-            else
-            {
-                talkative.SetActive(false);
-                active.SetActive(false);
-                foodie.SetActive(false);
-            }
+        }
+        else
+        {
+            talkative.SetActive(false);
+            active.SetActive(false);
+            foodie.SetActive(false);
         }
     }
 
