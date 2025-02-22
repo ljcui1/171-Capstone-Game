@@ -253,9 +253,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerZone: {fileID: 8505309836825586670}
   interactKey: 101
+  defaultText: {fileID: 4900000, guid: 551218c60f0ee4fbfb994b5101444920, type: 3}
   visualCue: {fileID: 7897072289465720643}
-  inkJSON: {fileID: 4900000, guid: 193b1b79bbb6541f69f86a40f8396f75, type: 3}
-  isPlayerInZone: 0
+  dialogueEntries: []
 --- !u!1 &7897072289465720643
 GameObject:
   m_ObjectHideFlags: 0

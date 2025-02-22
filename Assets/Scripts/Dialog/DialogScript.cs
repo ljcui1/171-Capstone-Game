@@ -7,6 +7,8 @@ public class DialogScript : MonoBehaviour
     public Collider2D triggerZone;
     public KeyCode interactKey = KeyCode.E;
 
+    [SerializeField] TextAsset defaultText;
+
     [SerializeField] private GameObject visualCue;
 
     public List<DialogueEntry> dialogueEntries = new List<DialogueEntry>();
@@ -50,16 +52,27 @@ public class DialogScript : MonoBehaviour
             visualCue.SetActive(true);
             if (Input.GetKeyDown(interactKey))
             {
-                if (dialogueEntries.Count > 0)
+                // Filter the dialogues to only those that haven't been played yet
+                List<DialogueEntry> availableDialogues = dialogueEntries.FindAll(entry => !entry.played);
+
+                if (availableDialogues.Count > 0)
                 {
-                    // selects a random entry to start -- should be modified
-                    int randomIndex = Random.Range(0, dialogueEntries.Count);
-                    DialogueEntry randomDialogue = dialogueEntries[randomIndex];
+                    int randomIndex = Random.Range(0, availableDialogues.Count);
+                    DialogueEntry randomDialogue = availableDialogues[randomIndex];
+                    randomDialogue.played = true;
                     DialogManager.GetInstance().EnterDialogMode(randomDialogue.textAsset);
                 }
                 else
                 {
-                    Debug.LogWarning("No dialogues available in the dictionary.");
+                    // All dialogues have been played. Use default text if available.
+                    if (defaultText == null)
+                    {
+                        Debug.LogWarning("No dialogues available and no default text assigned.");
+                    }
+                    else
+                    {
+                        DialogManager.GetInstance().EnterDialogMode(defaultText);
+                    }
                 }
             }
         }
@@ -68,6 +81,7 @@ public class DialogScript : MonoBehaviour
             visualCue.SetActive(false);
         }
     }
+
 }
 
 [System.Serializable]
@@ -75,4 +89,6 @@ public class DialogueEntry
 {
     public Attribute attribute; // Use the same enum defined in BaseNPC
     public TextAsset textAsset; // Corresponding dialogue JSON file
+
+    public bool played = false;
 }
