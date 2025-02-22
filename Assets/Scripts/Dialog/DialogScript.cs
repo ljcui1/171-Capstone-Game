@@ -101,6 +101,7 @@ public class DialogScript : MonoBehaviour
             }
             else
             {
+                currentDialogue = null;
                 selectedAttribute = null;
                 selectedText = defaultText;
             }
