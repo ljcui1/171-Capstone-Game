@@ -17,6 +17,8 @@ public class DialogManager : MonoBehaviour
 
     public GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
+    private const string ATTRIBUTE_TAG = "attribute";
+    private const string AFFINITY_TAG = "affinity";
 
     public bool IsPlaying { get; private set; } = false;
 
@@ -68,6 +70,7 @@ public class DialogManager : MonoBehaviour
         IsPlaying = true;
         dialogPanel.SetActive(true);
 
+
         ContinueStory();
     }
 
@@ -76,14 +79,43 @@ public class DialogManager : MonoBehaviour
         if (story.canContinue)
         {
             AdvanceDialog();
-            if (story.currentChoices.Count != 0)
-            {
-                DisplayChoices();
-            }
+            DisplayChoices();
+            // handle tags
+            HandleTags(story.currentTags);
         }
         else
         {
             ExitDialogMode();
+        }
+    }
+
+    private void HandleTags(List<string> currentTags)
+    {
+        foreach (string tag in currentTags)
+        {
+            // parse tag
+            string[] splitTag = tag.Split(":");
+            if (splitTag.Length != 2)
+            {
+                Debug.LogError("Tag could not be properly parsed" + tag);
+            }
+            string tagKey = splitTag[0].Trim();
+            string tagValue = splitTag[1].Trim();
+
+            // handle tag
+            switch (tagKey)
+            {
+                case ATTRIBUTE_TAG:
+                    Debug.Log("attribute=" + tagValue);
+                    break;
+                case AFFINITY_TAG:
+                    Debug.Log("affinity=" + tagValue);
+                    break;
+                default:
+                    Debug.LogWarning("Tag Key is currently not being handled" + tag);
+                    break;
+            }
+
         }
     }
 
@@ -139,19 +171,18 @@ public class DialogManager : MonoBehaviour
 
     private IEnumerator SelectFirstChoice()
     {
+        // Event System requires we clear it first, then wait
+        // for at least one frame before we set the current selected object.
         EventSystem.current.SetSelectedGameObject(null);
         yield return new WaitForEndOfFrame();
-        EventSystem.current.SetSelectedGameObject(choices[0]);
+        EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
     }
 
-    // // Tells the story which branch to go to
-    public void SetDecision(int choiceIndex)
+    public void MakeChoice(int choiceIndex)
     {
         story.ChooseChoiceIndex(choiceIndex);
-        for (int i = 0; i < choices.Length; i++)
-        {
-            choices[i].SetActive(false);
-        }
+        // NOTE: The below two lines were added to fix a bug after the Youtube video was made
+        // this is specific to my InputManager script
         ContinueStory();
     }
 

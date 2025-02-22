@@ -66,11 +66,11 @@ public class PlayerManager : MonoBehaviour
 
             if (!playing && !talking && Input.GetKey(KeyCode.Space))
             {
-                Debug.Log("space clicked");
+                // Debug.Log("space clicked");
                 //check if player can interact with an npc
                 if (Player.inRange && Player.talkTo != null)
                 {
-                    Debug.Log("enter match");
+                    // Debug.Log("enter match");
                     MatchTint(Player.talkTo);
                     talkTo = Player.talkTo;
                 }

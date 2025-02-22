@@ -28,9 +28,9 @@ public class BaseNPC : MonoBehaviour
 
     private void Start()
     {
-        // Example of setting attributes
-        SetAttribute(Attribute.Talkative, true);
-        SetAttribute(Attribute.Foodie, false);
+        // // Example of setting attributes
+        // SetAttribute(Attribute.Talkative, true);
+        // SetAttribute(Attribute.Foodie, false);
     }
 
     protected virtual void SetAttribute(Attribute attribute, bool isActive)
