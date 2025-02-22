@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Ink.Parsed;
 using UnityEngine;
 
 public class DialogScript : MonoBehaviour
@@ -7,17 +8,20 @@ public class DialogScript : MonoBehaviour
     public Collider2D triggerZone;
     public KeyCode interactKey = KeyCode.E;
 
-    [SerializeField] TextAsset defaultText;
+    [SerializeField] protected TextAsset defaultText;
 
-    [SerializeField] private GameObject visualCue;
+    [SerializeField] public VisualIndicator visualCue;
 
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] protected GameManager gameManager;
 
     public List<DialogueEntry> dialogueEntries = new List<DialogueEntry>();
-    private bool isPlayerInZone = false;
+    protected bool isPlayerInZone = false;
 
     // This could be set by the NPC or some game logic
-    private Attribute selectedAttribute;
+    protected Attribute? selectedAttribute;
+    protected TextAsset selectedText;
+    protected DialogueEntry currentDialogue; // Store the dialogue being played
+
 
     void Start()
     {
@@ -34,9 +38,13 @@ public class DialogScript : MonoBehaviour
         {
             gameManager = FindObjectOfType<GameManager>();
         }
+
+        DialogManager.GetInstance().OnDialogueEnd += MarkDialogueAsPlayed;
+        SelectRandomText();
+
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -44,7 +52,7 @@ public class DialogScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    protected void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -56,32 +64,13 @@ public class DialogScript : MonoBehaviour
     {
         if (isPlayerInZone && !DialogManager.GetInstance().IsPlaying)
         {
-            visualCue.SetActive(true);
+            visualCue.SetActive(true, selectedAttribute);
             if (Input.GetKeyDown(interactKey))
             {
-                // Filter the dialogues to only those that haven't been played yet
-                List<DialogueEntry> availableDialogues = dialogueEntries.FindAll(entry => !entry.played);
+                if (selectedText)
+                {
+                    DialogManager.GetInstance().EnterDialogMode(selectedText);
 
-                // commented out for testing
-                // if (availableDialogues.Count > 0 && gameManager.IsNightTime())
-                if (availableDialogues.Count > 0)
-                {
-                    int randomIndex = Random.Range(0, availableDialogues.Count);
-                    DialogueEntry randomDialogue = availableDialogues[randomIndex];
-                    randomDialogue.played = true;
-                    DialogManager.GetInstance().EnterDialogMode(randomDialogue.textAsset);
-                }
-                else
-                {
-                    // All dialogues have been played. Use default text if available.
-                    if (defaultText == null)
-                    {
-                        Debug.LogWarning("No dialogues available and no default text assigned.");
-                    }
-                    else
-                    {
-                        DialogManager.GetInstance().EnterDialogMode(defaultText);
-                    }
                 }
             }
         }
@@ -91,7 +80,45 @@ public class DialogScript : MonoBehaviour
         }
     }
 
+    public void SelectRandomText()
+    {
+        // Filter the dialogues to only those that haven't been played yet
+        List<DialogueEntry> availableDialogues = dialogueEntries.FindAll(entry => !entry.played);
+        if (availableDialogues.Count > 0)
+        {
+            int randomIndex = Random.Range(0, availableDialogues.Count);
+            currentDialogue = availableDialogues[randomIndex]; // Store reference
+            selectedAttribute = currentDialogue.attribute;
+            selectedText = currentDialogue.textAsset;
+        }
+        else
+        {
+            // All dialogues have been played. Use default text if available.
+            if (defaultText == null)
+            {
+                selectedText = null;
+                Debug.LogWarning("No dialogues available and no default text assigned.");
+            }
+            else
+            {
+                selectedAttribute = null;
+                selectedText = defaultText;
+            }
+        }
+    }
+
+    void MarkDialogueAsPlayed()
+    {
+        if (currentDialogue != null)
+        {
+            currentDialogue.played = true;
+            Debug.Log("Marked dialogue as played: " + currentDialogue.textAsset.name);
+        }
+        SelectRandomText();
+    }
+
 }
+
 
 [System.Serializable]
 public class DialogueEntry

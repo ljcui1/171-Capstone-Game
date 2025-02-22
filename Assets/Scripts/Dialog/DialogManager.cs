@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Ink.Runtime;
 using TMPro;
 using UnityEngine.EventSystems;
+using System;
 
 // taken from https://github.com/shapedbyrainstudios/ink-dialogue-system/blob/8-ink-external-functions-example/Assets/Scripts/Dialogue/DialogueManager.cs 
 // Credit:  shapedbyrainstudios https://www.youtube.com/watch?v=vY0Sk93YUhA 
@@ -24,6 +25,9 @@ public class DialogManager : MonoBehaviour
 
     private static Story story;
     private static DialogManager instance;
+
+    public Action OnDialogueEnd; // Event to notify when dialogue ends
+
 
     void Awake()
     {
@@ -132,6 +136,8 @@ public class DialogManager : MonoBehaviour
         IsPlaying = false;
         dialogPanel.SetActive(false);
         dialogText.text = "";
+        OnDialogueEnd?.Invoke(); // Notify listeners that dialogue has ended
+
     }
 
 

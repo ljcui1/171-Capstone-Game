@@ -12,7 +12,7 @@ public class BaseNPC : MonoBehaviour
     private AIPath aiPath;
 
     public SpriteRenderer mainSprite;
-    public Collider2D playerInteract;
+    // public Collider2D playerInteract;
 
 
     protected virtual void Awake()
