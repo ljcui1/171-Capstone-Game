@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 public class MiceGame : BaseMinigame
 {
-
+    private LinearTimer linearTimer;
+    public bool gameOver = false;
+    public float gametime = 20f;
+    public int curScore;
+    public int maxScore;
     //public Canvas mouseGame;
     [Header("Paw Images")]
     [SerializeField]
@@ -36,6 +40,14 @@ public class MiceGame : BaseMinigame
     [Header("Game Variables")]
     [SerializeField] private float minTime;
     [SerializeField] private float maxTime;
+
+    void Awake()
+    {
+        linearTimer = FindObjectOfType<LinearTimer>();
+        linearTimer.StartTimer(gametime);
+
+        linearTimer.OnTimerEnd += GameOver;
+    }
     public override void StartGame()
     {
         base.StartGame();
@@ -50,10 +62,26 @@ public class MiceGame : BaseMinigame
     {
         GameInput();
 
-        if (Time.realtimeSinceStartup - startTime > gameDuration)
+        if (mouse1.enabled == true && pawa.enabled == true)
+        {
+            curScore += 1;
+        }
+        if (mouse2.enabled == true && paws.enabled == true)
+        {
+            curScore += 1;
+        }
+        if (mouse3.enabled == true && pawd.enabled == true)
+        {
+            curScore += 1;
+        }
+        if (mouse4.enabled == true && pawf.enabled == true)
+        {
+            curScore += 1;
+        }
+        /*if (Time.realtimeSinceStartup - startTime > gameDuration)
         {
             GameOver();
-        }
+        }*/
     }
 
 
