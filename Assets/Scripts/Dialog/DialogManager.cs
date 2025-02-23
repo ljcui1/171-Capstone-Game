@@ -15,6 +15,7 @@ public class DialogManager : MonoBehaviour
     [Header("Dialog UI")]
     public GameObject dialogPanel;
     public TextMeshProUGUI dialogText;
+    private DialogScript currentDialogScript;
 
     public GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
@@ -68,12 +69,12 @@ public class DialogManager : MonoBehaviour
     }
 
 
-    public void EnterDialogMode(TextAsset inkJSON)
+    public void EnterDialogMode(TextAsset inkJSON, DialogScript dialogScript)
     {
         story = new Story(inkJSON.text);
         IsPlaying = true;
         dialogPanel.SetActive(true);
-
+        currentDialogScript = dialogScript; // Store the reference
 
         ContinueStory();
     }
@@ -136,7 +137,11 @@ public class DialogManager : MonoBehaviour
         IsPlaying = false;
         dialogPanel.SetActive(false);
         dialogText.text = "";
-        OnDialogueEnd?.Invoke(); // Notify listeners that dialogue has ended
+        if (currentDialogScript != null)
+        {
+            currentDialogScript.MarkDialogueAsPlayed(); // Call only the relevant DialogScript
+            currentDialogScript = null; // Reset reference
+        }
 
     }
 

@@ -615,6 +615,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4900000, guid: 99ede545c0dda4bd8950a7c8f254e8aa, type: 3}
     - target: {fileID: 6797633889918073498, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
+      propertyPath: timeOfDay
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6797633889918073498, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
       propertyPath: dialogueEntries.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1369,6 +1373,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4900000, guid: 8cad15985aa4b4384ade35fdd2b10887, type: 3}
     - target: {fileID: 6797633889918073498, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
+      propertyPath: timeOfDay
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6797633889918073498, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
       propertyPath: selectedAttribute
       value: 1
       objectReference: {fileID: 0}
@@ -1381,6 +1389,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4900000, guid: b034d0c1d367241e299d326192ca9ff4, type: 3}
     - target: {fileID: 6797633889918073498, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
+      propertyPath: dialogueEntries.Array.data[0].timeOfDay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6797633889918073498, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
       propertyPath: dialogueEntries.Array.data[1].attribute
       value: 1
       objectReference: {fileID: 0}
@@ -1388,6 +1400,14 @@ PrefabInstance:
       propertyPath: dialogueEntries.Array.data[1].textAsset
       value: 
       objectReference: {fileID: 4900000, guid: 5c542d7260fd44a8ba43beb935be865a, type: 3}
+    - target: {fileID: 6797633889918073498, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
+      propertyPath: dialogueEntries.Array.data[0].daysOfTheWeekActive
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6797633889918073498, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
+      propertyPath: dialogueEntries.Array.data[1].daysOfTheWeekActive
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6912654611914772810, guid: f4c9e61b2c321d940b52782803a1c788, type: 3}
       propertyPath: attributes.Array.size
       value: 2

@@ -133,11 +133,10 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(msgTime);
         nightTransitionMsg.SetActive(false);
     }
-    public bool IsNightTime()
+    public TimeOfDay CurrentTime()
     {
-        return nightTimeMode.activeSelf;
+        return nightTimeMode.activeSelf ? TimeOfDay.Night : TimeOfDay.Day;
     }
-
     private IEnumerator SwitchToDay()
     {
         // Debug.Log("switch to day");

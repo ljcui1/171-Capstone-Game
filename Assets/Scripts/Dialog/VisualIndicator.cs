@@ -10,14 +10,15 @@ public class VisualIndicator : MonoBehaviour
 
     public void SetActive(bool toggle, Attribute? attribute = null)
     {
-        if (toggle)
+        try
         {
-            gameObject.SetActive(true);
+            gameObject.SetActive(toggle);
         }
-        else if (gameObject.activeSelf) // Ensure it's not already disabled
+        catch (System.Exception ex)
         {
-            gameObject.SetActive(false);
+            Debug.LogError("Error setting gameObject active: " + ex.Message);
         }
+
         if (talkative == null && active == null && foodie == null)
         {
             Debug.LogWarning("Set visual indicators for " + transform.parent.gameObject.name);

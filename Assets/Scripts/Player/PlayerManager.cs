@@ -103,7 +103,11 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            if (!talking && Player.talkTo.CompareTag("Minigame"))
+            if (Player.talkTo == null)
+            {
+                Debug.LogWarning("talkto is null");
+            }
+            else if (!talking && Player.talkTo.CompareTag("Minigame"))
             {
                 idling = false;
                 walking = false;
