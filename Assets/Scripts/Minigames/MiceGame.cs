@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class MiceGame : BaseMinigame
 {
-
     //public Canvas mouseGame;
     [Header("Paw Images")]
     [SerializeField]
@@ -34,11 +33,42 @@ public class MiceGame : BaseMinigame
     private Image mouse4;
 
     [Header("Game Variables")]
-    [SerializeField] private float minTime;
-    [SerializeField] private float maxTime;
+    [SerializeField]
+    private float gameTime = 20f;
+
+    [SerializeField]
+    private bool gameOver = false;
+
+    [SerializeField]
+    private float curScore;
+
+    [SerializeField]
+    private float maxScore;
+
+    [SerializeField]
+    private LinearTimer linearTimer;
+
+    [SerializeField]
+    private float minTime;
+
+    [SerializeField]
+    private float maxTime;
+
+    void Awake()
+    {
+        linearTimer = FindObjectOfType<LinearTimer>();
+        linearTimer.StartTimer(gameTime);
+        linearTimer.OnTimerEnd += HandleGameOver;
+        ResetGame();
+    }
+
     public override void StartGame()
     {
         base.StartGame();
+        pawa.enabled = true;
+        paws.enabled = false;
+        pawd.enabled = false;
+        pawf.enabled = false;
         StartCoroutine(MousePop(mouse1));
         StartCoroutine(MousePop(mouse2));
         StartCoroutine(MousePop(mouse3));
@@ -50,13 +80,36 @@ public class MiceGame : BaseMinigame
     {
         GameInput();
 
-        if (Time.realtimeSinceStartup - startTime > gameDuration)
+        /*if (Time.realtimeSinceStartup - startTime > gameDuration)
         {
             GameOver();
+        }*/
+        if (gameOver && Input.GetKeyDown(KeyCode.Space))
+        {
+            ResetGame();
+        }
+
+        if (mouse1.enabled && pawa.enabled)
+        {
+            AddScore(1);
+            mouse1.enabled = false;
+        }
+        if (mouse2.enabled && paws.enabled)
+        {
+            AddScore(1);
+            mouse2.enabled = false;
+        }
+        if (mouse3.enabled && pawd.enabled)
+        {
+            AddScore(1);
+            mouse3.enabled = false;
+        }
+        if (mouse4.enabled && pawf.enabled)
+        {
+            AddScore(1);
+            mouse4.enabled = false;
         }
     }
-
-
 
     protected override void GameInput()
     {
@@ -100,5 +153,28 @@ public class MiceGame : BaseMinigame
         StartCoroutine(MousePop(mouseNum));
     }
 
-}
+    void AddScore(int scoreToAdd)
+    {
+        if (gameOver)
+            return;
+        if (!(curScore == 0 && scoreToAdd < 0))
+        {
+            curScore += scoreToAdd;
+        }
+    }
 
+    void ResetGame()
+    {
+        gameOver = false;
+        curScore = 0;
+        linearTimer.StartTimer(gameTime);
+        // subscribe to timer event
+        linearTimer.OnTimerEnd += HandleGameOver;
+    }
+
+    void HandleGameOver()
+    {
+        gameOver = true;
+        GameOver();
+    }
+}
