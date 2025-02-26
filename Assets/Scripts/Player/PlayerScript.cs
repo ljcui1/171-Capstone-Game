@@ -34,7 +34,14 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Cat")
+        if (other.tag == "Minigame")
+        {
+            startPlay = true;
+            talkTo = other;
+            gameCollide = other;
+            Debug.Log("e to start");
+        }
+        else if (other.tag == "Cat")
         {
             inRange = true;
             cat = other.GetComponent<BaseNPC>();
@@ -49,18 +56,17 @@ public class PlayerScript : MonoBehaviour
             talkTo = other;
             custCollide = other;
         }
-        else if (other.tag == "Minigame")
-        {
-            startPlay = true;
-            talkTo = other;
-            gameCollide = other;
-            Debug.Log("q to start");
-        }
     }
 
     private void OnTriggerExit2D(Collider2D leavingOther)
     {
-        if (leavingOther.tag == "Cat")
+        if (leavingOther.tag == "Minigame")
+        {
+            startPlay = false;
+            talkTo = null;
+            gameCollide = null;
+        }
+        else if (leavingOther.tag == "Cat")
         {
             inRange = false;
             cat = leavingOther.GetComponent<BaseNPC>();
@@ -75,11 +81,21 @@ public class PlayerScript : MonoBehaviour
             talkTo = null;
             custCollide = null;
         }
-        else if (leavingOther.tag == "Minigame")
+
+        if (gameCollide)
         {
-            startPlay = false;
-            talkTo = null;
-            gameCollide = null;
+            talkTo = gameCollide;
+            startPlay = true;
+        }
+        else if (custCollide)
+        {
+            talkTo = custCollide;
+            inRange = true;
+        }
+        else if (custCollide)
+        {
+            talkTo = custCollide;
+            inRange = true;
         }
     }
 }
