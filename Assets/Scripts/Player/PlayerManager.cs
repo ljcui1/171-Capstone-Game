@@ -27,6 +27,9 @@ public class PlayerManager : MonoBehaviour
     public bool joyIn = false;
 
     private Collider2D talkTo;
+
+    private BaseNPC selectedCat = null;
+    private BaseNPC selectedCust = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +67,7 @@ public class PlayerManager : MonoBehaviour
                 idling = true;
             }*/
 
-            if (!playing && !talking && Input.GetKey(KeyCode.Space))
+            if (!playing && !talking && Input.GetKeyDown(KeyCode.Space))
             {
                 // Debug.Log("space clicked");
                 //check if player can interact with an npc
@@ -128,6 +131,57 @@ public class PlayerManager : MonoBehaviour
 
     private void MatchTint(Collider2D npc)
     {
+        if (npc.CompareTag("Cat"))
+        {
+            if (selectedCat == null) // First selection
+            {
+                Debug.Log("Selecting cat: " + npc.name);
+                selectedCat = npc.GetComponent<BaseNPC>();
+                selectedCat.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            else if (selectedCat == npc.GetComponent<BaseNPC>()) // Deselect if pressed again
+            {
+                Debug.Log("Deselecting cat: " + npc.name);
+                selectedCat.GetComponent<SpriteRenderer>().color = Color.white;
+                selectedCat = null;
+            }
+        }
+        else if (npc.CompareTag("Customer") && selectedCat != null)
+        {
+            if (selectedCust == null) // Customer selection
+            {
+                Debug.Log("Selecting customer: " + npc.name);
+                selectedCust = npc.GetComponent<BaseNPC>();
+                selectedCust.GetComponent<SpriteRenderer>().color = Color.red;
+
+                // Move the cat to the customer
+                selectedCat.GetComponent<AIDestinationSetter>().target = selectedCust.transform;
+
+                // Check match conditions
+                if (CheckMatch(selectedCat, selectedCust))
+                {
+                    Debug.Log("Match found! Moving to the door.");
+                    /*Transform door = GameObject.Find("Door").transform;
+                    selectedCat.GetComponent<AIDestinationSetter>().target = door;
+                    selectedCust.GetComponent<AIDestinationSetter>().target = door;*/
+                }
+                else
+                {
+                    Debug.Log("No match found.");
+                }
+            }
+        }
+    }
+
+    private bool CheckMatch(BaseNPC cat, BaseNPC customer)
+    {
+        // Implement your matching logic here (e.g., comparing attributes)
+        // Return true if they match, false otherwise.
+        return Random.value > 0.5f; // Replace with actual logic
+    }
+
+    /*private void MatchTint(Collider2D npc)
+    {
         Debug.Log("tag" + npc.tag);
         if (npc.tag == "Cat" && selectNum == 0)
         {
@@ -151,7 +205,7 @@ public class PlayerManager : MonoBehaviour
             selectNum = 0;
             //tint sprite color/highlight
             Player.cat.mainSprite.color = Color.white;
-            }*/
+            }//
         }
         else if (npc.tag == "Customer" && selectNum == 1)
         {
@@ -163,7 +217,7 @@ public class PlayerManager : MonoBehaviour
             //set cat target to customer
             Player.cat.SetDestination(Player.npcTarget);
         }
-    }
+    }*/
 
     /*private void matchTint(Collider2D npc)
 {
