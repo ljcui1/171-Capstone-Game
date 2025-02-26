@@ -11,6 +11,7 @@ public class BaseMinigame : MonoBehaviour
 
     [SerializeField] protected float gameDuration;
     protected float startTime;
+    private LinearTimer linearTimer;
 
     public virtual void GameOver()
     {
@@ -26,6 +27,12 @@ public class BaseMinigame : MonoBehaviour
         startTime = Time.realtimeSinceStartup;
         gameCanvas.SetActive(true);
         Time.timeScale = 0f;
+
+        linearTimer = FindObjectOfType<LinearTimer>();
+        linearTimer.StartTimer(gameDuration);
+
+        // subscribes a function to timer event
+        linearTimer.OnTimerEnd += GameOver;
     }
 
     protected virtual void GameInput() { }

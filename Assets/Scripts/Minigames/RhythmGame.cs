@@ -30,10 +30,11 @@ public class RhythmGame : BaseMinigame
     private float endPos;
 
     [Header("Game Variables")]
-    [SerializeField] private float fallSpeed;
+    [SerializeField] private float minFallSpeed;
+    [SerializeField] private float maxFallSpeed;
     [SerializeField] private float minTime;
     [SerializeField] private float maxTime;
-    [SerializeField] private LinearTimer linearTimer;
+    private List<float> beatFallSpeed = new List<float>(new float[4]);
 
     public override void StartGame()
     {
@@ -47,21 +48,15 @@ public class RhythmGame : BaseMinigame
 
         Debug.Log(beatSpace + " " + barSpace + " " + startPos + " ");
 
-        ResetBeat(beat1);
-        ResetBeat(beat2);
-        ResetBeat(beat3);
-        ResetBeat(beat4);
+        ResetBeat(beat1, 0);
+        ResetBeat(beat2, 1);
+        ResetBeat(beat3, 2);
+        ResetBeat(beat4, 3);
 
         barPos = bar.rectTransform.anchoredPosition.y;
         buffer = barSpace / 3;
         barBottom = barPos - barSpace - buffer;
         barTop = barPos + barSpace + buffer;
-
-        linearTimer = FindObjectOfType<LinearTimer>();
-        linearTimer.StartTimer(gameDuration);
-
-        // subscribes a function to timer event
-        linearTimer.OnTimerEnd += GameOver;
     }
 
     // Update is called once per frame
@@ -69,10 +64,10 @@ public class RhythmGame : BaseMinigame
     {
         GameInput();
 
-        BeatDrop(beat1);
-        BeatDrop(beat2);
-        BeatDrop(beat3);
-        BeatDrop(beat4);
+        BeatDrop(beat1, 0);
+        BeatDrop(beat2, 1);
+        BeatDrop(beat3, 2);
+        BeatDrop(beat4, 3);
 
         if (Time.realtimeSinceStartup - startTime > gameDuration)
         {
@@ -84,23 +79,23 @@ public class RhythmGame : BaseMinigame
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            CheckBeat(beat1.rectTransform.anchoredPosition.y, beat1);
+            CheckBeat(beat1.rectTransform.anchoredPosition.y, beat1, 0);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            CheckBeat(beat2.rectTransform.anchoredPosition.y, beat2);
+            CheckBeat(beat2.rectTransform.anchoredPosition.y, beat2, 1);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            CheckBeat(beat3.rectTransform.anchoredPosition.y, beat3);
+            CheckBeat(beat3.rectTransform.anchoredPosition.y, beat3, 2);
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
-            CheckBeat(beat4.rectTransform.anchoredPosition.y, beat4);
+            CheckBeat(beat4.rectTransform.anchoredPosition.y, beat4, 3);
         }
     }
 
-    private void CheckBeat(float pos, Image beat)
+    private void CheckBeat(float pos, Image beat, int beatIndex)
     {
         float beatBottom = pos - beatSpace;
         float beatTop = pos + beatSpace;
@@ -111,7 +106,7 @@ public class RhythmGame : BaseMinigame
         && beatBottom >= barBottom))
         {
             // Beat is within bar
-            ResetBeat(beat);
+            ResetBeat(beat, beatIndex);
             curScore += Math.Abs(pos - barPos) / barSpace;
             Debug.Log("Beat " + (pos - barPos) / barSpace + " curScore " + curScore);
         }
@@ -126,22 +121,24 @@ public class RhythmGame : BaseMinigame
         beat.enabled = true;
     }
 
-    private void BeatDrop(Image beat)
+    private void BeatDrop(Image beat, int beatIndex)
     {
         if (beat.enabled)
         {
-            beat.transform.position += Vector3.down * fallSpeed * Time.unscaledDeltaTime;
+            beat.transform.position += Vector3.down * beatFallSpeed[beatIndex] * Time.unscaledDeltaTime;
             if (beat.rectTransform.anchoredPosition.y < endPos)
             {
-                ResetBeat(beat);
+                ResetBeat(beat, beatIndex);
             }
         }
     }
 
-    private void ResetBeat(Image beat)
+    private void ResetBeat(Image beat, int beatIndex)
     {
         beat.enabled = false;
         beat.rectTransform.anchoredPosition = new Vector3(beat.rectTransform.anchoredPosition.x, startPos);
+        float fallSpeed = UnityEngine.Random.Range(minFallSpeed, maxFallSpeed);
+        beatFallSpeed[beatIndex] = fallSpeed;
         StartCoroutine(RandomBeat(beat));
     }
 

@@ -34,14 +34,6 @@ public class MiceGame : BaseMinigame
     private Image mouse4;
 
     [Header("Game Variables")]
-    [SerializeField]
-    private float gameTime = 20f;
-
-    [SerializeField]
-    private bool gameOver = false;
-
-    [SerializeField]
-    private LinearTimer linearTimer;
 
     [SerializeField]
     private float minTime;
@@ -52,18 +44,9 @@ public class MiceGame : BaseMinigame
     [SerializeField]
     private TextMeshProUGUI score;
 
-    void Awake()
-    {
-        linearTimer = FindObjectOfType<LinearTimer>();
-        linearTimer.enabled = false;
-    }
-
     public override void StartGame()
     {
-        linearTimer.enabled = true;
-        linearTimer.StartTimer(gameTime);
-        linearTimer.OnTimerEnd += HandleGameOver;
-        ResetGame();
+        score.text = curScore.ToString();
         base.StartGame();
         pawa.enabled = true;
         paws.enabled = false;
@@ -84,10 +67,6 @@ public class MiceGame : BaseMinigame
         {
             GameOver();
         }*/
-        if (gameOver && Input.GetKeyDown(KeyCode.Space))
-        {
-            ResetGame();
-        }
 
         if (mouse1.enabled && pawa.enabled)
         {
@@ -155,28 +134,10 @@ public class MiceGame : BaseMinigame
 
     void AddScore(int scoreToAdd)
     {
-        if (gameOver)
-            return;
         if (!(curScore == 0 && scoreToAdd < 0))
         {
             curScore += scoreToAdd;
             score.text = curScore.ToString();
         }
-    }
-
-    void ResetGame()
-    {
-        gameOver = false;
-        curScore = 0;
-        score.text = curScore.ToString();
-        linearTimer.StartTimer(gameTime);
-        // subscribe to timer event
-        linearTimer.OnTimerEnd += HandleGameOver;
-    }
-
-    void HandleGameOver()
-    {
-        gameOver = true;
-        GameOver();
     }
 }
