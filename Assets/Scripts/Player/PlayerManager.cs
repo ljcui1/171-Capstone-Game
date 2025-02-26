@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using KevinCastejon.FiniteStateMachine;
+using KevinCastejon.FiniteStateMachineDemos.TicTacToeDemo;
 using Pathfinding;
 using UnityEngine;
 
@@ -30,6 +31,9 @@ public class PlayerManager : MonoBehaviour
 
     private BaseNPC selectedCat = null;
     private BaseNPC selectedCust = null;
+
+    [SerializeField]
+    Tile doorMatLoc;
     // Start is called before the first frame update
     void Start()
     {
@@ -161,9 +165,14 @@ public class PlayerManager : MonoBehaviour
                 if (CheckMatch(selectedCat, selectedCust))
                 {
                     Debug.Log("Match found! Moving to the door.");
-                    /*Transform door = GameObject.Find("Door").transform;
-                    selectedCat.GetComponent<AIDestinationSetter>().target = door;
-                    selectedCust.GetComponent<AIDestinationSetter>().target = door;*/
+                    /*Transform door = GameObject.Find("Door").transform;*/
+                    selectedCat.GetComponent<AIDestinationSetter>().target = doorMatLoc.transform;
+                    selectedCust.GetComponent<AIDestinationSetter>().target = doorMatLoc.transform;
+
+                    /*if (selectedCat.transform == doorMatLoc.transform && selectedCust.transform == doorMatLoc.transform)
+                    {
+                        selectedCat.
+                    }*/
                 }
                 else
                 {
@@ -172,13 +181,13 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-    private bool CheckMatch(BaseNPC cat, BaseNPC customer)
+    /*private bool CheckMatch(BaseNPC cat, BaseNPC customer)
     {
         //sample
         return Random.value > 0.5f;
-    }
+    }*/
 
-    /*private bool CheckMatch(BaseNPC cat, BaseNPC customer)
+    private bool CheckMatch(BaseNPC cat, BaseNPC customer)
     {
         if (cat == null || customer == null) return false;
 
@@ -206,7 +215,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
         return activeAttributes;
-    }*/
+    }
 
     /*private void MatchTint(Collider2D npc)
     {
