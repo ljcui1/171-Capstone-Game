@@ -8,6 +8,9 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D rb;
     public bool inRange = false;
     public Collider2D talkTo;
+    public Collider2D catCollide;
+    public Collider2D custCollide;
+    public Collider2D gameCollide;
     // public SpriteRenderer catSprite;
     // public SpriteRenderer custSprite;
     // public AIDestinationSetter npcTarget;
@@ -33,7 +36,7 @@ public class PlayerScript : MonoBehaviour
             inRange = true;
             cat = other.GetComponent<BaseNPC>();
             talkTo = other;
-
+            catCollide = other;
         }
         else if (other.tag == "Customer")
         {
@@ -41,17 +44,45 @@ public class PlayerScript : MonoBehaviour
             customer = other.GetComponent<BaseNPC>();
             npcTarget = other.gameObject;
             talkTo = other;
+            custCollide = other;
         }
         else if (other.tag == "Minigame")
         {
             startPlay = true;
             talkTo = other;
+            gameCollide = other;
             Debug.Log("q to start");
         }
         else
         {
             inRange = false;
             talkTo = null;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D leavingOther)
+    {
+        if (leavingOther.tag == "Cat")
+        {
+            inRange = true;
+            cat = leavingOther.GetComponent<BaseNPC>();
+            talkTo = null;
+            catCollide = null;
+        }
+        else if (leavingOther.tag == "Customer")
+        {
+            inRange = true;
+            customer = leavingOther.GetComponent<BaseNPC>();
+            npcTarget = leavingOther.gameObject;
+            talkTo = null;
+            custCollide = null;
+        }
+        else if (leavingOther.tag == "Minigame")
+        {
+            startPlay = true;
+            talkTo = null;
+            gameCollide = null;
+            Debug.Log("q to start");
         }
     }
 }

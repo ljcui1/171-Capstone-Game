@@ -71,8 +71,16 @@ public class PlayerManager : MonoBehaviour
                 if (Player.inRange && Player.talkTo != null)
                 {
                     // Debug.Log("enter match");
-                    MatchTint(Player.talkTo);
-                    talkTo = Player.talkTo;
+                    //MatchTint(Player.talkTo);
+                    //talkTo = Player.talkTo;
+                    if (Player.catCollide != null)
+                    {
+                        MatchTint(Player.catCollide);
+                    }
+                    if (Player.custCollide != null)
+                    {
+                        MatchTint(Player.custCollide);
+                    }
                 }
                 //else, set select to 0 to reset process
                 else
