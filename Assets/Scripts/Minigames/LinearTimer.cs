@@ -28,6 +28,7 @@ public class LinearTimer : MonoBehaviour
             if (timer <= 0)
             {
                 isRunning = false;
+                Debug.Log("Invoking OnTimerEnd");
                 OnTimerEnd?.Invoke(); // Notify subscribers that time is up
             }
         }
