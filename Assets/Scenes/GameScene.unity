@@ -2250,7 +2250,7 @@ MonoBehaviour:
   sound3: {fileID: 0}
   sound4: {fileID: 0}
   bar: {fileID: 1310109067}
-  fallSpeed: 50
+  fallSpeed: 100
   minTime: 0.2
   maxTime: 2
 --- !u!1839735485 &1049053844
@@ -2523,6 +2523,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6081611447647905932}
+    - target: {fileID: 2277171181467983248, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f53c2f20c63befb4c913421ab45d71d0, type: 3}
+    - target: {fileID: 3070620120367487711, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f53c2f20c63befb4c913421ab45d71d0, type: 3}
+    - target: {fileID: 4113984886409563052, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f53c2f20c63befb4c913421ab45d71d0, type: 3}
     - target: {fileID: 6539484643666898376, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2555,6 +2567,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: MakeChoice
       objectReference: {fileID: 0}
+    - target: {fileID: 8294564776482918326, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f53c2f20c63befb4c913421ab45d71d0, type: 3}
     - target: {fileID: 9155369985347445835, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

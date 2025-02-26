@@ -33,6 +33,7 @@ public class RhythmGame : BaseMinigame
     [SerializeField] private float fallSpeed;
     [SerializeField] private float minTime;
     [SerializeField] private float maxTime;
+    [SerializeField] private LinearTimer linearTimer;
 
     public override void StartGame()
     {
@@ -55,6 +56,12 @@ public class RhythmGame : BaseMinigame
         buffer = barSpace / 3;
         barBottom = barPos - barSpace - buffer;
         barTop = barPos + barSpace + buffer;
+
+        linearTimer = FindObjectOfType<LinearTimer>();
+        linearTimer.StartTimer(gameDuration);
+
+        // subscribes a function to timer event
+        linearTimer.OnTimerEnd += GameOver;
     }
 
     // Update is called once per frame
@@ -137,6 +144,8 @@ public class RhythmGame : BaseMinigame
         beat.rectTransform.anchoredPosition = new Vector3(beat.rectTransform.anchoredPosition.x, startPos);
         StartCoroutine(RandomBeat(beat));
     }
+
+
 }
 
 
