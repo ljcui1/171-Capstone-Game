@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,12 +41,6 @@ public class MiceGame : BaseMinigame
     private bool gameOver = false;
 
     [SerializeField]
-    private float curScore;
-
-    [SerializeField]
-    private float maxScore;
-
-    [SerializeField]
     private LinearTimer linearTimer;
 
     [SerializeField]
@@ -54,16 +49,21 @@ public class MiceGame : BaseMinigame
     [SerializeField]
     private float maxTime;
 
+    [SerializeField]
+    private TextMeshProUGUI score;
+
     void Awake()
     {
         linearTimer = FindObjectOfType<LinearTimer>();
-        linearTimer.StartTimer(gameTime);
-        linearTimer.OnTimerEnd += HandleGameOver;
-        ResetGame();
+        linearTimer.enabled = false;
     }
 
     public override void StartGame()
     {
+        linearTimer.enabled = true;
+        linearTimer.StartTimer(gameTime);
+        linearTimer.OnTimerEnd += HandleGameOver;
+        ResetGame();
         base.StartGame();
         pawa.enabled = true;
         paws.enabled = false;
@@ -160,6 +160,7 @@ public class MiceGame : BaseMinigame
         if (!(curScore == 0 && scoreToAdd < 0))
         {
             curScore += scoreToAdd;
+            score.text = curScore.ToString();
         }
     }
 
@@ -167,6 +168,7 @@ public class MiceGame : BaseMinigame
     {
         gameOver = false;
         curScore = 0;
+        score.text = curScore.ToString();
         linearTimer.StartTimer(gameTime);
         // subscribe to timer event
         linearTimer.OnTimerEnd += HandleGameOver;
