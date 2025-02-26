@@ -172,13 +172,41 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-
     private bool CheckMatch(BaseNPC cat, BaseNPC customer)
     {
-        // Implement your matching logic here (e.g., comparing attributes)
-        // Return true if they match, false otherwise.
-        return Random.value > 0.5f; // Replace with actual logic
+        //sample
+        return Random.value > 0.5f;
     }
+
+    /*private bool CheckMatch(BaseNPC cat, BaseNPC customer)
+    {
+        if (cat == null || customer == null) return false;
+
+        // Extract active attributes
+        HashSet<Attribute> catAttributes = GetActiveAttributes(cat);
+        HashSet<Attribute> customerAttributes = GetActiveAttributes(customer);
+
+        // Compare sets (return true if they have the same attributes)
+        return catAttributes.SetEquals(customerAttributes);
+    }
+
+    private HashSet<Attribute> GetActiveAttributes(MonoBehaviour npc)
+    {
+        HashSet<Attribute> activeAttributes = new HashSet<Attribute>();
+        var npcAttributes = npc.GetType().GetProperty("attributes").GetValue(npc) as List<AttributePair>;
+
+        if (npcAttributes != null)
+        {
+            foreach (var attr in npcAttributes)
+            {
+                if (attr.isActive)
+                {
+                    activeAttributes.Add(attr.attribute);
+                }
+            }
+        }
+        return activeAttributes;
+    }*/
 
     /*private void MatchTint(Collider2D npc)
     {
@@ -218,54 +246,4 @@ public class PlayerManager : MonoBehaviour
             Player.cat.SetDestination(Player.npcTarget);
         }
     }*/
-
-    /*private void matchTint(Collider2D npc)
-{
-    if (npc.tag == "Cat" && selectNum == 0)
-    {
-        Debug.Log("select cat");
-        selectNum = 1;
-
-        if (Player.npcSprite != null)
-        {
-            Player.npcSprite.color = Color.red;
-        }
-        else
-        {
-            Debug.LogError("Player.npcSprite is not assigned!");
-        }
-
-        currCat = Player.npcTarget;
-
-        if (currCat == null)
-        {
-            Debug.LogError("No valid cat assigned!");
-        }
-    }
-    else if (npc.tag == "Customer" && selectNum == 1)
-    {
-        Debug.Log("select customer");
-        selectNum = 2;
-
-        if (Player.npcSprite != null)
-        {
-            Player.npcSprite.color = Color.green;
-        }
-        else
-        {
-            Debug.LogError("Player.npcSprite is not assigned!");
-        }
-
-        currNPC = Player.npc;
-
-        if (currCat != null && currNPC != null)
-        {
-            currCat.target = currNPC.transform;
-        }
-        else
-        {
-            Debug.LogError("currCat or currNPC is not assigned!");
-        }
-    }
-}*/
 }
