@@ -56,25 +56,20 @@ public class PlayerScript : MonoBehaviour
             gameCollide = other;
             Debug.Log("q to start");
         }
-        else
-        {
-            inRange = false;
-            talkTo = null;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D leavingOther)
     {
         if (leavingOther.tag == "Cat")
         {
-            inRange = true;
+            inRange = false;
             cat = leavingOther.GetComponent<BaseNPC>();
             talkTo = null;
             catCollide = null;
         }
         else if (leavingOther.tag == "Customer")
         {
-            inRange = true;
+            inRange = false;
             customer = leavingOther.GetComponent<BaseNPC>();
             npcTarget = leavingOther.gameObject;
             talkTo = null;
@@ -82,10 +77,9 @@ public class PlayerScript : MonoBehaviour
         }
         else if (leavingOther.tag == "Minigame")
         {
-            startPlay = true;
+            startPlay = false;
             talkTo = null;
             gameCollide = null;
-            Debug.Log("q to start");
         }
     }
 }
