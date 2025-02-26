@@ -20,10 +20,13 @@ public class PlayerScript : MonoBehaviour
     public GameObject npcTarget;
     public bool startPlay = false;
 
+    public Animator anims;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anims = GetComponent<Animator>();
     }
 
     // Update is called once per frame

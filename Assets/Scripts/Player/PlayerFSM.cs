@@ -43,7 +43,10 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
     public class IdleState : AbstractState
     {
-        public override void OnEnter() { }
+        public override void OnEnter()
+        {
+            GetStateMachine<PlayerFSM>().PlayMan.Player.anims.Play("Idle");
+        }
 
         public override void OnUpdate()
         {
@@ -130,13 +133,23 @@ public class PlayerFSM : AbstractFiniteStateMachine
             //flip sprite
             if (GetStateMachine<PlayerFSM>().moveInput.x > 0)
             {
-                GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
-                    Quaternion.Euler(0, 0, 0);
+                //GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
+                //    Quaternion.Euler(0, 0, 0);
+                GetStateMachine<PlayerFSM>().PlayMan.Player.anims.Play("RightWalk");
             }
             else if (GetStateMachine<PlayerFSM>().moveInput.x < 0)
             {
-                GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
-                    Quaternion.Euler(0, 180, 0);
+                //GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
+                //    Quaternion.Euler(0, 180, 0);
+                GetStateMachine<PlayerFSM>().PlayMan.Player.anims.Play("LeftWalk");
+            }
+            if (GetStateMachine<PlayerFSM>().moveInput.y > 0 && GetStateMachine<PlayerFSM>().moveInput.x == 0)
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.Player.anims.Play("BackWalk");
+            }
+            else if (GetStateMachine<PlayerFSM>().moveInput.y < 0 && GetStateMachine<PlayerFSM>().moveInput.x == 0)
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.Player.anims.Play("FrontWalk");
             }
         }
 
