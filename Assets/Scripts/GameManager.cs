@@ -181,6 +181,6 @@ public class GameManager : MonoBehaviour
     {
         // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         //Application.LoadLevel(0);
-        SceneManager.LoadScene(2); // loads the start menu
+        SceneManager.LoadScene(0); // loads the start menu
     }
 }
