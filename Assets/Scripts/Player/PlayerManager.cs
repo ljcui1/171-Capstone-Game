@@ -50,9 +50,23 @@ public class PlayerManager : MonoBehaviour
                 Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f
                 || Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
 
+            // Play walking sound if moving
+            if (joyIn && !playing && !talking)
+            {
+                idling = false;
+                walking = true;
+                AudioManager.Instance.PlayWalkingSound(true);
+            }
+            else
+            {
+                walking = false;
+                AudioManager.Instance.StopWalkingSound(true);
+            }
+
             if (!keyIn && !conIn && !joyIn)
             {
                 idling = true;
+                AudioManager.Instance.StopWalkingSound(true);
             }
 
             /*if (Input.GetKeyDown(KeyCode.E))

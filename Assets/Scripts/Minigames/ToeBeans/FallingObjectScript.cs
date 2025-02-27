@@ -34,6 +34,7 @@ public class FallingObjectScript : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = Color.red;
             Instantiate(popAnimation, transform.position, Quaternion.identity);
+
             Destroy(gameObject);
         }
     }

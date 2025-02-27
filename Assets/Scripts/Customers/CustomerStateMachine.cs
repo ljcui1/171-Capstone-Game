@@ -36,6 +36,9 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         public override void OnEnter()
         {
             // animations & sounds
+
+            //Start customer walking SFX when entering WalkIn state
+            AudioManager.Instance.PlayWalkingSound(false);
         }
         public override void OnUpdate()
         {
@@ -51,6 +54,9 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
             CustomerStateMachine FSM = GetStateMachine<CustomerStateMachine>();
             FSM.Script.walkin = false;
             FSM.Script.sit = true;
+
+            //Stop walking SFX when reaching the destination
+            AudioManager.Instance.StopWalkingSound(false);
         }
     }
 
@@ -180,6 +186,8 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         public override void OnEnter()
         {
             GetStateMachine<CustomerStateMachine>().Script.SetDestination(GetStateMachine<CustomerStateMachine>().Manager.entrance);
+            //Start customer walking SFX when they leave
+            AudioManager.Instance.PlayWalkingSound(false);
         }
 
         public override void OnUpdate()
@@ -196,6 +204,8 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
 
         public override void OnExit()
         {
+            //Stop walking SFX once they reach the exit
+            AudioManager.Instance.StopWalkingSound(false);
         }
     }
 }
