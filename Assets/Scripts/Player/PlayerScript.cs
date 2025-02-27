@@ -8,6 +8,9 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D rb;
     public bool inRange = false;
     public Collider2D talkTo;
+    public Collider2D catCollide;
+    public Collider2D custCollide;
+    public Collider2D gameCollide;
     // public SpriteRenderer catSprite;
     // public SpriteRenderer custSprite;
     // public AIDestinationSetter npcTarget;
@@ -17,10 +20,13 @@ public class PlayerScript : MonoBehaviour
     public GameObject npcTarget;
     public bool startPlay = false;
 
+    public Animator anims;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anims = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,12 +34,19 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Cat")
+        if (other.tag == "Minigame")
+        {
+            startPlay = true;
+            talkTo = other;
+            gameCollide = other;
+            Debug.Log("e to start");
+        }
+        else if (other.tag == "Cat")
         {
             inRange = true;
             cat = other.GetComponent<BaseNPC>();
             talkTo = other;
-
+            catCollide = other;
         }
         else if (other.tag == "Customer")
         {
@@ -41,17 +54,48 @@ public class PlayerScript : MonoBehaviour
             customer = other.GetComponent<BaseNPC>();
             npcTarget = other.gameObject;
             talkTo = other;
+            custCollide = other;
         }
-        else if (other.tag == "Minigame")
+    }
+
+    private void OnTriggerExit2D(Collider2D leavingOther)
+    {
+        if (leavingOther.tag == "Minigame")
         {
-            startPlay = true;
-            talkTo = other;
-            Debug.Log("q to start");
+            startPlay = false;
+            talkTo = null;
+            gameCollide = null;
         }
-        else
+        else if (leavingOther.tag == "Cat")
         {
             inRange = false;
+            cat = leavingOther.GetComponent<BaseNPC>();
             talkTo = null;
+            catCollide = null;
+        }
+        else if (leavingOther.tag == "Customer")
+        {
+            inRange = false;
+            customer = leavingOther.GetComponent<BaseNPC>();
+            npcTarget = leavingOther.gameObject;
+            talkTo = null;
+            custCollide = null;
+        }
+
+        if (gameCollide)
+        {
+            talkTo = gameCollide;
+            startPlay = true;
+        }
+        else if (custCollide)
+        {
+            talkTo = custCollide;
+            inRange = true;
+        }
+        else if (custCollide)
+        {
+            talkTo = custCollide;
+            inRange = true;
         }
     }
 }

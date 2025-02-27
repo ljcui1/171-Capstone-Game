@@ -14,7 +14,9 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
     [SerializeField]
     private float moveSpeed;
-    [SerializeField] public UnityEvent onMinigameCompletion;
+
+    [SerializeField]
+    public UnityEvent onMinigameCompletion;
 
     //float speedX, speedY = 0;
     private Vector2 moveInput;
@@ -43,20 +45,26 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
     public class IdleState : AbstractState
     {
-        public override void OnEnter() { }
+        public override void OnEnter()
+        {
+            GetStateMachine<PlayerFSM>().PlayMan.Player.anims.Play("Idle");
+        }
 
         public override void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.E) && GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
-            {
-                GetStateMachine<PlayerFSM>().PlayMan.talking = true;
-                TransitionToState(PlayerState.TALK);
-            }
 
-            if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && Input.GetKey(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                GetStateMachine<PlayerFSM>().PlayMan.playing = true;
-                TransitionToState(PlayerState.PLAY);
+                if (GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
+                {
+                    GetStateMachine<PlayerFSM>().PlayMan.talking = true;
+                    TransitionToState(PlayerState.TALK);
+                }
+                else if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay)
+                {
+                    GetStateMachine<PlayerFSM>().PlayMan.playing = true;
+                    TransitionToState(PlayerState.PLAY);
+                }
             }
 
             if (
@@ -125,18 +133,37 @@ public class PlayerFSM : AbstractFiniteStateMachine
             // Debug.Log(GetStateMachine<PlayerFSM>().moveInput.x);
             // Debug.Log(GetStateMachine<PlayerFSM>().moveInput.y);
 
-            GetStateMachine<PlayerFSM>().moveInput.Normalize();
+            GetStateMachine<PlayerFSM>()
+                .moveInput.Normalize();
 
             //flip sprite
             if (GetStateMachine<PlayerFSM>().moveInput.x > 0)
             {
-                GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
-                    Quaternion.Euler(0, 0, 0);
+                //GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
+                //    Quaternion.Euler(0, 0, 0);
+                GetStateMachine<PlayerFSM>()
+                    .PlayMan.Player.anims.Play("RightWalk");
             }
             else if (GetStateMachine<PlayerFSM>().moveInput.x < 0)
             {
-                GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
-                    Quaternion.Euler(0, 180, 0);
+                //GetStateMachine<PlayerFSM>().PlayMan.Player.transform.localRotation =
+                //    Quaternion.Euler(0, 180, 0);
+                GetStateMachine<PlayerFSM>()
+                    .PlayMan.Player.anims.Play("LeftWalk");
+            }
+            if (
+                GetStateMachine<PlayerFSM>().moveInput.y > 0
+                && GetStateMachine<PlayerFSM>().moveInput.x == 0
+            )
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.Player.anims.Play("BackWalk");
+            }
+            else if (
+                GetStateMachine<PlayerFSM>().moveInput.y < 0
+                && GetStateMachine<PlayerFSM>().moveInput.x == 0
+            )
+            {
+                GetStateMachine<PlayerFSM>().PlayMan.Player.anims.Play("FrontWalk");
             }
         }
 

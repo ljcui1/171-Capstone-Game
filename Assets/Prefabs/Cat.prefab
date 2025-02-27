@@ -185,7 +185,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.46
 --- !u!212 &1881553078800550813
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -255,6 +255,7 @@ MonoBehaviour:
   defaultText: {fileID: 4900000, guid: 551218c60f0ee4fbfb994b5101444920, type: 3}
   visualCue: {fileID: 8604160516093607595}
   gameManager: {fileID: 0}
+  timeOfDay: 0
   dialogueEntries: []
 --- !u!1001 &6141820361530938921
 PrefabInstance:

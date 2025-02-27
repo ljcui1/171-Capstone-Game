@@ -27,6 +27,9 @@ public class PlayerManager : MonoBehaviour
     public bool joyIn = false;
 
     private Collider2D talkTo;
+
+    private BaseNPC selectedCat = null;
+    private BaseNPC selectedCust = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -64,15 +67,23 @@ public class PlayerManager : MonoBehaviour
                 idling = true;
             }*/
 
-            if (!playing && !talking && Input.GetKey(KeyCode.Space))
+            if (!playing && !talking && Input.GetKeyDown(KeyCode.Space))
             {
                 // Debug.Log("space clicked");
                 //check if player can interact with an npc
                 if (Player.inRange && Player.talkTo != null)
                 {
                     // Debug.Log("enter match");
-                    MatchTint(Player.talkTo);
-                    talkTo = Player.talkTo;
+                    //MatchTint(Player.talkTo);
+                    //talkTo = Player.talkTo;
+                    if (Player.catCollide != null)
+                    {
+                        MatchTint(Player.catCollide);
+                    }
+                    if (Player.custCollide != null)
+                    {
+                        MatchTint(Player.custCollide);
+                    }
                 }
                 //else, set select to 0 to reset process
                 else
@@ -120,6 +131,85 @@ public class PlayerManager : MonoBehaviour
 
     private void MatchTint(Collider2D npc)
     {
+        if (npc.CompareTag("Cat"))
+        {
+            if (selectedCat == null) // First selection
+            {
+                Debug.Log("Selecting cat: " + npc.name);
+                selectedCat = npc.GetComponent<BaseNPC>();
+                selectedCat.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            else if (selectedCat == npc.GetComponent<BaseNPC>()) // Deselect if pressed again
+            {
+                Debug.Log("Deselecting cat: " + npc.name);
+                selectedCat.GetComponent<SpriteRenderer>().color = Color.white;
+                selectedCat = null;
+            }
+        }
+        else if (npc.CompareTag("Customer") && selectedCat != null)
+        {
+            if (selectedCust == null) // Customer selection
+            {
+                Debug.Log("Selecting customer: " + npc.name);
+                selectedCust = npc.GetComponent<BaseNPC>();
+                selectedCust.GetComponent<SpriteRenderer>().color = Color.red;
+
+                // Move the cat to the customer
+                selectedCat.GetComponent<AIDestinationSetter>().target = selectedCust.transform;
+
+                // Check match conditions
+                if (CheckMatch(selectedCat, selectedCust))
+                {
+                    Debug.Log("Match found! Moving to the door.");
+                    /*Transform door = GameObject.Find("Door").transform;
+                    selectedCat.GetComponent<AIDestinationSetter>().target = door;
+                    selectedCust.GetComponent<AIDestinationSetter>().target = door;*/
+                }
+                else
+                {
+                    Debug.Log("No match found.");
+                }
+            }
+        }
+    }
+    private bool CheckMatch(BaseNPC cat, BaseNPC customer)
+    {
+        //sample
+        return Random.value > 0.5f;
+    }
+
+    /*private bool CheckMatch(BaseNPC cat, BaseNPC customer)
+    {
+        if (cat == null || customer == null) return false;
+
+        // Extract active attributes
+        HashSet<Attribute> catAttributes = GetActiveAttributes(cat);
+        HashSet<Attribute> customerAttributes = GetActiveAttributes(customer);
+
+        // Compare sets (return true if they have the same attributes)
+        return catAttributes.SetEquals(customerAttributes);
+    }
+
+    private HashSet<Attribute> GetActiveAttributes(MonoBehaviour npc)
+    {
+        HashSet<Attribute> activeAttributes = new HashSet<Attribute>();
+        var npcAttributes = npc.GetType().GetProperty("attributes").GetValue(npc) as List<AttributePair>;
+
+        if (npcAttributes != null)
+        {
+            foreach (var attr in npcAttributes)
+            {
+                if (attr.isActive)
+                {
+                    activeAttributes.Add(attr.attribute);
+                }
+            }
+        }
+        return activeAttributes;
+    }*/
+
+    /*private void MatchTint(Collider2D npc)
+    {
         Debug.Log("tag" + npc.tag);
         if (npc.tag == "Cat" && selectNum == 0)
         {
@@ -143,7 +233,7 @@ public class PlayerManager : MonoBehaviour
             selectNum = 0;
             //tint sprite color/highlight
             Player.cat.mainSprite.color = Color.white;
-            }*/
+            }//
         }
         else if (npc.tag == "Customer" && selectNum == 1)
         {
@@ -155,55 +245,5 @@ public class PlayerManager : MonoBehaviour
             //set cat target to customer
             Player.cat.SetDestination(Player.npcTarget);
         }
-    }
-
-    /*private void matchTint(Collider2D npc)
-{
-    if (npc.tag == "Cat" && selectNum == 0)
-    {
-        Debug.Log("select cat");
-        selectNum = 1;
-
-        if (Player.npcSprite != null)
-        {
-            Player.npcSprite.color = Color.red;
-        }
-        else
-        {
-            Debug.LogError("Player.npcSprite is not assigned!");
-        }
-
-        currCat = Player.npcTarget;
-
-        if (currCat == null)
-        {
-            Debug.LogError("No valid cat assigned!");
-        }
-    }
-    else if (npc.tag == "Customer" && selectNum == 1)
-    {
-        Debug.Log("select customer");
-        selectNum = 2;
-
-        if (Player.npcSprite != null)
-        {
-            Player.npcSprite.color = Color.green;
-        }
-        else
-        {
-            Debug.LogError("Player.npcSprite is not assigned!");
-        }
-
-        currNPC = Player.npc;
-
-        if (currCat != null && currNPC != null)
-        {
-            currCat.target = currNPC.transform;
-        }
-        else
-        {
-            Debug.LogError("currCat or currNPC is not assigned!");
-        }
-    }
-}*/
+    }*/
 }

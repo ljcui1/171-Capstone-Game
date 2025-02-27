@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MiceGame : BaseMinigame
 {
-
     //public Canvas mouseGame;
     [Header("Paw Images")]
     [SerializeField]
@@ -34,11 +34,24 @@ public class MiceGame : BaseMinigame
     private Image mouse4;
 
     [Header("Game Variables")]
-    [SerializeField] private float minTime;
-    [SerializeField] private float maxTime;
+
+    [SerializeField]
+    private float minTime;
+
+    [SerializeField]
+    private float maxTime;
+
+    [SerializeField]
+    private TextMeshProUGUI score;
+
     public override void StartGame()
     {
+        score.text = curScore.ToString();
         base.StartGame();
+        pawa.enabled = true;
+        paws.enabled = false;
+        pawd.enabled = false;
+        pawf.enabled = false;
         StartCoroutine(MousePop(mouse1));
         StartCoroutine(MousePop(mouse2));
         StartCoroutine(MousePop(mouse3));
@@ -50,13 +63,32 @@ public class MiceGame : BaseMinigame
     {
         GameInput();
 
-        if (Time.realtimeSinceStartup - startTime > gameDuration)
+        /*if (Time.realtimeSinceStartup - startTime > gameDuration)
         {
             GameOver();
+        }*/
+
+        if (mouse1.enabled && pawa.enabled)
+        {
+            AddScore(1);
+            mouse1.enabled = false;
+        }
+        if (mouse2.enabled && paws.enabled)
+        {
+            AddScore(1);
+            mouse2.enabled = false;
+        }
+        if (mouse3.enabled && pawd.enabled)
+        {
+            AddScore(1);
+            mouse3.enabled = false;
+        }
+        if (mouse4.enabled && pawf.enabled)
+        {
+            AddScore(1);
+            mouse4.enabled = false;
         }
     }
-
-
 
     protected override void GameInput()
     {
@@ -100,5 +132,12 @@ public class MiceGame : BaseMinigame
         StartCoroutine(MousePop(mouseNum));
     }
 
+    void AddScore(int scoreToAdd)
+    {
+        if (!(curScore == 0 && scoreToAdd < 0))
+        {
+            curScore += scoreToAdd;
+            score.text = curScore.ToString();
+        }
+    }
 }
-

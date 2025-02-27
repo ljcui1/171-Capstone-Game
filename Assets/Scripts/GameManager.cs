@@ -62,7 +62,10 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            PauseButton();
+        }
     }
 
     // MARK: Clock Functions
