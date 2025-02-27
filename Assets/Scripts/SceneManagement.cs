@@ -19,6 +19,6 @@ public class SceneManagement : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(0); // loads the GameScene
+        SceneManager.LoadScene(1); // loads the GameScene
     }
 }
