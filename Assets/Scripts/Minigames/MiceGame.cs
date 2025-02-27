@@ -70,33 +70,21 @@ public class MiceGame : BaseMinigame
             GameOver();
         }*/
 
-        if (mouse1.enabled && pawa.enabled)
+        CheckCatching(mouse1, pawa);
+        CheckCatching(mouse2, paws);
+        CheckCatching(mouse3, pawd);
+        CheckCatching(mouse4, pawf);
+    }
+
+    void CheckCatching(Image mouse, Image paw)
+    {
+        if (mouse.enabled && paw.enabled)
         {
             AudioManager.Instance.PlayThumpSound();
             AudioManager.Instance.PlaySqueakSound();
             AddScore(1);
-            mouse1.enabled = false;
-        }
-        if (mouse2.enabled && paws.enabled)
-        {
-            AudioManager.Instance.PlayThumpSound();
-            AudioManager.Instance.PlaySqueakSound();
-            AddScore(1);
-            mouse2.enabled = false;
-        }
-        if (mouse3.enabled && pawd.enabled)
-        {
-            AudioManager.Instance.PlayThumpSound();
-            AudioManager.Instance.PlaySqueakSound();
-            AddScore(1);
-            mouse3.enabled = false;
-        }
-        if (mouse4.enabled && pawf.enabled)
-        {
-            AudioManager.Instance.PlayThumpSound();
-            AudioManager.Instance.PlaySqueakSound();
-            AddScore(1);
-            mouse4.enabled = false;
+            mouse.enabled = false;
+            paw.enabled = false;
         }
     }
 
