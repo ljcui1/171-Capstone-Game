@@ -11,17 +11,16 @@ public class BasketScript : MonoBehaviour
     private float minX, maxX;
     public ToeBeansMinigame manager;
 
-    void Awake()
+
+    void Start()
     {
         // Get the camera's left and right edges in world space
-        Camera mainCamera = Camera.main;
+        Camera mainCamera = GameObject.FindWithTag("MinigameCamera").GetComponent<Camera>();
         float halfWidth = GetComponent<SpriteRenderer>().bounds.extents.x; // Half width of the basket
         manager = FindObjectOfType<ToeBeansMinigame>();
 
         minX = mainCamera.ScreenToWorldPoint(Vector3.zero).x + halfWidth;
         maxX = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x - halfWidth;
-
-        Physics2D.IgnoreLayerCollision(0, 9, true);
     }
 
     void Update()
