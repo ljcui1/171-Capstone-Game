@@ -27,6 +27,9 @@ public class ToeBeansMinigame : MonoBehaviour
         // subscribe to timer event
         linearTimer.OnTimerEnd += HandleGameOver;
         ResetGame();
+
+        // Start minigame music (ToeBeansMinigame is Minigame #1)
+        AudioManager.Instance.StartMinigame(1);
     }
     void Start()
     {
@@ -71,6 +74,10 @@ public class ToeBeansMinigame : MonoBehaviour
         gameOver = true;
         Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
         catchGame.GameOver();
+
+        // Stop minigame music and resume background music
+        AudioManager.Instance.EndMinigame();
+
     }
 
 }

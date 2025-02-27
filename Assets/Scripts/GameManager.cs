@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
         nightTransitionMsg.SetActive(true);
         yield return new WaitForSeconds(msgTime);
         nightTransitionMsg.SetActive(false);
+        AudioManager.Instance.SwitchDayNight(false);
     }
     public TimeOfDay CurrentTime()
     {
@@ -147,6 +148,7 @@ public class GameManager : MonoBehaviour
         dayTransitionMsg.SetActive(true);
         ResetClock();
         clockText.text = "8:00 am";
+        AudioManager.Instance.SwitchDayNight(true);
         yield return new WaitForSeconds(msgTime);
         dayTransitionMsg.SetActive(false);
         StartCoroutine(IncrementClock());

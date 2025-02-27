@@ -48,6 +48,8 @@ public class MiceGame : BaseMinigame
     {
         score.text = curScore.ToString();
         base.StartGame();
+        // Start minigame music (W.A.M. Minigame is Minigame #2)
+        AudioManager.Instance.StartMinigame(2);
         pawa.enabled = true;
         paws.enabled = false;
         pawd.enabled = false;
@@ -70,21 +72,29 @@ public class MiceGame : BaseMinigame
 
         if (mouse1.enabled && pawa.enabled)
         {
+            AudioManager.Instance.PlayThumpSound();
+            AudioManager.Instance.PlaySqueakSound();
             AddScore(1);
             mouse1.enabled = false;
         }
         if (mouse2.enabled && paws.enabled)
         {
+            AudioManager.Instance.PlayThumpSound();
+            AudioManager.Instance.PlaySqueakSound();
             AddScore(1);
             mouse2.enabled = false;
         }
         if (mouse3.enabled && pawd.enabled)
         {
+            AudioManager.Instance.PlayThumpSound();
+            AudioManager.Instance.PlaySqueakSound();
             AddScore(1);
             mouse3.enabled = false;
         }
         if (mouse4.enabled && pawf.enabled)
         {
+            AudioManager.Instance.PlayThumpSound();
+            AudioManager.Instance.PlaySqueakSound();
             AddScore(1);
             mouse4.enabled = false;
         }
@@ -139,5 +149,23 @@ public class MiceGame : BaseMinigame
             curScore += scoreToAdd;
             score.text = curScore.ToString();
         }
+
+    void ResetGame()
+    {
+        gameOver = false;
+        curScore = 0;
+        linearTimer.StartTimer(gameTime);
+        // subscribe to timer event
+        linearTimer.OnTimerEnd += HandleGameOver;
     }
+
+    void HandleGameOver()
+    {
+        gameOver = true;
+        GameOver();
+
+        // Stop minigame music and resume background music
+        AudioManager.Instance.EndMinigame();
+    }
+
 }
