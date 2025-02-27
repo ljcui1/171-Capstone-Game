@@ -19,6 +19,8 @@ public class DialogScript : MonoBehaviour
     [EnumFlags]
     public TimeOfDay timeOfDay;
 
+    public bool CUSTOMER = false;
+
     public List<DialogueEntry> dialogueEntries = new List<DialogueEntry>();
     protected bool isPlayerInZone = false;
 
@@ -49,6 +51,14 @@ public class DialogScript : MonoBehaviour
 
     void Start()
     {
+        if (CUSTOMER)
+        {
+            if (dialogueEntries.Count > 0)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, dialogueEntries.Count);
+                dialogueEntries.RemoveAt(randomIndex);
+            }
+        }
         SelectRandomText();
     }
 
