@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class VisualIndicator : MonoBehaviour
 {
+    // pretty sure this is the worst way to go around displaying attributes but i'm lazy
     [SerializeField] private GameObject talkative;
     [SerializeField] private GameObject active;
     [SerializeField] private GameObject foodie;
 
-    public void SetActive(bool toggle, Attribute? attribute = null)
+    [SerializeField] private GameObject activeTalkative;
+    [SerializeField] private GameObject activeFoodie;
+    [SerializeField] private GameObject foodieTalkative;
+    [SerializeField] private GameObject all;
+
+    public void SetActive(bool toggle, Attribute[] attributes = null)
     {
+        // Set the parent GameObject's active state.
         try
         {
             gameObject.SetActive(toggle);
@@ -19,39 +26,67 @@ public class VisualIndicator : MonoBehaviour
             Debug.LogError("Error setting gameObject active: " + ex.Message);
         }
 
-        if (talkative == null && active == null && foodie == null)
+        // Reset all indicators.
+        talkative.SetActive(false);
+        active.SetActive(false);
+        foodie.SetActive(false);
+        activeTalkative.SetActive(false);
+        activeFoodie.SetActive(false);
+        foodieTalkative.SetActive(false);
+
+        // If no attributes are passed in, exit early.
+        if (attributes == null || attributes.Length == 0)
         {
-            Debug.LogWarning("Set visual indicators for " + transform.parent.gameObject.name);
             return;
         }
 
-        if (attribute.HasValue)
+        // Flags for each attribute.
+        bool hasActive = false;
+        bool hasTalkative = false;
+        bool hasFoodie = false;
+
+        // Loop through each attribute in the array.
+        foreach (var attr in attributes)
         {
-            if (attribute == Attribute.Talkative)
-            {
-                talkative.SetActive(true);
-                active.SetActive(false);
-                foodie.SetActive(false);
-            }
-            else if (attribute == Attribute.Foodie)
-            {
-                talkative.SetActive(false);
-                active.SetActive(false);
-                foodie.SetActive(true);
-            }
-            else if (attribute == Attribute.Active)
-            {
-                talkative.SetActive(false);
-                active.SetActive(true);
-                foodie.SetActive(false);
-            }
+            if (attr == Attribute.Active)
+                hasActive = true;
+            else if (attr == Attribute.Talkative)
+                hasTalkative = true;
+            else if (attr == Attribute.Foodie)
+                hasFoodie = true;
         }
-        else
+
+        // Check for combinations first.
+        if (hasActive && hasTalkative && !hasFoodie)
         {
-            talkative.SetActive(false);
-            active.SetActive(false);
-            foodie.SetActive(false);
+            activeTalkative.SetActive(true);
+        }
+        else if (hasActive && hasFoodie && !hasTalkative)
+        {
+            activeFoodie.SetActive(true);
+        }
+        else if (hasTalkative && hasFoodie && !hasActive)
+        {
+            foodieTalkative.SetActive(true);
+        }
+        // If all three attributes are present, you might want to handle it differently.
+        // For this example, we'll activate all individual indicators.
+        else if (hasActive && hasTalkative && hasFoodie)
+        {
+            all.SetActive(true);
+        }
+        // If only one attribute is true, activate its indicator.
+        else if (hasActive)
+        {
+            active.SetActive(true);
+        }
+        else if (hasTalkative)
+        {
+            talkative.SetActive(true);
+        }
+        else if (hasFoodie)
+        {
+            foodie.SetActive(true);
         }
     }
-
 }

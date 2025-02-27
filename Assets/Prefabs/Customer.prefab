@@ -276,9 +276,10 @@ MonoBehaviour:
   triggerZone: {fileID: 6963131823880544470}
   interactKey: 101
   defaultText: {fileID: 4900000, guid: 3485e64462eb145d28e1f3b3eb3230a7, type: 3}
-  visualCue: {fileID: 1002530472869743051}
+  visualCue: {fileID: 0}
   gameManager: {fileID: 0}
   timeOfDay: 1
+  CUSTOMER: 1
   dialogueEntries:
   - attribute: 2
     textAsset: {fileID: 4900000, guid: 2f8dfc9ee674a4b1a9599c9d86cc548f, type: 3}
@@ -381,17 +382,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21a2a0a8cd4df40fcaf55995ea4f34ea, type: 3}
---- !u!114 &1002530472869743051 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2473671866731161730, guid: 21a2a0a8cd4df40fcaf55995ea4f34ea, type: 3}
-  m_PrefabInstance: {fileID: 3440058881873846601}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c07cb1a52e034d4cbb38340267804d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &9165890150918543383 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5804651551083788638, guid: 21a2a0a8cd4df40fcaf55995ea4f34ea, type: 3}
