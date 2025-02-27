@@ -52,16 +52,19 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.E) && GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
-            {
-                GetStateMachine<PlayerFSM>().PlayMan.talking = true;
-                TransitionToState(PlayerState.TALK);
-            }
 
-            if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && Input.GetKey(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                GetStateMachine<PlayerFSM>().PlayMan.playing = true;
-                TransitionToState(PlayerState.PLAY);
+                if (GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
+                {
+                    GetStateMachine<PlayerFSM>().PlayMan.talking = true;
+                    TransitionToState(PlayerState.TALK);
+                }
+                else if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay)
+                {
+                    GetStateMachine<PlayerFSM>().PlayMan.playing = true;
+                    TransitionToState(PlayerState.PLAY);
+                }
             }
 
             if (

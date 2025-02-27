@@ -34,7 +34,14 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Cat")
+        if (other.tag == "Minigame")
+        {
+            startPlay = true;
+            talkTo = other;
+            gameCollide = other;
+            Debug.Log("e to start");
+        }
+        else if (other.tag == "Cat")
         {
             inRange = true;
             cat = other.GetComponent<BaseNPC>();
@@ -49,43 +56,46 @@ public class PlayerScript : MonoBehaviour
             talkTo = other;
             custCollide = other;
         }
-        else if (other.tag == "Minigame")
-        {
-            startPlay = true;
-            talkTo = other;
-            gameCollide = other;
-            Debug.Log("q to start");
-        }
-        else
-        {
-            inRange = false;
-            talkTo = null;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D leavingOther)
     {
-        if (leavingOther.tag == "Cat")
+        if (leavingOther.tag == "Minigame")
         {
-            inRange = true;
+            startPlay = false;
+            talkTo = null;
+            gameCollide = null;
+        }
+        else if (leavingOther.tag == "Cat")
+        {
+            inRange = false;
             cat = leavingOther.GetComponent<BaseNPC>();
             talkTo = null;
             catCollide = null;
         }
         else if (leavingOther.tag == "Customer")
         {
-            inRange = true;
+            inRange = false;
             customer = leavingOther.GetComponent<BaseNPC>();
             npcTarget = leavingOther.gameObject;
             talkTo = null;
             custCollide = null;
         }
-        else if (leavingOther.tag == "Minigame")
+
+        if (gameCollide)
         {
+            talkTo = gameCollide;
             startPlay = true;
-            talkTo = null;
-            gameCollide = null;
-            Debug.Log("q to start");
+        }
+        else if (custCollide)
+        {
+            talkTo = custCollide;
+            inRange = true;
+        }
+        else if (custCollide)
+        {
+            talkTo = custCollide;
+            inRange = true;
         }
     }
 }

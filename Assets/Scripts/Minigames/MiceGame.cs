@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,20 +34,6 @@ public class MiceGame : BaseMinigame
     private Image mouse4;
 
     [Header("Game Variables")]
-    [SerializeField]
-    private float gameTime = 20f;
-
-    [SerializeField]
-    private bool gameOver = false;
-
-    [SerializeField]
-    private float curScore;
-
-    [SerializeField]
-    private float maxScore;
-
-    [SerializeField]
-    private LinearTimer linearTimer;
 
     [SerializeField]
     private float minTime;
@@ -54,16 +41,12 @@ public class MiceGame : BaseMinigame
     [SerializeField]
     private float maxTime;
 
-    void Awake()
-    {
-        linearTimer = FindObjectOfType<LinearTimer>();
-        linearTimer.StartTimer(gameTime);
-        linearTimer.OnTimerEnd += HandleGameOver;
-        ResetGame();
-    }
+    [SerializeField]
+    private TextMeshProUGUI score;
 
     public override void StartGame()
     {
+        score.text = curScore.ToString();
         base.StartGame();
         // Start minigame music (W.A.M. Minigame is Minigame #2)
         AudioManager.Instance.StartMinigame(2);
@@ -86,10 +69,6 @@ public class MiceGame : BaseMinigame
         {
             GameOver();
         }*/
-        if (gameOver && Input.GetKeyDown(KeyCode.Space))
-        {
-            ResetGame();
-        }
 
         if (mouse1.enabled && pawa.enabled)
         {
@@ -165,13 +144,11 @@ public class MiceGame : BaseMinigame
 
     void AddScore(int scoreToAdd)
     {
-        if (gameOver)
-            return;
         if (!(curScore == 0 && scoreToAdd < 0))
         {
             curScore += scoreToAdd;
+            score.text = curScore.ToString();
         }
-    }
 
     void ResetGame()
     {
@@ -190,4 +167,5 @@ public class MiceGame : BaseMinigame
         // Stop minigame music and resume background music
         AudioManager.Instance.EndMinigame();
     }
+
 }

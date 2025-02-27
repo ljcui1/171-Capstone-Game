@@ -111,6 +111,7 @@ MonoBehaviour:
   customer: {fileID: 0}
   npcTarget: {fileID: 0}
   startPlay: 0
+  anims: {fileID: 0}
 --- !u!70 &5493889926160200432
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -207,7 +208,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.16
 --- !u!95 &-2877189463590648876
 Animator:
   serializedVersion: 5
