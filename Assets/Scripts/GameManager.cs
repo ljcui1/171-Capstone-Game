@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     [Header("Day/Night Transition")]
     [SerializeField] private GameObject nightTimeMode;
     [SerializeField] private GameObject nightTransitionMsg;
+    [SerializeField] private GameObject nightToDayButton;
     [SerializeField] private GameObject dayTimeMode;
     [SerializeField] private GameObject dayTransitionMsg;
     [SerializeField] private float msgTime; // time that the transition message stays on screen
@@ -136,6 +137,7 @@ public class GameManager : MonoBehaviour
         nightTransitionMsg.SetActive(true);
         yield return new WaitForSeconds(msgTime);
         nightTransitionMsg.SetActive(false);
+        nightToDayButton.SetActive(true);
         AudioManager.Instance.SwitchDayNight(false);
     }
     public TimeOfDay CurrentTime()
@@ -145,6 +147,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator SwitchToDay()
     {
         // Debug.Log("switch to day");
+        nightToDayButton.SetActive(false);
         nightTimeMode.SetActive(false);
         dayTransitionMsg.SetActive(true);
         ResetClock();
