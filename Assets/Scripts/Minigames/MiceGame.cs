@@ -149,23 +149,5 @@ public class MiceGame : BaseMinigame
             curScore += scoreToAdd;
             score.text = curScore.ToString();
         }
-
-    void ResetGame()
-    {
-        gameOver = false;
-        curScore = 0;
-        linearTimer.StartTimer(gameTime);
-        // subscribe to timer event
-        linearTimer.OnTimerEnd += HandleGameOver;
     }
-
-    void HandleGameOver()
-    {
-        gameOver = true;
-        GameOver();
-
-        // Stop minigame music and resume background music
-        AudioManager.Instance.EndMinigame();
-    }
-
 }
