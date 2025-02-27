@@ -49,6 +49,8 @@ public class BasketScript : MonoBehaviour
         if (collision.gameObject.tag == "Bean" && movementOn)
         {
             manager.AddScore(1);
+            // Play the bean catch sound effect
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.BeanCatchSfx);
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag == "Fur" && movementOn)

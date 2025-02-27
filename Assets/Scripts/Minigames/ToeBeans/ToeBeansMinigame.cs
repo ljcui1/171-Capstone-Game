@@ -29,6 +29,8 @@ public class ToeBeansMinigame : MonoBehaviour
         linearTimer.OnTimerEnd += HandleGameOver;
         gameOver = false;
         curScore = 0;
+        // Start minigame music (ToeBeansMinigame is Minigame #1)
+        AudioManager.Instance.StartMinigame(1);
     }
     void Start()
     {
@@ -49,6 +51,10 @@ public class ToeBeansMinigame : MonoBehaviour
     {
         gameOver = true;
         catchGame.GameOver();
+
+        // Stop minigame music and resume background music
+        AudioManager.Instance.EndMinigame();
+
     }
 
 }

@@ -72,6 +72,8 @@ public class DialogScript : MonoBehaviour
             visualCue.SetActive(true, selectedAttribute);
             if (Input.GetKeyDown(interactKey))
             {
+                //Plays talking sound when selecting a cat
+                AudioManager.Instance.PlayTalkingSound();
                 if (selectedText)
                 {
                     DialogManager.GetInstance().EnterDialogMode(selectedText, this);
