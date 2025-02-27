@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Ink.Parsed;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class DialogScript : MonoBehaviour
@@ -167,6 +169,7 @@ public class DialogueEntry
 
 // from https://chatgpt.com/share/67bac8e1-e5b0-8000-93e6-7c5137d6a81f
 public class EnumFlagsAttribute : PropertyAttribute { }
+#if UNITY_EDITOR
 
 [CustomPropertyDrawer(typeof(EnumFlagsAttribute))]
 public class EnumFlagsDrawer : PropertyDrawer
@@ -177,7 +180,7 @@ public class EnumFlagsDrawer : PropertyDrawer
     }
 }
 
-
+#endif
 public enum TimeOfDay
 {
     Day = 1 << 0,
