@@ -29,6 +29,9 @@ public class DialogScript : MonoBehaviour
 
     void Awake()
     {
+
+        visualCue = GetComponentInChildren<VisualIndicator>();
+        Debug.Log(visualCue);
         visualCue.SetActive(false);
         isPlayerInZone = false;
         triggerZone = GetComponent<Collider2D>();
@@ -69,7 +72,9 @@ public class DialogScript : MonoBehaviour
     {
         if (isPlayerInZone && !DialogManager.GetInstance().IsPlaying)
         {
-            visualCue.SetActive(true, selectedAttribute);
+            Attribute[] playedAttributes = dialogueEntries.FindAll(entry => entry.played).ConvertAll(entry => entry.attribute).ToArray();
+            Debug.Log(playedAttributes);
+            visualCue.SetActive(true, playedAttributes);
             if (Input.GetKeyDown(interactKey))
             {
                 //Plays talking sound when selecting a cat
@@ -162,17 +167,6 @@ public class EnumFlagsDrawer : PropertyDrawer
     }
 }
 
-[Flags]
-public enum DaysOfWeek
-{
-    Monday = 1 << 0,
-    Tuesday = 1 << 1,
-    Wednesday = 1 << 2,
-    Thursday = 1 << 3,
-    Friday = 1 << 4,
-    Saturday = 1 << 5,
-    Sunday = 1 << 6
-}
 
 public enum TimeOfDay
 {
