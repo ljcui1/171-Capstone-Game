@@ -9,7 +9,7 @@ public class CatchGame : BaseMinigame
     private Scene mainScene;
     private ToeBeansMinigame toeBeansMinigame;
     private PhysicsScene2D physics2DScene;
-    private float physics2DSceneTimeScale = 1;
+    private readonly float physics2DSceneTimeScale = 1;
     // Scene stuff inspired by https://gist.github.com/kurtdekker/862da3bc22ee13aff61a7606ece6fdd3
     public override void GameOver()
     {
