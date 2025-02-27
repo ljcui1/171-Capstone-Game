@@ -14,8 +14,6 @@ public class PlayerManager : MonoBehaviour
     private PlayerFSM PlayerFSM;
 
     private Rigidbody2D rb;
-
-    int selectNum = 0;
     // AIDestinationSetter currCat = null;
     // GameObject currNPC;
 
@@ -99,13 +97,6 @@ public class PlayerManager : MonoBehaviour
                         MatchTint(Player.custCollide);
                     }
                 }
-                //else, set select to 0 to reset process
-                else
-                {
-                    selectNum = 0;
-                    // currCat = null;
-                    // currNPC = null;
-                }
             }
 
             /*if (Player.startPlay && Input.GetKey(KeyCode.Q))
@@ -132,12 +123,7 @@ public class PlayerManager : MonoBehaviour
             {
                 Debug.LogWarning("talkto is null");
             }
-            else if (!talking && Player.talkTo.CompareTag("Minigame"))
-            {
-                idling = false;
-                walking = false;
-                playing = true;
-            }
+
         }
     }
 

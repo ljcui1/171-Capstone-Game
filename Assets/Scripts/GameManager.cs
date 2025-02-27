@@ -62,8 +62,9 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-        if (Input.GetKeyUp(KeyCode.Escape) && playerManager.playing == false)
+        if (Input.GetKeyDown(KeyCode.Escape) && playerManager.playing == false)
         {
+            Debug.Log("Pause");
             PauseButton();
         }
     }
