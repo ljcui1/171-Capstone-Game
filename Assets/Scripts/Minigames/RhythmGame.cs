@@ -107,7 +107,7 @@ public class RhythmGame : BaseMinigame
         {
             // Beat is within bar
             ResetBeat(beat, beatIndex);
-            curScore += Math.Abs(pos - barPos) / barSpace;
+            AddScore((int)(Math.Abs(pos - barPos) / barSpace * 100));
             Debug.Log("Beat " + (pos - barPos) / barSpace + " curScore " + curScore);
         }
     }

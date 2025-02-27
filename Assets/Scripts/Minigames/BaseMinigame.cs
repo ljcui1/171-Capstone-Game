@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BaseMinigame : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class BaseMinigame : MonoBehaviour
     [SerializeField] protected float gameDuration;
     protected float startTime;
     private LinearTimer linearTimer;
+    [SerializeField]
+    private TextMeshProUGUI score;
 
     public virtual void GameOver()
     {
@@ -26,6 +29,7 @@ public class BaseMinigame : MonoBehaviour
 
     public virtual void StartGame()
     {
+        score.text = curScore.ToString();
         startTime = Time.realtimeSinceStartup;
         gameCanvas.SetActive(true);
         Time.timeScale = 0f;
@@ -35,6 +39,15 @@ public class BaseMinigame : MonoBehaviour
 
         // subscribes a function to timer event
         linearTimer.OnTimerEnd += GameOver;
+    }
+
+    protected void AddScore(int scoreToAdd)
+    {
+        if (!(curScore == 0 && scoreToAdd < 0))
+        {
+            curScore += scoreToAdd;
+            score.text = curScore.ToString();
+        }
     }
 
     protected virtual void GameInput() { }

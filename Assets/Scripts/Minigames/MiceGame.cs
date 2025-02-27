@@ -41,12 +41,8 @@ public class MiceGame : BaseMinigame
     [SerializeField]
     private float maxTime;
 
-    [SerializeField]
-    private TextMeshProUGUI score;
-
     public override void StartGame()
     {
-        score.text = curScore.ToString();
         base.StartGame();
         // Start minigame music (W.A.M. Minigame is Minigame #2)
         AudioManager.Instance.StartMinigame(2);
@@ -128,14 +124,5 @@ public class MiceGame : BaseMinigame
         float waitTime = Random.Range(minTime, maxTime);
         yield return new WaitForSecondsRealtime(waitTime);
         StartCoroutine(MousePop(mouseNum));
-    }
-
-    void AddScore(int scoreToAdd)
-    {
-        if (!(curScore == 0 && scoreToAdd < 0))
-        {
-            curScore += scoreToAdd;
-            score.text = curScore.ToString();
-        }
     }
 }
