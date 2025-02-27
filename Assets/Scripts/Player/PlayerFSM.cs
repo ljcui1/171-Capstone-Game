@@ -92,16 +92,18 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.E) && GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                GetStateMachine<PlayerFSM>().PlayMan.talking = true;
-                TransitionToState(PlayerState.TALK);
-            }
-
-            if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && Input.GetKey(KeyCode.Q))
-            {
-                GetStateMachine<PlayerFSM>().PlayMan.playing = true;
-                TransitionToState(PlayerState.PLAY);
+                if (GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
+                {
+                    GetStateMachine<PlayerFSM>().PlayMan.talking = true;
+                    TransitionToState(PlayerState.TALK);
+                }
+                else if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay)
+                {
+                    GetStateMachine<PlayerFSM>().PlayMan.playing = true;
+                    TransitionToState(PlayerState.PLAY);
+                }
             }
 
             if (!GetStateMachine<PlayerFSM>().PlayMan.joyIn)
@@ -203,7 +205,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
-            if (GetStateMachine<PlayerFSM>().PlayMan.idling || Input.GetKeyDown(KeyCode.Escape))
+            if (GetStateMachine<PlayerFSM>().PlayMan.idling || Input.GetKeyUp(KeyCode.Escape))
             {
                 TransitionToState(PlayerState.IDLE);
             }
@@ -216,6 +218,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
             GetStateMachine<PlayerFSM>().PlayMan.MiniMan.StopMinigame();
             GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay = false;
             GetStateMachine<PlayerFSM>().PlayMan.playing = false;
+            Debug.Log("Playing false from FSM");
             GetStateMachine<PlayerFSM>().onMinigameCompletion.Invoke();
         }
     }
