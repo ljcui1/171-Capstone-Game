@@ -33,7 +33,7 @@ public class DialogScript : MonoBehaviour
     {
 
         visualCue = GetComponentInChildren<VisualIndicator>();
-        Debug.Log(visualCue);
+        // Debug.Log(visualCue);
         visualCue.SetActive(false);
         isPlayerInZone = false;
         triggerZone = GetComponent<Collider2D>();
@@ -83,7 +83,7 @@ public class DialogScript : MonoBehaviour
         if (isPlayerInZone && !DialogManager.GetInstance().IsPlaying)
         {
             Attribute[] playedAttributes = dialogueEntries.FindAll(entry => entry.played).ConvertAll(entry => entry.attribute).ToArray();
-            Debug.Log(playedAttributes);
+            // Debug.Log(playedAttributes);
             visualCue.SetActive(true, playedAttributes);
             if (Input.GetKeyDown(interactKey))
             {
