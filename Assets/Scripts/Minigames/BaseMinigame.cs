@@ -16,6 +16,8 @@ public class BaseMinigame : MonoBehaviour
     public virtual void GameOver()
     {
         gameCanvas.SetActive(false);
+        // Stop minigame music and resume background music
+        AudioManager.Instance.EndMinigame();
         MinigameManager.instance.GameScore(curScore, maxScore, attribute);
         curScore = 0;
         Time.timeScale = 1f;
