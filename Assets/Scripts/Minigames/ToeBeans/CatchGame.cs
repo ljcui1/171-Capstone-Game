@@ -8,14 +8,13 @@ public class CatchGame : BaseMinigame
 {
     private Scene mainScene;
     private ToeBeansMinigame toeBeansMinigame;
-    private PhysicsScene2D physics2DScene;
-    private readonly float physics2DSceneTimeScale = 1;
+    private PhysicsScene2D physics2DScene = default;
+    private float physics2DSceneTimeScale = 1;
     // Scene stuff inspired by https://gist.github.com/kurtdekker/862da3bc22ee13aff61a7606ece6fdd3
     public override void GameOver()
     {
         curScore = toeBeansMinigame.curScore;
         MinigameManager.instance.GameScore(curScore, maxScore, attribute);
-        Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
         StartCoroutine(UnloadGameCoroutine());
     }
 
@@ -28,24 +27,25 @@ public class CatchGame : BaseMinigame
         StartCoroutine(StartGameCoroutine());
         enabled = true;
 
-
         // Changes physics to be automated 
         // https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Physics2D.Simulate.html
     }
 
     private void Update()
     {
-        if (physics2DScene.IsValid())
+        if (physics2DScene.IsValid() && Physics2D.simulationMode == SimulationMode2D.Script)
         {
-            physics2DScene.Simulate(Time.unscaledDeltaTime * physics2DSceneTimeScale);
+            physics2DScene.Simulate(Time.deltaTime * physics2DSceneTimeScale);
         }
     }
 
     private IEnumerator UnloadGameCoroutine()
     {
         string s = SceneManager.GetActiveScene().name;
-        AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(s, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
+        AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(s);
+        physics2DScene = default;
         Physics2D.SyncTransforms();
+        Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
         yield return new WaitUntil(() => asyncUnload.isDone);
         if (mainScene.IsValid())
         {
@@ -67,7 +67,7 @@ public class CatchGame : BaseMinigame
     private IEnumerator StartGameCoroutine()
     {
         // , LocalPhysicsMode.Physics2D
-        LoadSceneParameters param = new LoadSceneParameters(LoadSceneMode.Additive, LocalPhysicsMode.Physics2D);
+        LoadSceneParameters param = new LoadSceneParameters(LoadSceneMode.Additive);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("ToeBeansMinigame", param);
         yield return new WaitUntil(() => asyncLoad.isDone); // Ensure the scene is fully loaded
 
@@ -76,7 +76,6 @@ public class CatchGame : BaseMinigame
         {
             SceneManager.SetActiveScene(scene); // Set the loaded scene as active
             physics2DScene = scene.GetPhysicsScene2D();
-            Debug.Log(physics2DScene);
             Debug.Log("Active Scene: " + SceneManager.GetActiveScene().name);
         }
         else
@@ -100,5 +99,4 @@ public class CatchGame : BaseMinigame
         }
     }
 }
-
 
