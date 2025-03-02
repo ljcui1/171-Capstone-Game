@@ -70,6 +70,7 @@ public class DialogScript : MonoBehaviour
         {
             isPlayerInZone = true;
         }
+        SelectRandomText();
     }
 
     protected void OnTriggerExit2D(Collider2D other)
