@@ -87,7 +87,10 @@ public class DialogScript : MonoBehaviour
         {
             Attribute[] playedAttributes = dialogueEntries.FindAll(entry => entry.played).ConvertAll(entry => entry.attribute).ToArray();
             // Debug.Log(playedAttributes);
-            visualCue.SetActive(true, playedAttributes);
+            if (selectedText != defaultText || playedAttributes.Length > 0)
+            {
+                visualCue.SetActive(true, playedAttributes);
+            }
             if (Input.GetKeyDown(interactKey))
             {
                 //Plays talking sound when selecting a cat

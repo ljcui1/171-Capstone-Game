@@ -12,6 +12,7 @@ public class VisualIndicator : MonoBehaviour
     [SerializeField] private GameObject activeTalkative;
     [SerializeField] private GameObject activeFoodie;
     [SerializeField] private GameObject foodieTalkative;
+    [SerializeField] private GameObject none;
     [SerializeField] private GameObject all;
 
     public void SetActive(bool toggle, Attribute[] attributes = null)
@@ -34,9 +35,11 @@ public class VisualIndicator : MonoBehaviour
         activeFoodie.SetActive(false);
         foodieTalkative.SetActive(false);
 
+
         // If no attributes are passed in, exit early.
         if (attributes == null || attributes.Length == 0)
         {
+            none.SetActive(true);
             return;
         }
 
@@ -88,5 +91,6 @@ public class VisualIndicator : MonoBehaviour
         {
             foodie.SetActive(true);
         }
+        none.SetActive(false);
     }
 }
