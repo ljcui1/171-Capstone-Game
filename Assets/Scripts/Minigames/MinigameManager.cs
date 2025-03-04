@@ -61,6 +61,7 @@ public class MinigameManager : MonoBehaviour
             {
                 game.GameOver();
                 game.enabled = false;
+                AudioManager.Instance.EndMinigame();
                 Debug.Log("Stoping " + game);
             }
         }

@@ -54,6 +54,7 @@ public class ToeBeansMinigame : MonoBehaviour
 
         // Stop minigame music and resume background music
         AudioManager.Instance.EndMinigame();
+        Debug.Log("Ended Game Music");
 
     }
 
