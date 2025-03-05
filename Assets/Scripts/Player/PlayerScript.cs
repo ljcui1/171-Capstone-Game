@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -22,11 +25,19 @@ public class PlayerScript : MonoBehaviour
 
     public Animator anims;
 
+    [SerializeField] private Image Overlay;
+    [SerializeField] private TextMeshProUGUI InteractText;
+    [SerializeField] private TextMeshProUGUI MatchText;
+    [SerializeField] private TextMeshProUGUI TalkText;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anims = GetComponent<Animator>();
+        InteractText.enabled = false;
+        MatchText.enabled = false;
+        TalkText.enabled = false;
     }
 
     // Update is called once per frame
@@ -40,6 +51,7 @@ public class PlayerScript : MonoBehaviour
             talkTo = other;
             gameCollide = other;
             Debug.Log("e to start");
+            InteractText.enabled = true;
         }
         else if (other.tag == "Cat")
         {
@@ -47,6 +59,8 @@ public class PlayerScript : MonoBehaviour
             cat = other.GetComponent<BaseNPC>();
             talkTo = other;
             catCollide = other;
+            MatchText.enabled = true;
+            TalkText.enabled = !Overlay.enabled;
         }
         else if (other.tag == "Customer")
         {
@@ -55,6 +69,8 @@ public class PlayerScript : MonoBehaviour
             npcTarget = other.gameObject;
             talkTo = other;
             custCollide = other;
+            MatchText.enabled = true;
+            TalkText.enabled = Overlay.enabled;
         }
     }
 
@@ -65,6 +81,7 @@ public class PlayerScript : MonoBehaviour
             startPlay = false;
             talkTo = null;
             gameCollide = null;
+            InteractText.enabled = false;
         }
         else if (leavingOther.tag == "Cat")
         {
@@ -72,6 +89,8 @@ public class PlayerScript : MonoBehaviour
             cat = leavingOther.GetComponent<BaseNPC>();
             talkTo = null;
             catCollide = null;
+            MatchText.enabled = false;
+            TalkText.enabled = false;
         }
         else if (leavingOther.tag == "Customer")
         {
@@ -80,6 +99,8 @@ public class PlayerScript : MonoBehaviour
             npcTarget = leavingOther.gameObject;
             talkTo = null;
             custCollide = null;
+            MatchText.enabled = false;
+            TalkText.enabled = false;
         }
 
         if (gameCollide)
