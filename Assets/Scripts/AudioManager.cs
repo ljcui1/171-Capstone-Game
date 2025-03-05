@@ -34,9 +34,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] talkingSfxList;
     [SerializeField] private AudioClip[] pawThumpSfxList;
     [SerializeField] private AudioClip[] mouseSqueakSfxList;
+    [SerializeField] private AudioClip[] musicalMeowSfxList;
 
     [Header("Game SFX")]
     [SerializeField] private AudioClip beanCatchSfx;
+    [SerializeField] private AudioClip customerSpawnSfx;
 
     public AudioClip BeanCatchSfx => beanCatchSfx;
 
@@ -233,7 +235,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayThumpSound()
     {
-        if (talkingSfxList.Length > 0)
+        if (pawThumpSfxList.Length > 0)
         {
             int randomIndex = Random.Range(0, pawThumpSfxList.Length);
             sfxSource.PlayOneShot(pawThumpSfxList[randomIndex]);
@@ -246,7 +248,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySqueakSound()
     {
-        if (talkingSfxList.Length > 0)
+        if (mouseSqueakSfxList.Length > 0)
         {
             int randomIndex = Random.Range(0, mouseSqueakSfxList.Length);
             sfxSource.PlayOneShot(mouseSqueakSfxList[randomIndex]);
@@ -254,6 +256,31 @@ public class AudioManager : MonoBehaviour
         else
         {
             Debug.LogWarning("No talking sound effects assigned in AudioManager!");
+        }
+    }
+
+    public void PlayEnterChime()
+    {
+        if (customerSpawnSfx != null)
+        {
+            sfxSource.PlayOneShot(customerSpawnSfx);
+        }
+        else
+        {
+            Debug.LogWarning("Customer spawn sound effect not assigned in AudioManager!");
+        }
+    }
+
+    public void PlayMusicalMeow()
+    {
+        if (musicalMeowSfxList.Length > 0)
+        {
+            int randomIndex = Random.Range(0, musicalMeowSfxList.Length);
+            sfxSource.PlayOneShot(musicalMeowSfxList[randomIndex]);
+        }
+        else
+        {
+            Debug.LogWarning("No musical meow sound effects assigned in AudioManager!");
         }
     }
 

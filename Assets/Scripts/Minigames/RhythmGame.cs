@@ -39,7 +39,8 @@ public class RhythmGame : BaseMinigame
     public override void StartGame()
     {
         base.StartGame();
-
+        // Start minigame music (Rhythm_Bed is Minigame #3)
+        AudioManager.Instance.StartMinigame(3);
         beatSpace = beat1.GetComponent<RectTransform>().rect.height / 2;
         barSpace = bar.GetComponent<RectTransform>().rect.height / 2;
 
@@ -105,6 +106,7 @@ public class RhythmGame : BaseMinigame
         || (beatBottom <= barTop
         && beatBottom >= barBottom))
         {
+            AudioManager.Instance.PlayMusicalMeow();
             // Beat is within bar
             ResetBeat(beat, beatIndex);
             AddScore((int)(Math.Abs(pos - barPos) / barSpace * 100));
