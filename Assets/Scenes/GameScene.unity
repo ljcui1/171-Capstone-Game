@@ -993,6 +993,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b93f3263b9cc1124b80beb326a026d72, type: 3}
   - {fileID: 8300000, guid: e817ad31ec419f641bc52a7e2616e67e, type: 3}
   beanCatchSfx: {fileID: 8300000, guid: c806d5cfe3f1c38489ecfa2009bc8aa9, type: 3}
+  customerSpawnSfx: {fileID: 8300000, guid: 8d1b6f73f00a7ec4382fbad840c56f8d, type: 3}
 --- !u!4 &426513895
 Transform:
   m_ObjectHideFlags: 0

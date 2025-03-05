@@ -148,6 +148,7 @@ public class CustomerManager : MonoBehaviour
             customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
             script.chair = chairIndex;
+            AudioManager.Instance.PlayEnterChime(); //Should play enter chime here
         }
         else
         {

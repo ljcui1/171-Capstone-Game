@@ -37,6 +37,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Game SFX")]
     [SerializeField] private AudioClip beanCatchSfx;
+    [SerializeField] private AudioClip customerSpawnSfx;
 
     public AudioClip BeanCatchSfx => beanCatchSfx;
 
@@ -254,6 +255,18 @@ public class AudioManager : MonoBehaviour
         else
         {
             Debug.LogWarning("No talking sound effects assigned in AudioManager!");
+        }
+    }
+
+    public void PlayEnterChime()
+    {
+        if (customerSpawnSfx != null)
+        {
+            sfxSource.PlayOneShot(customerSpawnSfx);
+        }
+        else
+        {
+            Debug.LogWarning("Customer spawn sound effect not assigned in AudioManager!");
         }
     }
 
