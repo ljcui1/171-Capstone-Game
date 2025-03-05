@@ -172,13 +172,8 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-    private bool CheckMatch(BaseNPC cat, BaseNPC customer)
-    {
-        //sample
-        return Random.value > 0.5f;
-    }
 
-    /*private bool CheckMatch(BaseNPC cat, BaseNPC customer)
+    private bool CheckMatch(BaseNPC cat, BaseNPC customer)
     {
         if (cat == null || customer == null) return false;
 
@@ -206,7 +201,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
         return activeAttributes;
-    }*/
+    }
 
     /*private void MatchTint(Collider2D npc)
     {
