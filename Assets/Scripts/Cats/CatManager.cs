@@ -62,7 +62,7 @@ public class CatManager : MonoBehaviour
     }
 
     // Will be called in GameManager during the day
-    private void SetTargetLocations()
+    public void SetTargetLocations()
     {
         if (locations == null || locations.Length == 0)
         {
