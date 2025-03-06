@@ -1126,6 +1126,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e817ad31ec419f641bc52a7e2616e67e, type: 3}
   - {fileID: 8300000, guid: b93f3263b9cc1124b80beb326a026d72, type: 3}
   - {fileID: 8300000, guid: e817ad31ec419f641bc52a7e2616e67e, type: 3}
+  musicalMeowSfxList: []
   beanCatchSfx: {fileID: 8300000, guid: c806d5cfe3f1c38489ecfa2009bc8aa9, type: 3}
   customerSpawnSfx: {fileID: 8300000, guid: 8d1b6f73f00a7ec4382fbad840c56f8d, type: 3}
 --- !u!4 &426513895
@@ -6904,13 +6905,13 @@ PrefabInstance:
     - {fileID: 3107509529652775125, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 9116067165105382143, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
-      insertIndex: -1
+      insertIndex: 7
       addedObject: {fileID: 1094492778}
     - targetCorrespondingSourceObject: {fileID: 9116067165105382143, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
-      insertIndex: -1
+      insertIndex: 8
       addedObject: {fileID: 1082331961}
     - targetCorrespondingSourceObject: {fileID: 9116067165105382143, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
-      insertIndex: -1
+      insertIndex: 9
       addedObject: {fileID: 65962878}
     - targetCorrespondingSourceObject: {fileID: 5416282205101483993, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
       insertIndex: 5

@@ -186,6 +186,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
+            GetStateMachine<PlayerFSM>().rb.velocity = new Vector2(0, 0);
             Debug.Log(GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo);
             if (GetStateMachine<PlayerFSM>().PlayMan.Player.talkTo.tag == "Minigame")
             {
@@ -228,6 +229,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
         public override void OnEnter()
         {
             // Time.timeScale = 0f;
+            GetStateMachine<PlayerFSM>().rb.velocity = new Vector2(0, 0);
         }
 
         public override void OnUpdate()
