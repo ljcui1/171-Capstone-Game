@@ -187,8 +187,9 @@ public class PlayerManager : MonoBehaviour
 
     private HashSet<Attribute> GetActiveAttributes(MonoBehaviour npc)
     {
+        if (npc == null) return new HashSet<Attribute>();
         HashSet<Attribute> activeAttributes = new HashSet<Attribute>();
-        var npcAttributes = npc.GetType().GetProperty("attributes").GetValue(npc) as List<AttributePair>;
+        var npcAttributes = npc.GetType().GetField("attributes").GetValue(npc) as List<AttributePair>;
 
         if (npcAttributes != null)
         {
