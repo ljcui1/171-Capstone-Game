@@ -28,6 +28,8 @@ public class PlayerManager : MonoBehaviour
 
     private BaseNPC selectedCat = null;
     private BaseNPC selectedCust = null;
+
+    [SerializeField] private GameObject doorObj;
     // Start is called before the first frame update
     void Start()
     {
@@ -161,9 +163,14 @@ public class PlayerManager : MonoBehaviour
                 if (CheckMatch(selectedCat, selectedCust))
                 {
                     Debug.Log("Match found! Moving to the door.");
-                    /*Transform door = GameObject.Find("Door").transform;
+                    Transform door = doorObj.transform;
                     selectedCat.GetComponent<AIDestinationSetter>().target = door;
-                    selectedCust.GetComponent<AIDestinationSetter>().target = door;*/
+                    selectedCust.GetComponent<AIDestinationSetter>().target = door;
+                    if (selectedCat.transform == door && selectedCust.transform == door)
+                    {
+                        selectedCat.enabled = false;
+                        selectedCust.enabled = false;
+                    }
                 }
                 else
                 {
