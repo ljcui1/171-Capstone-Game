@@ -109,7 +109,7 @@ public class RhythmGame : BaseMinigame
             AudioManager.Instance.PlayMusicalMeow();
             // Beat is within bar
             ResetBeat(beat, beatIndex);
-            AddScore((int)(Math.Abs(pos - barPos) / barSpace * 100));
+            AddScore((int)(Math.Abs(pos - barPos) / barSpace * 10));
             Debug.Log("Beat " + (pos - barPos) / barSpace + " curScore " + curScore);
         }
     }

@@ -2745,7 +2745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a166636cefdb0e74cb46926e1389ee6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScore: 10
+  maxScore: 300
   attribute: 0
   gameCanvas: {fileID: 2166830411480595502}
   gameDuration: 15
@@ -2759,10 +2759,10 @@ MonoBehaviour:
   sound3: {fileID: 0}
   sound4: {fileID: 0}
   bar: {fileID: 1600604049223441975}
-  minFallSpeed: 80
-  maxFallSpeed: 125
-  minTime: 0.2
-  maxTime: 2
+  minFallSpeed: 100
+  maxFallSpeed: 150
+  minTime: 0
+  maxTime: 2.5
 --- !u!1839735485 &1049053844
 Tilemap:
   m_ObjectHideFlags: 0
