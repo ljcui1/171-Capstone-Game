@@ -59,17 +59,20 @@ public class MiceGame : BaseMinigame
     // Update is called once per frame
     void Update()
     {
-        GameInput();
-
-        /*if (Time.realtimeSinceStartup - startTime > gameDuration)
+        if (!tutorial.activeSelf)
         {
-            GameOver();
-        }*/
+            GameInput();
 
-        CheckCatching(mouse1, pawa);
-        CheckCatching(mouse2, paws);
-        CheckCatching(mouse3, pawd);
-        CheckCatching(mouse4, pawf);
+            /*if (Time.realtimeSinceStartup - startTime > gameDuration)
+            {
+                GameOver();
+            }*/
+
+            CheckCatching(mouse1, pawa);
+            CheckCatching(mouse2, paws);
+            CheckCatching(mouse3, pawd);
+            CheckCatching(mouse4, pawf);
+        }
     }
 
     void CheckCatching(Image mouse, Image paw)

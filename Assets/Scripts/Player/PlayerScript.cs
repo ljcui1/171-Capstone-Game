@@ -53,15 +53,6 @@ public class PlayerScript : MonoBehaviour
             Debug.Log("e to start");
             InteractText.enabled = true;
         }
-        else if (other.tag == "Cat")
-        {
-            inRange = true;
-            cat = other.GetComponent<BaseNPC>();
-            talkTo = other;
-            catCollide = other;
-            MatchText.enabled = true;
-            TalkText.enabled = !Overlay.enabled;
-        }
         else if (other.tag == "Customer")
         {
             inRange = true;
@@ -71,6 +62,15 @@ public class PlayerScript : MonoBehaviour
             custCollide = other;
             MatchText.enabled = true;
             TalkText.enabled = Overlay.enabled;
+        }
+        else if (other.tag == "Cat")
+        {
+            inRange = true;
+            cat = other.GetComponent<BaseNPC>();
+            talkTo = other;
+            catCollide = other;
+            MatchText.enabled = true;
+            TalkText.enabled = !Overlay.enabled;
         }
     }
 
@@ -83,15 +83,6 @@ public class PlayerScript : MonoBehaviour
             gameCollide = null;
             InteractText.enabled = false;
         }
-        else if (leavingOther.tag == "Cat")
-        {
-            inRange = false;
-            cat = leavingOther.GetComponent<BaseNPC>();
-            talkTo = null;
-            catCollide = null;
-            MatchText.enabled = false;
-            TalkText.enabled = false;
-        }
         else if (leavingOther.tag == "Customer")
         {
             inRange = false;
@@ -99,6 +90,15 @@ public class PlayerScript : MonoBehaviour
             npcTarget = leavingOther.gameObject;
             talkTo = null;
             custCollide = null;
+            MatchText.enabled = false;
+            TalkText.enabled = false;
+        }
+        else if (leavingOther.tag == "Cat")
+        {
+            inRange = false;
+            cat = leavingOther.GetComponent<BaseNPC>();
+            talkTo = null;
+            catCollide = null;
             MatchText.enabled = false;
             TalkText.enabled = false;
         }

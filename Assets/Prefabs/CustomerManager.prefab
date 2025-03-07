@@ -48,7 +48,7 @@ MonoBehaviour:
   numAttributes: 2
   numCustomersToSpawn: 0
   minWait: 0.5
-  maxWait: 3
+  maxWait: 2
   minHours: 2
   maxHours: 4
   customerPrefab: {fileID: 3734384574543545590, guid: 81c11c682ded1ae43a8c0a53d4a481ce, type: 3}

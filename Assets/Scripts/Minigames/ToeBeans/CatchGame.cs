@@ -18,6 +18,10 @@ public class CatchGame : BaseMinigame
         StartCoroutine(UnloadGameCoroutine());
     }
 
+    public override void StartTutorial()
+    {
+        StartGame();
+    }
     public override void StartGame()
     {
         mainScene = SceneManager.GetActiveScene();

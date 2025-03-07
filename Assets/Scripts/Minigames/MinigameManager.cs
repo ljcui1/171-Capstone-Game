@@ -45,7 +45,7 @@ public class MinigameManager : MonoBehaviour
             if (game.attribute == attribute)
             {
                 game.enabled = true;
-                game.StartGame();
+                game.StartTutorial();
                 return;
             }
         }

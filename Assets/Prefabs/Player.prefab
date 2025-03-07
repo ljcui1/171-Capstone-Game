@@ -112,6 +112,10 @@ MonoBehaviour:
   npcTarget: {fileID: 0}
   startPlay: 0
   anims: {fileID: 0}
+  Overlay: {fileID: 0}
+  InteractText: {fileID: 0}
+  MatchText: {fileID: 0}
+  TalkText: {fileID: 0}
 --- !u!70 &5493889926160200432
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

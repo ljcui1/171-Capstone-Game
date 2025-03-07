@@ -9,6 +9,7 @@ public class BaseMinigame : MonoBehaviour
     protected float curScore = 0;
     public Attribute attribute;
     public GameObject gameCanvas;
+    public GameObject tutorial;
 
     [SerializeField] protected float gameDuration;
     protected float startTime;
@@ -22,18 +23,31 @@ public class BaseMinigame : MonoBehaviour
         // Stop minigame music and resume background music
         AudioManager.Instance.EndMinigame();
         MinigameManager.instance.GameScore(curScore, maxScore, attribute);
-        curScore = 0;
         Time.timeScale = 1f;
         enabled = false;
     }
 
+    public virtual void StartTutorial()
+    {
+        Time.timeScale = 0f;
+        curScore = 0;
+        score.text = curScore.ToString();
+        gameCanvas.SetActive(true);
+
+        if (tutorial)
+        {
+            tutorial.SetActive(true);
+        }
+        else
+        {
+            StartGame();
+        }
+    }
+
     public virtual void StartGame()
     {
-        score.text = curScore.ToString();
+        tutorial.SetActive(false);
         startTime = Time.realtimeSinceStartup;
-        gameCanvas.SetActive(true);
-        Time.timeScale = 0f;
-
         linearTimer = FindObjectOfType<LinearTimer>();
         linearTimer.StartTimer(gameDuration);
 

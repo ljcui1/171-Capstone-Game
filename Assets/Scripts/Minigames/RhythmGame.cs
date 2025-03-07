@@ -63,16 +63,19 @@ public class RhythmGame : BaseMinigame
     // Update is called once per frame
     void Update()
     {
-        GameInput();
-
-        BeatDrop(beat1, 0);
-        BeatDrop(beat2, 1);
-        BeatDrop(beat3, 2);
-        BeatDrop(beat4, 3);
-
-        if (Time.realtimeSinceStartup - startTime > gameDuration)
+        if (!tutorial.activeSelf)
         {
-            GameOver();
+            GameInput();
+
+            BeatDrop(beat1, 0);
+            BeatDrop(beat2, 1);
+            BeatDrop(beat3, 2);
+            BeatDrop(beat4, 3);
+
+            if (Time.realtimeSinceStartup - startTime > gameDuration)
+            {
+                GameOver();
+            }
         }
     }
 
