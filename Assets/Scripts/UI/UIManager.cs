@@ -15,4 +15,6 @@ public class UIManager : MonoBehaviour
     {
 
     }
+
+    // referencing Keyboard button mapping https://youtu.be/sQpjgcX-jH8?si=KPxQeaEfQyD6z9DQ&t=571
 }
