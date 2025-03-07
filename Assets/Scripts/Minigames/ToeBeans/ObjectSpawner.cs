@@ -8,23 +8,23 @@ public class ObjectSpawner : MonoBehaviour
     public float spawnRate = 2f;
     public float widthOffset = 2f;
 
-    [SerializeField] private float timer = 0;
+    public bool movementOn = false;
 
-    void Start()
-    {
-        SpawnObject();
-    }
+    [SerializeField] private float timer = 0;
 
     void Update()
     {
-        if (timer < spawnRate)
+        if (movementOn)
         {
-            timer += Time.unscaledDeltaTime;
-        }
-        else
-        {
-            SpawnObject();
-            timer = 0;
+            if (timer < spawnRate)
+            {
+                timer += Time.unscaledDeltaTime;
+            }
+            else
+            {
+                SpawnObject();
+                timer = 0;
+            }
         }
     }
 

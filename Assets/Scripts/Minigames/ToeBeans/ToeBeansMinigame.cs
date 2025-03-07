@@ -15,7 +15,11 @@ public class ToeBeansMinigame : MonoBehaviour
 
     private CatchGame catchGame;
 
-    PhysicsScene2D physicsScene;
+    private BasketScript basketScript;
+
+    private ObjectSpawner[] objectSpawners;
+
+    private GameObject tutorial;
 
     public int curScore;
     public int maxScore;
@@ -24,18 +28,37 @@ public class ToeBeansMinigame : MonoBehaviour
     {
         catchGame = FindObjectOfType<CatchGame>();
         linearTimer = FindObjectOfType<LinearTimer>();
-        linearTimer.StartTimer(gameTime);
-        // subscribe to timer event
-        linearTimer.OnTimerEnd += HandleGameOver;
+        basketScript = FindObjectOfType<BasketScript>();
+        objectSpawners = FindObjectsOfType<ObjectSpawner>();
+        tutorial = GameObject.FindWithTag("Tutorial");
+
+
         gameOver = false;
         curScore = 0;
+
+    }
+
+    public void GameStart()
+    {
+        // subscribe to timer event
+        linearTimer.StartTimer(gameTime);
+        linearTimer.OnTimerEnd += HandleGameOver;
         // Start minigame music (ToeBeansMinigame is Minigame #1)
         AudioManager.Instance.StartMinigame(1);
+
+        basketScript.movementOn = true;
+        foreach (ObjectSpawner o in objectSpawners)
+        {
+            o.movementOn = true;
+        }
+        tutorial.SetActive(false);
     }
+
     void Start()
     {
         gameUI.UpdateScoreUI(curScore);
     }
+
     public void AddScore(int scoreToAdd)
     {
         if (gameOver) return; // Prevent adding score after game over
@@ -54,7 +77,7 @@ public class ToeBeansMinigame : MonoBehaviour
 
         // Stop minigame music and resume background music
         AudioManager.Instance.EndMinigame();
-        Debug.Log("Ended Game Music");
+
 
     }
 

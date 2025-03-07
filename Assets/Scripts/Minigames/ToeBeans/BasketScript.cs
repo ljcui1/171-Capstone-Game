@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class BasketScript : MonoBehaviour
 {
     public float speed;
-    public bool movementOn = true;
+    public bool movementOn = false;
     private float minX, maxX;
     public ToeBeansMinigame manager;
 
@@ -29,7 +29,6 @@ public class BasketScript : MonoBehaviour
         {
             MoveBasket();
         }
-        movementOn = !manager.gameOver;
     }
 
     void MoveBasket()
