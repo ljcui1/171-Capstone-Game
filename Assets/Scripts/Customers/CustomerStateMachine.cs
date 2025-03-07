@@ -199,6 +199,10 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
                 FSM.Script.walkout = false;
                 Debug.Log("Exiting");
                 FSM.Script.Exit();
+
+                // reset customer state to walkin
+                TransitionToState(CustomerFSM.WALKIN);
+                FSM.Script.walkin = true;
             }
         }
 

@@ -106,12 +106,21 @@ public class CustomerManager : MonoBehaviour
 
     private int SelectDestination()
     {
+        // check for available chairs
         for (int i = 0; i < chairs.Count; i++)
         {
             if (!chairOccupied[i])
             {
-                chairOccupied[i] = true;
-                return i;
+                // if any chair is available then randomly choose chairs
+                while (true)
+                {
+                    int rand = Random.Range(i, chairOccupied.Count);
+                    if (!chairOccupied[rand])
+                    {
+                        chairOccupied[rand] = true;
+                        return rand;
+                    }
+                }
             }
         }
 
