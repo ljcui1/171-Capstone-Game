@@ -8780,6 +8780,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1992350248}
     - target: {fileID: 6183185478439583544, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
+      propertyPath: gameMan
+      value: 
+      objectReference: {fileID: 6081611447647905932}
+    - target: {fileID: 6183185478439583544, guid: 8e3381adfb841f749b2b7e131f91b131, type: 3}
       propertyPath: TalkText
       value: 
       objectReference: {fileID: 65962879}

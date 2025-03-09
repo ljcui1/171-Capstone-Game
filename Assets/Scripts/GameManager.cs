@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float msgTime; // time that the transition message stays on screen
     [SerializeField] private float transitionTime;
     public enum NightOrDay { NIGHT, DAY };
-    private NightOrDay nightOrDay = NightOrDay.NIGHT;
+    public NightOrDay nightOrDay = NightOrDay.NIGHT;
 
     // Booleans
     private bool isPauseMenuOn = false;

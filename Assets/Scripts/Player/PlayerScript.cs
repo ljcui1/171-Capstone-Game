@@ -25,7 +25,7 @@ public class PlayerScript : MonoBehaviour
 
     public Animator anims;
 
-    [SerializeField] private Image Overlay;
+    public GameManager gameMan;
     [SerializeField] private TextMeshProUGUI InteractText;
     [SerializeField] private TextMeshProUGUI MatchText;
     [SerializeField] private TextMeshProUGUI TalkText;
@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour
             talkTo = other;
             gameCollide = other;
             Debug.Log("e to start");
-            InteractText.enabled = true;
+            InteractText.enabled = gameMan.nightOrDay == GameManager.NightOrDay.DAY;
         }
         else if (other.tag == "Customer")
         {
@@ -60,8 +60,8 @@ public class PlayerScript : MonoBehaviour
             npcTarget = other.gameObject;
             talkTo = other;
             custCollide = other;
-            MatchText.enabled = true;
-            TalkText.enabled = Overlay.enabled;
+            MatchText.enabled = gameMan.nightOrDay == GameManager.NightOrDay.DAY;
+            TalkText.enabled = gameMan.nightOrDay == GameManager.NightOrDay.DAY;
         }
         else if (other.tag == "Cat")
         {
@@ -69,8 +69,8 @@ public class PlayerScript : MonoBehaviour
             cat = other.GetComponent<BaseNPC>();
             talkTo = other;
             catCollide = other;
-            MatchText.enabled = true;
-            TalkText.enabled = !Overlay.enabled;
+            MatchText.enabled = gameMan.nightOrDay == GameManager.NightOrDay.DAY;
+            TalkText.enabled = gameMan.nightOrDay == GameManager.NightOrDay.NIGHT;
         }
     }
 
