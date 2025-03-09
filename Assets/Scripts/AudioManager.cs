@@ -43,7 +43,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip BeanCatchSfx => beanCatchSfx;
 
 
-    private bool isDaytime = true;
+    private bool isDaytime = false;
     private bool isMinigameActive = false;
 
     private void Awake()

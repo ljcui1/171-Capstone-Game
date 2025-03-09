@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 // clock code taken from https://github.com/kvanarsd/Bountiful-Game-Jam/blob/main/Assets/Scripts/GlobalManager.cs
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject dayTransitionMsg;
     [SerializeField] private float msgTime; // time that the transition message stays on screen
     [SerializeField] private float transitionTime;
+    public enum NightOrDay { NIGHT, DAY };
+    private NightOrDay nightOrDay = NightOrDay.NIGHT;
 
     // Booleans
     private bool isPauseMenuOn = false;
@@ -35,20 +38,22 @@ public class GameManager : MonoBehaviour
     // Clock
     private int hour;
     private int displayHour;
-    private int startHour = 8;
-    private int endHour = 17;
+    private int nightStartHour = 10;
+    private int nightEndHour = 18;
+    private int dayStartHour = 8;
+    private int dayEndHour = 17;
     private int minute = 0;
     private int minutesIncrement = 10;
     [SerializeField] private float secondsBeforeIncrement = 5f;
-    private string clockSuffix = "am";
+    private string clockSuffix = "pm";
 
     private void Start()
     {
         pauseMenu.SetActive(false);
-        nightTimeMode.SetActive(false);
-        hour = startHour;
+        nightTimeMode.SetActive(true); // start at nighttime
+        hour = nightStartHour;
         displayHour = hour;
-        clockText.text = "8:00 am";
+        clockText.text = displayHour + ":00 " + clockSuffix; // start time should be "10:00pm"
         StartCoroutine(IncrementClock());
     }
 
@@ -73,7 +78,7 @@ public class GameManager : MonoBehaviour
     // MARK: Clock Functions
     private IEnumerator IncrementClock()
     {
-        while (hour < endHour)
+        while (hour < (nightOrDay == NightOrDay.NIGHT ? nightEndHour : dayEndHour))
         {
             yield return new WaitForSeconds(secondsBeforeIncrement);
 
@@ -81,8 +86,15 @@ public class GameManager : MonoBehaviour
 
             UpdateClock();
         }
-        customerManager.ClosedCustomersLeave();
-        StartCoroutine(SwitchToNight());
+        if (nightOrDay == NightOrDay.DAY)
+        {
+            customerManager.ClosedCustomersLeave();
+            StartCoroutine(SwitchToNight());
+        }
+        else
+        {
+            StartCoroutine(SwitchToDay());
+        }
     }
 
     private void UpdateClock()
@@ -90,24 +102,25 @@ public class GameManager : MonoBehaviour
         // end of hour
         if (minute >= 60)
         {
-            // Check how long customer has been here 
-            customerManager.CustomerHours();
+            // clock UI management
             hour++;
             displayHour++;
-
-            if (hour == 12) // switch to PM
+            if (hour == 12) // switch to AM or PM
             {
-                clockSuffix = "pm";
+                clockSuffix = nightOrDay == NightOrDay.NIGHT ? "am" : "pm";
             }
-
             if (displayHour == 13)
             {
                 displayHour = 1;
             }
-
             minute = minute - 60;
-            //Debug.Log("CustomerWave");
-            StartCoroutine(customerManager.CustomerWave());
+
+            // customer management
+            if (nightOrDay == NightOrDay.DAY)
+            {
+                customerManager.CustomerHours(); // Check how long customer has been here 
+                StartCoroutine(customerManager.CustomerWave());
+            }
         }
 
         if (minute == 0)
@@ -122,40 +135,55 @@ public class GameManager : MonoBehaviour
 
     private void ResetClock()
     {
-        hour = startHour;
+        hour = nightOrDay == NightOrDay.NIGHT ? nightStartHour : dayStartHour;
         displayHour = hour;
         minute = 0;
-        clockSuffix = "am";
+        clockSuffix = nightOrDay == NightOrDay.NIGHT ? "pm" : "am";
     }
 
     // MARK: Day/Night
     private IEnumerator SwitchToNight()
     {
         yield return new WaitForSeconds(transitionTime); // waits for the customers to leave
-        clockText.text = "12:00 am"; // time is arbitrary; just set it to some feasible night time hour
+        nightOrDay = NightOrDay.NIGHT;
+
+        // UI
         nightTimeMode.SetActive(true);
         nightTransitionMsg.SetActive(true);
+        ResetClock();
+        clockText.text = displayHour + ":00 " + clockSuffix;
+        AudioManager.Instance.SwitchDayNight(false);
+
+        // Transition MSG UI
         yield return new WaitForSeconds(msgTime);
         nightTransitionMsg.SetActive(false);
         nightToDayButton.SetActive(true);
-        AudioManager.Instance.SwitchDayNight(false);
+        StartCoroutine(IncrementClock());
     }
-    public TimeOfDay CurrentTime()
-    {
-        return nightTimeMode.activeSelf ? TimeOfDay.Night : TimeOfDay.Day;
-    }
+
     private IEnumerator SwitchToDay()
     {
-        // Debug.Log("switch to day");
+        yield return new WaitForSeconds(1f);
+        nightOrDay = NightOrDay.DAY;
+
+        // UI
         nightToDayButton.SetActive(false);
         nightTimeMode.SetActive(false);
         dayTransitionMsg.SetActive(true);
         ResetClock();
-        clockText.text = "8:00 am";
+        clockText.text = displayHour + ":00 " + clockSuffix;
         AudioManager.Instance.SwitchDayNight(true);
+
+        // Transition MSG UI
         yield return new WaitForSeconds(msgTime);
         dayTransitionMsg.SetActive(false);
         StartCoroutine(IncrementClock());
+    }
+
+    // Helper function for DialogScript.cs
+    public TimeOfDay CurrentTime()
+    {
+        return nightTimeMode.activeSelf ? TimeOfDay.Night : TimeOfDay.Day;
     }
 
     // MARK: Button Functions
