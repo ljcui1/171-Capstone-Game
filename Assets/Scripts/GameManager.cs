@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         nightTimeMode.SetActive(true); // start at nighttime
+        nightToDayButton.SetActive(true);
         hour = nightStartHour;
         displayHour = hour;
         clockText.text = displayHour + ":00 " + clockSuffix; // start time should be "10:00pm"
@@ -196,6 +197,7 @@ public class GameManager : MonoBehaviour
 
     public void StartNextDay()
     {
+        StopAllCoroutines();
         StartCoroutine(SwitchToDay());
     }
 
