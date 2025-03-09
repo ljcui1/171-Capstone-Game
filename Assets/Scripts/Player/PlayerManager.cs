@@ -119,14 +119,14 @@ public class PlayerManager : MonoBehaviour
                 walking = false;
             }*/
         }
-        else
+        /*else
         {
             if (Player.talkTo == null)
             {
                 Debug.LogWarning("talkto is null");
             }
 
-        }
+        }*/
     }
 
     private void FixedUpdate() { }

@@ -41,6 +41,7 @@ public class SetsUiElementToSelectOnInteraction : MonoBehaviour
         if (elementToSelect == null)
             Debug.Log("This should jump where?", this);
 
+        Debug.Log("Jumping to next button");
         eventSystem.SetSelectedGameObject(elementToSelect.gameObject);
     }
 }

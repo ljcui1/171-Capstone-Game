@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 // clock code taken from https://github.com/kvanarsd/Bountiful-Game-Jam/blob/main/Assets/Scripts/GlobalManager.cs
 // Credit: Katrina Vanarsdale (from a Game Jam Project)
@@ -20,6 +22,8 @@ public class GameManager : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI clockText;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private GameObject pauseButton;
 
     [Header("Day/Night Transition")]
     [SerializeField] private GameObject nightTimeMode;
@@ -49,6 +53,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        eventSystem = FindObjectOfType<EventSystem>();
+
+        if (!eventSystem)
+        {
+            Debug.Log("Did not find an Event System in this scene.", this);
+            return;
+        }
+
         pauseMenu.SetActive(false);
         nightTimeMode.SetActive(true); // start at nighttime
         nightToDayButton.SetActive(true);
@@ -72,7 +84,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && playerManager.playing == false)
         {
             Debug.Log("Pause");
-            PauseButton();
+            pauseButton.GetComponent<Button>().onClick.Invoke();
         }
     }
 
