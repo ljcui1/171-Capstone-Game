@@ -60,7 +60,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
                     GetStateMachine<PlayerFSM>().PlayMan.talking = true;
                     TransitionToState(PlayerState.TALK);
                 }
-                else if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay)
+                else if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && GetStateMachine<PlayerFSM>().PlayMan.Player.gameMan.nightOrDay == GameManager.NightOrDay.DAY)
                 {
                     GetStateMachine<PlayerFSM>().PlayMan.playing = true;
                     TransitionToState(PlayerState.PLAY);
@@ -99,7 +99,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
                     GetStateMachine<PlayerFSM>().PlayMan.talking = true;
                     TransitionToState(PlayerState.TALK);
                 }
-                else if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay)
+                else if (GetStateMachine<PlayerFSM>().PlayMan.Player.startPlay && GetStateMachine<PlayerFSM>().PlayMan.Player.gameMan.nightOrDay == GameManager.NightOrDay.DAY)
                 {
                     GetStateMachine<PlayerFSM>().PlayMan.playing = true;
                     TransitionToState(PlayerState.PLAY);

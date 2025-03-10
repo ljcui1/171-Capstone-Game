@@ -62,7 +62,7 @@ public class CatManager : MonoBehaviour
     }
 
     // Will be called in GameManager during the day
-    public void SetTargetLocations()
+    private void SetTargetLocations()
     {
         if (locations == null || locations.Length == 0)
         {
@@ -101,7 +101,7 @@ public class CatManager : MonoBehaviour
         }
     }
 
-    private void SetRandomLocation(GameObject cat)
+    public void SetRandomLocation(GameObject cat)
     {
         CatScript catScript = cat.GetComponent<CatScript>();
         if (catScript != null && locations.Length > 0)
