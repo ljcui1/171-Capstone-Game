@@ -135,6 +135,8 @@ public class PlayerManager : MonoBehaviour
         if (talking)
         {
             Player.TalkText.enabled = false;
+            Player.MatchText.enabled = false;
+            Player.InteractText.enabled = false;
         }
     }
 
