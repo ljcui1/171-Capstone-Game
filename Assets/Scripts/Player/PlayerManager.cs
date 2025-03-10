@@ -179,8 +179,8 @@ public class PlayerManager : MonoBehaviour
                     selectedCust.GetComponent<AIDestinationSetter>().target = door;
                     if (selectedCat.transform == door && selectedCust.transform == door)
                     {
-                        selectedCat.enabled = false;
-                        selectedCust.enabled = false;
+                        selectedCat.gameObject.SetActive(false);
+                        selectedCust.gameObject.SetActive(false);
                     }
                 }
                 else
@@ -206,7 +206,7 @@ public class PlayerManager : MonoBehaviour
         );
 
         var customerAttributes = new HashSet<Attribute>(
-            customer.attributes.Where(attr => attr.isActive).Select(attr => attr.attribute)
+            customer.GetComponent<CustomerScript>().attributes.Where(attr => attr.isActive).Select(attr => attr.attribute)
         );
 
         Debug.Log($"Checking match...");
