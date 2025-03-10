@@ -72,10 +72,10 @@ public class RhythmGame : BaseMinigame
             BeatDrop(beat3, 2);
             BeatDrop(beat4, 3);
 
-            if (Time.realtimeSinceStartup - startTime > gameDuration)
+            /*if (Time.realtimeSinceStartup - startTime > gameDuration)
             {
                 GameOver();
-            }
+            }*/
         }
     }
 

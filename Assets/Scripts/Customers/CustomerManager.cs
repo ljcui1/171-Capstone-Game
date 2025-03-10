@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
@@ -62,7 +61,7 @@ public class CustomerManager : MonoBehaviour
     public void AddCustomerProbability(int addCustomer, float addweight, Attribute attribute)
     {
         numCustomersToSpawn += addCustomer;
-        attributeWeights[attribute] += addweight;
+        attributeWeights[attribute] = attributeWeights[attribute] + addweight;
     }
 
     private GameObject GetPooledCustomer()
@@ -77,10 +76,10 @@ public class CustomerManager : MonoBehaviour
         return null;
     }
 
-    private float SumOfWeights()
+    private float SumOfWeights(Dictionary<Attribute, float> weights)
     {
         float sum = 0f;
-        foreach (KeyValuePair<Attribute, float> att in attributeWeights)
+        foreach (KeyValuePair<Attribute, float> att in weights)
         {
             sum += att.Value;
         }
@@ -89,12 +88,13 @@ public class CustomerManager : MonoBehaviour
 
     private void SelectAttribute(List<Attribute> attr, Dictionary<Attribute, float> remainingAttr)
     {
-        float randomNum = Random.Range(0f, SumOfWeights());
+        float randomNum = Random.Range(0f, SumOfWeights(remainingAttr));
         float cumulativeWeight = 0f;
-
+        Debug.Log("Start Selection");
         foreach (KeyValuePair<Attribute, float> remaining in remainingAttr)
         {
             cumulativeWeight += remaining.Value;
+            Debug.Log(remaining.Key + " " + cumulativeWeight + " " + randomNum);
             if (randomNum <= cumulativeWeight)
             {
                 attr.Add(remaining.Key);
@@ -141,16 +141,18 @@ public class CustomerManager : MonoBehaviour
         // Generate customer attributes
         List<Attribute> attr = new();
         Dictionary<Attribute, float> remainingAttr = new(attributeWeights);
-
+        Debug.Log($"Before selection: {string.Join(", ", remainingAttr.Keys)}");
         for (int i = 0; i < numAttributes; i++)
         {
             SelectAttribute(attr, remainingAttr);
+            Debug.Log($"After selection: {string.Join(", ", remainingAttr.Keys)}");
         }
 
         // Spawn customer
         GameObject customer = GetPooledCustomer();
         if (customer != null)
         {
+            Debug.Log(attributeWeights[Attribute.Talkative] + " " + attributeWeights[Attribute.Foodie] + " " + attributeWeights[Attribute.Active]);
             CustomerScript script = customer.GetComponent<CustomerScript>();
             script.SetAttributes(attr);
             script.SetDestination(chair);
@@ -211,5 +213,10 @@ public class CustomerManager : MonoBehaviour
                 SendCustomerOut(customer.GetComponent<CustomerScript>());
             }
         }
+    }
+
+    internal void AddCustomerProbability(int v1, double v2, Attribute attribute)
+    {
+        throw new System.NotImplementedException();
     }
 }
