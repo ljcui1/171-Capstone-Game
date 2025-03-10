@@ -7790,6 +7790,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1460849066}
     - target: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
+      propertyPath: doorObj
+      value: 
+      objectReference: {fileID: 345488922}
+    - target: {fileID: 6207197657689098103, guid: ce9b1a01d0533a64ea4f816629804a9b, type: 3}
       propertyPath: PlayerFSM
       value: 
       objectReference: {fileID: 432045283}

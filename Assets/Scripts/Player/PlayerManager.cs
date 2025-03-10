@@ -81,7 +81,7 @@ public class PlayerManager : MonoBehaviour
                 idling = true;
             }*/
 
-            if (!playing && !talking && Input.GetKeyDown(KeyCode.Space))
+            if (!playing && !talking && Input.GetKeyDown(KeyCode.Space) && Player.gameMan.nightOrDay == GameManager.NightOrDay.DAY)
             {
                 // Debug.Log("space clicked");
                 //check if player can interact with an npc
@@ -92,10 +92,12 @@ public class PlayerManager : MonoBehaviour
                     //talkTo = Player.talkTo;
                     if (Player.catCollide != null)
                     {
+                        Debug.Log("CatSpace");
                         MatchTint(Player.catCollide);
                     }
                     if (Player.custCollide != null)
                     {
+                        Debug.Log("CustomerSpace");
                         MatchTint(Player.custCollide);
                     }
                 }
@@ -148,7 +150,7 @@ public class PlayerManager : MonoBehaviour
                 selectedCat = null;
             }
         }
-        else if (npc.CompareTag("Customer") && selectedCat != null)
+        if (npc.CompareTag("Customer") && selectedCat != null)
         {
             if (selectedCust == null) // Customer selection
             {
@@ -179,6 +181,8 @@ public class PlayerManager : MonoBehaviour
                     selectedCust.GetComponent<SpriteRenderer>().color = Color.white;
                     selectedCat.GetComponent<CatManager>().SetRandomLocation(selectedCat.gameObject);
                 }
+                selectedCat = null;
+                selectedCust = null;
             }
         }
     }
