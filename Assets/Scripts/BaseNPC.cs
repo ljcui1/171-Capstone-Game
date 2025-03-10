@@ -33,7 +33,7 @@ public class BaseNPC : MonoBehaviour
         // SetAttribute(Attribute.Foodie, false);
     }
 
-    protected virtual void SetAttribute(Attribute attribute, bool isActive)
+    public void SetAttribute(Attribute attribute, bool isActive)
     {
         // Add or update the attribute in the dictionary
         for (int i = 0; i < attributes.Count; i++)

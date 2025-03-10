@@ -18,6 +18,8 @@ public class DialogScript : MonoBehaviour
 
     [SerializeField] protected GameManager gameManager;
 
+    [SerializeField] private BaseNPC npc;
+
     [EnumFlags]
     public TimeOfDay timeOfDay;
 
@@ -35,8 +37,11 @@ public class DialogScript : MonoBehaviour
     {
 
         visualCue = GetComponentInChildren<VisualIndicator>();
-        // Debug.Log(visualCue);
         visualCue.SetActive(false);
+
+        npc = GetComponent<BaseNPC>();
+        Debug.Log(npc);
+
         isPlayerInZone = false;
         triggerZone = GetComponent<Collider2D>();
 
@@ -144,6 +149,10 @@ public class DialogScript : MonoBehaviour
             // Debug.Log("Marked dialogue as played: " + currentDialogue.textAsset.name);
         }
         SelectRandomText();
+        if (selectedAttribute != null)
+        {
+            npc.SetAttribute((Attribute)selectedAttribute, true);
+        }
     }
 
     public bool CanPlay()
