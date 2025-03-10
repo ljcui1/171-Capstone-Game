@@ -21,4 +21,9 @@ public class SceneManagement : MonoBehaviour
     {
         SceneManager.LoadScene(1); // loads the GameScene
     }
+
+    public void StartPremise()
+    {
+        SceneManager.LoadScene(3); // loads the PremiseScene
+    }
 }

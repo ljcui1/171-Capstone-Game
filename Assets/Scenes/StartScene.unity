@@ -1538,7 +1538,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 304659528}
         m_TargetAssemblyTypeName: SceneManagement, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: StartPremise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
