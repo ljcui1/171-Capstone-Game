@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using KevinCastejon.FiniteStateMachine;
 using Pathfinding;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerManager : MonoBehaviour
 {
     public PlayerScript Player;
+    public CatManager CatMan;
 
     public MinigameManager MiniMan;
 
@@ -26,8 +28,8 @@ public class PlayerManager : MonoBehaviour
 
     private Collider2D talkTo;
 
-    private BaseNPC selectedCat = null;
-    private BaseNPC selectedCust = null;
+    [SerializeField] private BaseNPC selectedCat = null;
+    [SerializeField] private BaseNPC selectedCust = null;
 
     [SerializeField] private GameObject doorObj;
     // Start is called before the first frame update
@@ -129,6 +131,11 @@ public class PlayerManager : MonoBehaviour
             }
 
         }*/
+
+        if (talking)
+        {
+            Player.TalkText.enabled = false;
+        }
     }
 
     private void FixedUpdate() { }
@@ -179,7 +186,7 @@ public class PlayerManager : MonoBehaviour
                     Debug.Log("No match found.");
                     selectedCat.GetComponent<SpriteRenderer>().color = Color.white;
                     selectedCust.GetComponent<SpriteRenderer>().color = Color.white;
-                    selectedCat.GetComponent<CatManager>().SetRandomLocation(selectedCat.gameObject);
+                    CatMan.SetRandomLocation(selectedCat.gameObject);
                 }
                 selectedCat = null;
                 selectedCust = null;
@@ -191,69 +198,21 @@ public class PlayerManager : MonoBehaviour
     {
         if (cat == null || customer == null) return false;
 
-        // Extract active attributes
-        HashSet<Attribute> catAttributes = GetActiveAttributes(cat);
-        HashSet<Attribute> customerAttributes = GetActiveAttributes(customer);
+        var catAttributes = new HashSet<Attribute>(
+            cat.GetComponent<CatScript>().attributes.Where(attr => attr.isActive).Select(attr => attr.attribute)
+        );
 
-        // Compare sets (return true if they have the same attributes)
-        return catAttributes.SetEquals(customerAttributes);
+        var customerAttributes = new HashSet<Attribute>(
+            customer.attributes.Where(attr => attr.isActive).Select(attr => attr.attribute)
+        );
+
+        Debug.Log($"Checking match...");
+        Debug.Log($"Cat Attributes ({cat.name}): {string.Join(", ", catAttributes)}");
+        Debug.Log($"Customer Attributes ({customer.name}): {string.Join(", ", customerAttributes)}");
+
+        bool match = catAttributes.SetEquals(customerAttributes);
+        Debug.Log($"Match Result: {match}");
+
+        return match;
     }
-
-    private HashSet<Attribute> GetActiveAttributes(MonoBehaviour npc)
-    {
-        if (npc == null) return new HashSet<Attribute>();
-        HashSet<Attribute> activeAttributes = new HashSet<Attribute>();
-        var npcAttributes = npc.GetType().GetField("attributes").GetValue(npc) as List<AttributePair>;
-
-        if (npcAttributes != null)
-        {
-            foreach (var attr in npcAttributes)
-            {
-                if (attr.isActive)
-                {
-                    activeAttributes.Add(attr.attribute);
-                }
-            }
-        }
-        return activeAttributes;
-    }
-
-    /*private void MatchTint(Collider2D npc)
-    {
-        Debug.Log("tag" + npc.tag);
-        if (npc.tag == "Cat" && selectNum == 0)
-        {
-            Debug.Log("select cat " + npc);
-            //set select to 1
-            selectNum = 1;
-            //tint sprite color/highlight
-            Player.cat.mainSprite.color = Color.red;
-
-            /*if(selectNum == 0) 
-            {
-            Debug.Log("select cat " + npc);
-            //set select to 1
-            selectNum = 1;
-            //tint sprite color/highlight
-            Player.cat.mainSprite.color = Color.red;
-            }else if(selectNum == 1)
-            {
-            Debug.Log("deselect cat " + npc);
-            //set select to 1
-            selectNum = 0;
-            //tint sprite color/highlight
-            Player.cat.mainSprite.color = Color.white;
-            }//
-        }
-        else if (npc.tag == "Customer" && selectNum == 1)
-        {
-            Debug.Log("select customer " + npc);
-            //set select to 1
-            selectNum = 2;
-            //tint sprite color/highlight
-            Player.customer.mainSprite.color = Color.red;
-            //set cat target to customer
-            Player.cat.SetDestination(Player.npcTarget);
-        }
-    }*/
 }

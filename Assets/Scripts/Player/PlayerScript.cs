@@ -26,9 +26,9 @@ public class PlayerScript : MonoBehaviour
     public Animator anims;
 
     public GameManager gameMan;
-    [SerializeField] private TextMeshProUGUI InteractText;
-    [SerializeField] private TextMeshProUGUI MatchText;
-    [SerializeField] private TextMeshProUGUI TalkText;
+    [SerializeField] public TextMeshProUGUI InteractText;
+    [SerializeField] public TextMeshProUGUI MatchText;
+    [SerializeField] public TextMeshProUGUI TalkText;
 
     // Start is called before the first frame update
     void Start()
