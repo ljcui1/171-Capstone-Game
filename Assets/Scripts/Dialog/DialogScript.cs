@@ -145,15 +145,19 @@ public class DialogScript : MonoBehaviour
     {
         if (currentDialogue != null)
         {
+            // Store the attribute from the current dialogue
+            Attribute dialogueAttribute = currentDialogue.attribute;
             currentDialogue.played = true;
-            // Debug.Log("Marked dialogue as played: " + currentDialogue.textAsset.name);
+
+            // Set the NPC's attribute based on the current dialogue
+            Debug.Log($"Setting {dialogueAttribute} active");
+            npc.SetAttribute(dialogueAttribute, true);
         }
+
+        // Now select the next dialogue (this may result in defaultText with no attribute)
         SelectRandomText();
-        if (selectedAttribute != null)
-        {
-            npc.SetAttribute((Attribute)selectedAttribute, true);
-        }
     }
+
 
     public bool CanPlay()
     {

@@ -188,7 +188,8 @@ public class PlayerManager : MonoBehaviour
                     Debug.Log("No match found.");
                     selectedCat.GetComponent<SpriteRenderer>().color = Color.white;
                     selectedCust.GetComponent<SpriteRenderer>().color = Color.white;
-                    CatMan.SetRandomLocation(selectedCat.gameObject);
+                    CatScript cat = selectedCat.gameObject.GetComponent<CatScript>();
+                    cat.SetRandomLocation();
                 }
                 selectedCat = null;
                 selectedCust = null;

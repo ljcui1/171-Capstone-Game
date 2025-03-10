@@ -8,7 +8,7 @@ public class CatManager : MonoBehaviour
     public List<LocationPrefabMapping> spawnMapping;
     private List<GameObject> cats = new List<GameObject>(); // Initialize list
     public Tilemap tilemap;
-    private GameObject[] locations;
+    public GameObject[] locations;
 
     public void Start()
     {
@@ -16,6 +16,8 @@ public class CatManager : MonoBehaviour
         locations = GameObject.FindGameObjectsWithTag("Location");
         Debug.Log($"******* Found {locations.Length} locations ********");
         SpawnCats();
+
+        InvokeRepeating(nameof(SetTargetLocations), 10, 10);
     }
 
     // Spawns cats in specific locations on the tilemap
@@ -96,26 +98,12 @@ public class CatManager : MonoBehaviour
             }
             else
             {
-                SetRandomLocation(cats[i]);
+                catScript.SetRandomLocation();
             }
         }
     }
 
-    public void SetRandomLocation(GameObject cat)
-    {
-        CatScript catScript = cat.GetComponent<CatScript>();
-        if (catScript != null && locations.Length > 0)
-        {
-            int randomIndex = Random.Range(0, locations.Length);
-            GameObject randomLocation = locations[randomIndex];
-            catScript.SetDestination(randomLocation);
-            Debug.Log($"Set {cat.name}'s target to {randomLocation.name}");
-        }
-        else
-        {
-            Debug.LogWarning($"CatScript not found on {cat.name} or locations array is empty!");
-        }
-    }
+
 }
 
 // Serializable class to hold the key-value pair for spawn location and prefab
