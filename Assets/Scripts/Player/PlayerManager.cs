@@ -175,13 +175,11 @@ public class PlayerManager : MonoBehaviour
                 {
                     Debug.Log("Match found! Moving to the door.");
                     Transform door = doorObj.transform;
+                    selectedCat.GetComponent<SpriteRenderer>().color = Color.green;
+                    selectedCust.GetComponent<SpriteRenderer>().color = Color.green;
                     selectedCat.GetComponent<AIDestinationSetter>().target = door;
                     selectedCust.GetComponent<AIDestinationSetter>().target = door;
-                    if (selectedCat.transform == door && selectedCust.transform == door)
-                    {
-                        selectedCat.gameObject.SetActive(false);
-                        selectedCust.gameObject.SetActive(false);
-                    }
+                    StartCoroutine(WaitForLeaving(selectedCat, selectedCust, door));
                 }
                 else
                 {
@@ -217,5 +215,17 @@ public class PlayerManager : MonoBehaviour
         Debug.Log($"Match Result: {match}");
 
         return match;
+    }
+
+    private IEnumerator WaitForLeaving(BaseNPC cat, BaseNPC customer, Transform door)
+    {
+        float threshold = 0.5f;
+        while (Vector2.Distance(cat.transform.position, door.position) > threshold || Vector2.Distance(customer.transform.position, door.position) > threshold)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.5f);
+        selectedCat.gameObject.SetActive(false);
+        selectedCust.gameObject.SetActive(false);
     }
 }
