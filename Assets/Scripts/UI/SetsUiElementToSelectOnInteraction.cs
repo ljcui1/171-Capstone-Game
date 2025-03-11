@@ -33,6 +33,14 @@ public class SetsUiElementToSelectOnInteraction : MonoBehaviour
             Debug.Log("Did not find an Event System in your Scene.", this);
     }
 
+    public void FindEventSystem()
+    {
+        eventSystem = FindObjectOfType<EventSystem>();
+
+        if (eventSystem == null)
+            Debug.Log("Did not find an Event System in your Scene.", this);
+    }
+
     public void JumpToElement()
     {
         if (eventSystem == null)

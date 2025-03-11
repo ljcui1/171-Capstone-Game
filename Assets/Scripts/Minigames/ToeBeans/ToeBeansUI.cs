@@ -9,7 +9,11 @@ public class ToeBeansUI : MonoBehaviour
 {
     public TextMeshProUGUI scoreUI;
     public TextMeshProUGUI timerUI;
-
+    private void Start()
+    {
+        transform.GetComponent<SetsUiElementToSelectOnInteraction>().FindEventSystem();
+        transform.GetComponent<SetsUiElementToSelectOnInteraction>().JumpToElement();
+    }
     public void UpdateScoreUI(float curScore)
     {
         scoreUI.SetText(curScore.ToString());

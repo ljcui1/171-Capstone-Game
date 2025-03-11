@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3298,6 +3298,7 @@ GameObject:
   - component: {fileID: 1049053840}
   - component: {fileID: 1049053844}
   - component: {fileID: 1049053843}
+  - component: {fileID: 1049053846}
   - component: {fileID: 1049053842}
   - component: {fileID: 1049053841}
   - component: {fileID: 1049053845}
@@ -3585,6 +3586,22 @@ CircleCollider2D:
   m_Offset: {x: -0.53, y: 8.49}
   serializedVersion: 2
   m_Radius: 0.24
+--- !u!114 &1049053846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049053839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d9ca43f68a9dc428cbc6a81c08d39a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSystem: {fileID: 1665338329}
+  elementToSelect: {fileID: 51407260}
+  showVisualization: 0
+  navigationColour: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &1049411363 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1399518628680660237, guid: 401a5a027bc146048b9a0f37eeceec45, type: 3}
@@ -4290,7 +4307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: -1
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5478,6 +5495,7 @@ GameObject:
   - component: {fileID: 1625200674}
   - component: {fileID: 1625200676}
   - component: {fileID: 1625200678}
+  - component: {fileID: 1625200679}
   - component: {fileID: 1625200675}
   - component: {fileID: 1625200677}
   m_Layer: 0
@@ -5726,6 +5744,22 @@ MonoBehaviour:
   mouse4: {fileID: 6286098305693727086}
   minTime: 0.2
   maxTime: 1
+--- !u!114 &1625200679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625200673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d9ca43f68a9dc428cbc6a81c08d39a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSystem: {fileID: 1665338329}
+  elementToSelect: {fileID: 1408246105}
+  showVisualization: 0
+  navigationColour: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &1665338327
 GameObject:
   m_ObjectHideFlags: 0

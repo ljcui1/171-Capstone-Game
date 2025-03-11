@@ -33,6 +33,7 @@ public class BaseMinigame : MonoBehaviour
         curScore = 0;
         score.text = curScore.ToString();
         gameCanvas.SetActive(true);
+        transform.GetComponent<SetsUiElementToSelectOnInteraction>().JumpToElement();
 
         if (tutorial)
         {
