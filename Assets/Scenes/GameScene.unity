@@ -5710,7 +5710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456c5cb6e7934f47a644ea5021dc39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScore: 100
+  maxScore: 70
   attribute: 2
   gameCanvas: {fileID: 6704912485985568668}
   tutorial: {fileID: 1589432898}
@@ -7543,7 +7543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a71fb6fa5af4bdda950725b8be97f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScore: 30
+  maxScore: 10
   attribute: 1
   gameCanvas: {fileID: 3574517665449472503}
   tutorial: {fileID: 0}

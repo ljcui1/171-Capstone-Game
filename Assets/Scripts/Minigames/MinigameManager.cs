@@ -74,7 +74,7 @@ public class MinigameManager : MonoBehaviour
         {
             if (score / maxScore >= scorePercentage[i])
             {
-                CustomerMan.AddCustomerProbability(customersToAdd[i], customersToAdd[i] / 100, attribute);
+                CustomerMan.AddCustomerProbability(customersToAdd[i], customersToAdd[i] * 0.1f, attribute);
                 return;
             }
         }
