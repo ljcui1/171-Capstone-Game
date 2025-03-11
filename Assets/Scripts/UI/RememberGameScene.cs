@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class RememberCurrentlySelectedGameObject : MonoBehaviour
+public class RememberGameScene : MonoBehaviour
 {
     [SerializeField] private EventSystem eventSystem;
     [SerializeField] private GameObject lastSelectedElement;
+    [SerializeField] private GameObject startDayButton;
+    [SerializeField] private DialogManager dialogManager;
 
     private void Reset()
     {
@@ -31,9 +33,18 @@ public class RememberCurrentlySelectedGameObject : MonoBehaviour
             lastSelectedElement = eventSystem.currentSelectedGameObject;
         }
 
-        if (!eventSystem.currentSelectedGameObject && lastSelectedElement)
+        if (eventSystem.currentSelectedGameObject && !dialogManager.IsPlaying &&
+        (eventSystem.currentSelectedGameObject.name == "Choice0" ||
+        eventSystem.currentSelectedGameObject.name == "Choice1") &&
+        startDayButton.activeSelf)
+        {
+            lastSelectedElement = startDayButton;
+        }
+
+        if (lastSelectedElement && (!eventSystem.currentSelectedGameObject || lastSelectedElement != eventSystem.currentSelectedGameObject))
         {
             eventSystem.SetSelectedGameObject(lastSelectedElement);
+            Debug.Log(eventSystem.currentSelectedGameObject);
         }
     }
 }
