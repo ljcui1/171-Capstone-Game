@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SwitchToDay()
     {
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         nightOrDay = NightOrDay.DAY;
 
         // UI
