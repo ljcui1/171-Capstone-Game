@@ -345,6 +345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   run: {fileID: 7400000, guid: 839a86e4ce6ebba44a6013508d7871f1, type: 2}
   anim: {fileID: 62881047}
+  gameMan: {fileID: 6081611447647905932}
 --- !u!95 &62881047
 Animator:
   serializedVersion: 5
@@ -600,6 +601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   run: {fileID: 7400000, guid: e406d08cf89d74a4e8a1e9799ebc611d, type: 2}
   anim: {fileID: 77471728}
+  gameMan: {fileID: 6081611447647905932}
 --- !u!95 &77471728
 Animator:
   serializedVersion: 5
@@ -3737,6 +3739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   run: {fileID: 7400000, guid: 8e131202581110e48a394d5f0e5c0f30, type: 2}
   anim: {fileID: 1021675803}
+  gameMan: {fileID: 6081611447647905932}
 --- !u!95 &1021675803
 Animator:
   serializedVersion: 5

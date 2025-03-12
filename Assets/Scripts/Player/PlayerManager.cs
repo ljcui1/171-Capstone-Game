@@ -211,7 +211,11 @@ public class PlayerManager : MonoBehaviour
         Debug.Log($"Cat Attributes ({cat.name}): {string.Join(", ", catAttributes)}");
         Debug.Log($"Customer Attributes ({customer.name}): {string.Join(", ", customerAttributes)}");
 
-        bool match = catAttributes.SetEquals(customerAttributes);
+        // Check if customer has at least all attributes of cat, and if customer has at least 2 attributes from the cat's list
+        bool hasRequiredAttributes = catAttributes.All(attribute => customerAttributes.Contains(attribute));
+        bool hasMinAttributes = catAttributes.Count() <= customerAttributes.Count() && customerAttributes.Intersect(catAttributes).Count() >= 2;
+
+        bool match = hasRequiredAttributes && hasMinAttributes;
         Debug.Log($"Match Result: {match}");
 
         return match;
