@@ -9,6 +9,7 @@ public class CatScript : BaseNPC
   private CatManager catManager;
   public float minTime = 8f;
   public float maxTime = 20f;
+  public bool matched = false;
 
   public void Start()
   {
@@ -18,7 +19,7 @@ public class CatScript : BaseNPC
 
   private IEnumerator RandomRepeat()
   {
-    while (true)
+    while (!matched)
     {
       float delay = Random.Range(minTime, maxTime);
       yield return new WaitForSeconds(delay);
@@ -31,6 +32,6 @@ public class CatScript : BaseNPC
     int randomIndex = Random.Range(0, catManager.locations.Length);
     GameObject randomLocation = catManager.locations[randomIndex];
     SetDestination(randomLocation);
-    Debug.Log($"Set {name}'s target to {randomLocation.name}");
+    // Debug.Log($"Set {name}'s target to {randomLocation.name}");
   }
 }

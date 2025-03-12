@@ -94,7 +94,7 @@ public class CatManager : MonoBehaviour
             {
                 GameObject uniqueLocation = shuffledLocations[i];
                 catScript.SetDestination(uniqueLocation);
-                Debug.Log($"Set {cats[i].name}'s target to {uniqueLocation.name}");
+                // Debug.Log($"Set {cats[i].name}'s target to {uniqueLocation.name}");
             }
             else
             {

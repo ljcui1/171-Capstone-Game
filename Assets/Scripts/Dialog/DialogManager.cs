@@ -111,13 +111,13 @@ public class DialogManager : MonoBehaviour
             switch (tagKey)
             {
                 case ATTRIBUTE_TAG:
-                    Debug.Log("attribute=" + tagValue);
+                    //Debug.Log("attribute=" + tagValue);
                     break;
                 case AFFINITY_TAG:
-                    Debug.Log("affinity=" + tagValue);
+                    //Debug.Log("affinity=" + tagValue);
                     break;
                 default:
-                    Debug.LogWarning("Tag Key is currently not being handled" + tag);
+                    //Debug.LogWarning("Tag Key is currently not being handled" + tag);
                     break;
             }
 

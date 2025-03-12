@@ -44,7 +44,16 @@ public class BaseNPC : MonoBehaviour
                 return;
             }
         }
-        attributes.Add(new AttributePair { attribute = attribute, isActive = isActive });
+        // attributes.Add(new AttributePair { attribute = attribute, isActive = isActive });
+    }
+
+    public void AddAttribute(Attribute attribute)
+    {
+        // Add the attribute to the dictionary
+        if (!attributes.Exists(x => x.attribute == attribute))
+        {
+            attributes.Add(new AttributePair { attribute = attribute, isActive = false });
+        }
     }
 
     protected virtual bool IsAttributeActive(Attribute attribute)

@@ -7,9 +7,7 @@ public class CustomerManager : MonoBehaviour
     // Customer spawn parameters
     [Header("Spawn Parameters")]
     [SerializeField] private List<Attribute> attributes; // All available attributes
-    //public List<float> attributeWeights; // Attribute probabilities
-    private Dictionary<Attribute, float> attributeWeights = new Dictionary<Attribute, float>(); // Attribute probabilities
-    [SerializeField] private int numAttributes; // Number of attributes per customer
+    //public List<float> attributeWeights; // Attribute probabilities    [SerializeField] private int numAttributes; // Number of attributes per customer
     public int numCustomersToSpawn; // Number of customers to spawn
 
 
@@ -36,20 +34,7 @@ public class CustomerManager : MonoBehaviour
 
     void Start()
     {
-        // populate attributeWeights with all possible attributes and set to 0s
-        foreach (Attribute att in attributes)
-        {
-            attributeWeights.Add(att, 0);
-        }
-
-        // Initialize customer pool
-        customerPool = new List<GameObject>();
-        for (int i = 0; i < amountToPool; i++)
-        {
-            GameObject tmpCustomer = Instantiate(customerPrefab, transform);
-            tmpCustomer.SetActive(false);
-            customerPool.Add(tmpCustomer);
-        }
+        InstantiateCustomers();
 
         // Initialize chair occupancy
         for (int i = 0; i < chairs.Count; i++)
@@ -58,10 +43,36 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    public void AddCustomerProbability(int addCustomer, float addweight, Attribute attribute)
+    private void InstantiateCustomers()
+    {
+        // Initialize customer pool
+        customerPool = new List<GameObject>();
+        for (int i = 0; i < amountToPool; i++)
+        {
+            GameObject tmpCustomer = Instantiate(customerPrefab, transform);
+            tmpCustomer.SetActive(false);
+            CustomerScript script = tmpCustomer.GetComponent<CustomerScript>();
+            // Select two random attributes
+            List<Attribute> availableAttributes = new List<Attribute>(attributes);
+            List<Attribute> selectedAttributes = new();
+
+            while (selectedAttributes.Count < 2 && availableAttributes.Count > 0)
+            {
+                int randomIndex = Random.Range(0, availableAttributes.Count);
+                selectedAttributes.Add(availableAttributes[randomIndex]);
+                availableAttributes.RemoveAt(randomIndex);
+            }
+            Debug.Log($"Customer Attributes: {string.Join(", ", selectedAttributes)}");
+
+            script.SetAttributes(selectedAttributes);
+
+            customerPool.Add(tmpCustomer);
+        }
+    }
+
+    public void AddCustomerProbability(int addCustomer, float addweight)
     {
         numCustomersToSpawn += addCustomer;
-        attributeWeights[attribute] = attributeWeights[attribute] + addweight;
     }
 
     private GameObject GetPooledCustomer()
@@ -86,24 +97,6 @@ public class CustomerManager : MonoBehaviour
         return sum;
     }
 
-    private void SelectAttribute(List<Attribute> attr, Dictionary<Attribute, float> remainingAttr)
-    {
-        float randomNum = Random.Range(0f, SumOfWeights(remainingAttr));
-        float cumulativeWeight = 0f;
-        Debug.Log("Start Selection");
-        foreach (KeyValuePair<Attribute, float> remaining in remainingAttr)
-        {
-            cumulativeWeight += remaining.Value;
-            Debug.Log(remaining.Key + " " + cumulativeWeight + " " + randomNum);
-            if (randomNum <= cumulativeWeight)
-            {
-                attr.Add(remaining.Key);
-                remainingAttr.Remove(remaining.Key);
-                return;
-            }
-        }
-    }
-
     private int SelectDestination()
     {
         // check for available chairs
@@ -126,7 +119,6 @@ public class CustomerManager : MonoBehaviour
 
         return -1;
     }
-
     private void SpawnCustomer()
     {
         // Check for available chair
@@ -138,28 +130,18 @@ public class CustomerManager : MonoBehaviour
         }
         GameObject chair = chairs[chairIndex];
 
-        // Generate customer attributes
-        List<Attribute> attr = new();
-        Dictionary<Attribute, float> remainingAttr = new(attributeWeights);
-        //Debug.Log($"Before selection: {string.Join(", ", remainingAttr.Keys)}");
-        for (int i = 0; i < numAttributes; i++)
-        {
-            SelectAttribute(attr, remainingAttr);
-            //Debug.Log($"After selection: {string.Join(", ", remainingAttr.Keys)}");
-        }
 
         // Spawn customer
         GameObject customer = GetPooledCustomer();
         if (customer != null)
         {
-            Debug.Log(attributeWeights[Attribute.Talkative] + " " + attributeWeights[Attribute.Foodie] + " " + attributeWeights[Attribute.Active]);
             CustomerScript script = customer.GetComponent<CustomerScript>();
-            script.SetAttributes(attr);
+
             script.SetDestination(chair);
             customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
             script.chair = chairIndex;
-            AudioManager.Instance.PlayEnterChime(); //Should play enter chime here
+            AudioManager.Instance.PlayEnterChime();
         }
         else
         {

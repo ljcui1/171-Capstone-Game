@@ -40,7 +40,7 @@ public class DialogScript : MonoBehaviour
         visualCue.SetActive(false);
 
         npc = GetComponent<BaseNPC>();
-        Debug.Log(npc);
+        // Debug.Log(npc);
 
         isPlayerInZone = false;
         triggerZone = GetComponent<Collider2D>();

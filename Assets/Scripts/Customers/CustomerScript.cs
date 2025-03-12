@@ -22,7 +22,7 @@ public class CustomerScript : BaseNPC
     {
         foreach (var attribute in attr)
         {
-            SetAttribute(attribute, true);
+            AddAttribute(attribute);
         }
 
         Debug.Log($"Manager selection: {string.Join(", ", attr)}");
