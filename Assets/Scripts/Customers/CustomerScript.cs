@@ -24,6 +24,9 @@ public class CustomerScript : BaseNPC
         {
             SetAttribute(attribute, true);
         }
+
+        Debug.Log($"Manager selection: {string.Join(", ", attr)}");
+        Debug.Log($"Customer selection: {string.Join(", ", attributes)}");
     }
 
     public bool AtDestination()
@@ -49,5 +52,6 @@ public class CustomerScript : BaseNPC
     {
         Debug.Log("Despawning Customer");
         gameObject.SetActive(false);
+        attributes.Clear();
     }
 }

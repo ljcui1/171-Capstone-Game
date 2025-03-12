@@ -141,11 +141,11 @@ public class CustomerManager : MonoBehaviour
         // Generate customer attributes
         List<Attribute> attr = new();
         Dictionary<Attribute, float> remainingAttr = new(attributeWeights);
-        Debug.Log($"Before selection: {string.Join(", ", remainingAttr.Keys)}");
+        //Debug.Log($"Before selection: {string.Join(", ", remainingAttr.Keys)}");
         for (int i = 0; i < numAttributes; i++)
         {
             SelectAttribute(attr, remainingAttr);
-            Debug.Log($"After selection: {string.Join(", ", remainingAttr.Keys)}");
+            //Debug.Log($"After selection: {string.Join(", ", remainingAttr.Keys)}");
         }
 
         // Spawn customer

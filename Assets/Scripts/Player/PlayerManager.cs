@@ -219,13 +219,16 @@ public class PlayerManager : MonoBehaviour
 
     private IEnumerator WaitForLeaving(BaseNPC cat, BaseNPC customer, Transform door)
     {
-        float threshold = 0.5f;
-        while (Vector2.Distance(cat.transform.position, door.position) > threshold || Vector2.Distance(customer.transform.position, door.position) > threshold)
+        cat.GetComponent<AIPath>().endReachedDistance = 0.1f;
+        customer.GetComponent<AIPath>().endReachedDistance = 0.1f;
+        while (!cat.GetComponent<AIPath>().reachedEndOfPath || !customer.GetComponent<AIPath>().reachedEndOfPath)
         {
             yield return null;
         }
-        yield return new WaitForSeconds(0.5f);
-        selectedCat.gameObject.SetActive(false);
-        selectedCust.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        cat.GetComponent<SpriteRenderer>().color = Color.white;
+        customer.GetComponent<SpriteRenderer>().color = Color.white;
+        cat.gameObject.SetActive(false);
+        customer.gameObject.SetActive(false);
     }
 }
