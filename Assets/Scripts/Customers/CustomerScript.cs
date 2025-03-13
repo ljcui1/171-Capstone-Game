@@ -1,4 +1,5 @@
 using Pathfinding;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,7 +53,19 @@ public class CustomerScript : BaseNPC
     public void Exit()
     {
         Debug.Log("Despawning Customer");
-        gameObject.SetActive(false);
         attributes.Clear();
+        StartCoroutine(WaitForCustomerExit());
+    }
+
+    private IEnumerator WaitForCustomerExit()
+    {
+        // Wait until the customer has reached the entrance
+        while (!AtDestination())
+        {
+            yield return null; // Wait until next frame
+        }
+
+        // Customer has reached exit, deactivate them
+        Destroy(gameObject);
     }
 }

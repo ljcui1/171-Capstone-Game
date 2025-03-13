@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Ink.Parsed;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,6 +27,7 @@ public class DialogScript : MonoBehaviour
     public bool CUSTOMER = false;
 
     public List<DialogueEntry> dialogueEntries = new List<DialogueEntry>();
+    private List<DialogueEntry> customerDialog = new List<DialogueEntry>();
     protected bool isPlayerInZone = false;
 
     // This could be set by the NPC or some game logic
@@ -54,17 +56,16 @@ public class DialogScript : MonoBehaviour
         {
             Debug.LogError("gameManager not found for " + transform.gameObject.name);
         }
+        customerDialog = dialogueEntries;
     }
 
     void Start()
     {
         if (CUSTOMER)
         {
-            if (dialogueEntries.Count > 0)
-            {
-                int randomIndex = UnityEngine.Random.Range(0, dialogueEntries.Count);
-                dialogueEntries.RemoveAt(randomIndex);
-            }
+            CustomerScript custscript = GetComponent<CustomerScript>();
+
+            dialogueEntries = customerDialog.FindAll(entry => custscript.attributes.Any(attrPair => attrPair.attribute == entry.attribute));
         }
         SelectRandomText();
     }
