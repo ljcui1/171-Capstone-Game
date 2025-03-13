@@ -20,6 +20,7 @@ public class CustomerScript : BaseNPC
 
     public void SetAttributes(List<Attribute> attr)
     {
+        attributes.Clear();
         foreach (var attribute in attr)
         {
             AddAttribute(attribute);

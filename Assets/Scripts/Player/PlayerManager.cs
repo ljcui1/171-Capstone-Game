@@ -238,6 +238,7 @@
 //     }
 // }
 
+// Refactored code but still has issues with the MatchTint method
 
 using System.Collections;
 using System.Collections.Generic;
@@ -375,7 +376,7 @@ public class PlayerManager : MonoBehaviour
         cat.matched = true;
         cat.SetDestination(doorObj);
         customer.SetDestination(doorObj);
-        // StartCoroutine(WaitForLeaving(cat, customer, door));
+        StartCoroutine(WaitForLeaving(cat, customer, door));
         selectedCat = null;
         selectedCust = null;
     }
@@ -399,18 +400,18 @@ public class PlayerManager : MonoBehaviour
         return catAttributes.All(attribute => customerAttributes.Contains(attribute)) && customerAttributes.Intersect(catAttributes).Count() >= 2;
     }
 
-    // private IEnumerator WaitForLeaving(BaseNPC cat, BaseNPC customer, Transform door)
-    // {
-    //     cat.GetComponent<AIPath>().endReachedDistance = 0.1f;
-    //     customer.GetComponent<AIPath>().endReachedDistance = 0.1f;
+    private IEnumerator WaitForLeaving(BaseNPC cat, BaseNPC customer, Transform door)
+    {
+        cat.GetComponent<AIPath>().endReachedDistance = 0.1f;
+        customer.GetComponent<AIPath>().endReachedDistance = 0.1f;
 
-    //     yield return new WaitUntil(() => cat.GetComponent<AIPath>().reachedEndOfPath && customer.GetComponent<AIPath>().reachedEndOfPath);
-    //     yield return new WaitForSeconds(0.1f);
+        yield return new WaitUntil(() => cat.GetComponent<AIPath>().reachedEndOfPath && customer.GetComponent<AIPath>().reachedEndOfPath);
+        yield return new WaitForSeconds(0.1f);
 
-    //     cat.GetComponent<SpriteRenderer>().color = Color.white;
-    //     customer.GetComponent<SpriteRenderer>().color = Color.white;
-    //     cat.gameObject.SetActive(false);
-    //     customer.gameObject.SetActive(false);
-    // }
+        cat.GetComponent<SpriteRenderer>().color = Color.white;
+        customer.GetComponent<SpriteRenderer>().color = Color.white;
+        cat.gameObject.SetActive(false);
+        customer.gameObject.SetActive(false);
+    }
 }
 
