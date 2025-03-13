@@ -213,19 +213,28 @@ public class CustomerManager : MonoBehaviour
         chairOccupied[customer.chair] = false;
         customer.SetDestination(entrance);
         customer.Exit();
+        customerPool.Remove(customer.gameObject);
     }
 
     public void CustomerHours()
     {
-        foreach (var customer in customerPool)
+        // Iterate backwards to avoid index shifting issues
+        for (int i = customerPool.Count - 1; i >= 0; i--)
         {
-            // Increase hour count for active customers
+            GameObject customer = customerPool[i];
+
+            if (customer == null)
+            {
+                customerPool.RemoveAt(i); // Remove destroyed objects
+                continue;
+            }
+
             if (customer.activeSelf)
             {
                 CustomerScript script = customer.GetComponent<CustomerScript>();
                 script.hourStayed++;
 
-                // Send customer out after a random duration between minHours and maxHours
+                // Send customer out after a random duration
                 if (script.hourStayed >= Random.Range(minHours, maxHours))
                 {
                     SendCustomerOut(script);
