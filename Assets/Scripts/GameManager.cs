@@ -51,6 +51,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float secondsBeforeIncrement = 5f;
     private string clockSuffix = "pm";
 
+    // End Game Conditions
+    private int daysPassed = 0;
+    [SerializeField] GameObject cat1;
+    [SerializeField] GameObject cat2;
+
     private void Start()
     {
         eventSystem = FindObjectOfType<EventSystem>();
@@ -85,6 +90,16 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Pause");
             pauseButton.GetComponent<Button>().onClick.Invoke();
+        }
+
+        if (!cat1.activeSelf && !cat2.activeSelf)
+        {
+            SceneManager.LoadScene(5); // navigate to good end screen
+        }
+
+        if (daysPassed >= 2)
+        {
+            SceneManager.LoadScene(4); // navigates to the game over screen
         }
     }
 
@@ -157,6 +172,7 @@ public class GameManager : MonoBehaviour
     // MARK: Day/Night
     private IEnumerator SwitchToNight()
     {
+        daysPassed++;
         yield return new WaitForSeconds(transitionTime); // waits for the customers to leave
         nightOrDay = NightOrDay.NIGHT;
 
@@ -176,7 +192,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SwitchToDay()
     {
-        //yield return new WaitForSeconds(1f);
         nightOrDay = NightOrDay.DAY;
 
         // UI
@@ -221,8 +236,6 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //Application.LoadLevel(0);
         SceneManager.LoadScene(0); // loads the start menu
     }
 }
