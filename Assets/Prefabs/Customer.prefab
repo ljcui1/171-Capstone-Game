@@ -107,6 +107,7 @@ MonoBehaviour:
   attributes: []
   aiDestinationSetter: {fileID: 0}
   mainSprite: {fileID: 1153297414551062881}
+  buffer: {x: 0.5, y: 0.5, z: 0}
   walkin: 1
   sit: 0
   talk: 0
@@ -115,7 +116,6 @@ MonoBehaviour:
   accept: 0
   walkout: 0
   hourStayed: 0
-  buffer: {x: 0.5, y: 0.5, z: 0}
   chair: 0
 --- !u!114 &9029794692462068264
 MonoBehaviour:
@@ -232,6 +232,7 @@ MonoBehaviour:
   defaultText: {fileID: 4900000, guid: 3485e64462eb145d28e1f3b3eb3230a7, type: 3}
   visualCue: {fileID: 0}
   gameManager: {fileID: 0}
+  npc: {fileID: 0}
   timeOfDay: 1
   CUSTOMER: 1
   dialogueEntries:

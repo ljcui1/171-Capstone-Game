@@ -55,6 +55,10 @@ MonoBehaviour:
   attributes: []
   aiDestinationSetter: {fileID: 0}
   mainSprite: {fileID: 1881553078800550813}
+  buffer: {x: 0.5, y: 0.5, z: 0}
+  minTime: 8
+  maxTime: 20
+  matched: 0
 --- !u!114 &-5939137834954203419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,9 +134,9 @@ MonoBehaviour:
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5
   rotationSpeed: 360
-  slowdownDistance: 1.63
-  pickNextWaypointDist: 2
-  endReachedDistance: 1
+  slowdownDistance: 0.5
+  pickNextWaypointDist: 0.2
+  endReachedDistance: 0
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
@@ -255,6 +259,7 @@ MonoBehaviour:
   defaultText: {fileID: 4900000, guid: 551218c60f0ee4fbfb994b5101444920, type: 3}
   visualCue: {fileID: 0}
   gameManager: {fileID: 0}
+  npc: {fileID: 0}
   timeOfDay: 0
   CUSTOMER: 0
   dialogueEntries: []

@@ -15,7 +15,7 @@ public class CustomerScript : BaseNPC
     public bool walkout = false;
 
     public int hourStayed = 0; // how long a customer has been in the cafe
-    [SerializeField] private Vector3 buffer; // Positional buffer for destination checking
+    //[SerializeField] private Vector3 buffer; // Positional buffer for destination checking
 
     public int chair;
 
@@ -31,7 +31,7 @@ public class CustomerScript : BaseNPC
         Debug.Log($"Customer selection: {string.Join(", ", attributes)}");
     }
 
-    public bool AtDestination()
+    /*public bool AtDestination()
     {
         if (aiDestinationSetter.target != null)
         {
@@ -45,27 +45,20 @@ public class CustomerScript : BaseNPC
                 aiDestinationSetter.target = null; // Clear the target once arrived
                 return true;
             }
+            if (GetComponent<AIPath>().reachedEndOfPath)
+            {
+                aiDestinationSetter.target = null;
+                return true;
+            }
         }
 
         return false;
-    }
+    }*/
 
     public void Exit()
     {
         Debug.Log("Despawning Customer");
         attributes.Clear();
-        StartCoroutine(WaitForCustomerExit());
-    }
-
-    private IEnumerator WaitForCustomerExit()
-    {
-        // Wait until the customer has reached the entrance
-        while (!AtDestination())
-        {
-            yield return null; // Wait until next frame
-        }
-
-        // Customer has reached exit, deactivate them
         Destroy(gameObject);
     }
 }

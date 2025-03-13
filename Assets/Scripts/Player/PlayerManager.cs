@@ -375,7 +375,7 @@ public class PlayerManager : MonoBehaviour
         customer.GetComponent<SpriteRenderer>().color = Color.green;
         cat.matched = true;
         cat.SetDestination(doorObj);
-        customer.SetDestination(doorObj);
+        customer.walkout = true;
         StartCoroutine(WaitForLeaving(cat, customer, door));
         selectedCat = null;
         selectedCust = null;
@@ -402,16 +402,26 @@ public class PlayerManager : MonoBehaviour
 
     private IEnumerator WaitForLeaving(BaseNPC cat, BaseNPC customer, Transform door)
     {
-        cat.GetComponent<AIPath>().endReachedDistance = 0.1f;
+        Debug.Log("Before wait ");
+        while (!cat.AtDestination())
+        {
+            yield return null;
+        }
+        Debug.Log("After wait ");
+        /*cat.GetComponent<AIPath>().endReachedDistance = 0.1f;
         customer.GetComponent<AIPath>().endReachedDistance = 0.1f;
-
-        yield return new WaitUntil(() => cat.GetComponent<AIPath>().reachedEndOfPath && customer.GetComponent<AIPath>().reachedEndOfPath);
+        Debug.Log("Before wait " + cat.GetComponent<AIDestinationSetter>().target + " " + cat.GetComponent<AIPath>().reachedEndOfPath);
+        while (!cat.GetComponent<AIPath>().reachedEndOfPath || !customer.GetComponent<AIPath>().reachedEndOfPath)
+        {
+            yield return null;
+        }
+        Debug.Log("after wait " + cat.GetComponent<AIDestinationSetter>().target + " " + cat.GetComponent<AIPath>().reachedEndOfPath);
         yield return new WaitForSeconds(0.1f);
-
+        */
         cat.GetComponent<SpriteRenderer>().color = Color.white;
-        customer.GetComponent<SpriteRenderer>().color = Color.white;
+
         cat.gameObject.SetActive(false);
-        customer.gameObject.SetActive(false);
+        //customer.gameObject.SetActive(false);
     }
 }
 

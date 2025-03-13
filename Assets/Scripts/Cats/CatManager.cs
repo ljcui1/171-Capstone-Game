@@ -90,6 +90,11 @@ public class CatManager : MonoBehaviour
                 continue;
             }
 
+            if (catScript.matched)
+            {
+                continue;
+            }
+            Debug.Log("choosing new destination for " + i);
             if (i < shuffledLocations.Count)
             {
                 GameObject uniqueLocation = shuffledLocations[i];

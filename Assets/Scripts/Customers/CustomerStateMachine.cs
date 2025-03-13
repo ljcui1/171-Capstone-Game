@@ -203,12 +203,14 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
                 // reset customer state to walkin
                 TransitionToState(CustomerFSM.WALKIN);
                 FSM.Script.walkin = true;
+                FSM.Script.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
 
         public override void OnExit()
         {
             //Stop walking SFX once they reach the exit
+
             AudioManager.Instance.StopWalkingSound(false);
         }
     }

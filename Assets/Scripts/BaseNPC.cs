@@ -13,7 +13,7 @@ public class BaseNPC : MonoBehaviour
 
     public SpriteRenderer mainSprite;
     // public Collider2D playerInteract;
-
+    [SerializeField] private Vector3 buffer;
 
     protected virtual void Awake()
     {
@@ -72,6 +72,25 @@ public class BaseNPC : MonoBehaviour
     public void SetDestination(GameObject target)
     {
         aiDestinationSetter.target = target.transform;
+    }
+
+    public bool AtDestination()
+    {
+        if (aiDestinationSetter.target != null)
+        {
+            Vector3 targetPosition = aiDestinationSetter.target.position;
+            Vector3 currentPosition = transform.position;
+
+            // Check if within buffer bounds
+            if (Mathf.Abs(targetPosition.x - currentPosition.x) <= buffer.x &&
+                Mathf.Abs(targetPosition.y - currentPosition.y) <= buffer.y)
+            {
+                aiDestinationSetter.target = null; // Clear the target once arrived
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
