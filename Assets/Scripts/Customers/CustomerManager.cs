@@ -157,11 +157,6 @@ public class CustomerManager : MonoBehaviour
 
     private void SpawnCustomer()
     {
-        // Instantiate a new customer and add it to the pool if needed
-        GameObject tmpCustomer = Instantiate(customerPrefab, transform);
-        tmpCustomer.SetActive(false);
-        customerPool.Add(tmpCustomer);
-
         // Check for an available chair
         int chairIndex = SelectDestination();
         if (chairIndex == -1)
@@ -170,6 +165,11 @@ public class CustomerManager : MonoBehaviour
             return;
         }
         GameObject chair = chairs[chairIndex];
+
+        // Instantiate a new customer and add it to the pool if needed
+        GameObject tmpCustomer = Instantiate(customerPrefab, transform);
+        tmpCustomer.SetActive(false);
+        customerPool.Add(tmpCustomer);
 
         // Generate customer attributes: select two attributes
         Dictionary<Attribute, float> remainingAttr = new Dictionary<Attribute, float>(attributeWeights);
@@ -211,8 +211,6 @@ public class CustomerManager : MonoBehaviour
     {
         customer.walkout = true;
         chairOccupied[customer.chair] = false;
-        customer.SetDestination(entrance);
-        customer.Exit();
         customerPool.Remove(customer.gameObject);
     }
 
