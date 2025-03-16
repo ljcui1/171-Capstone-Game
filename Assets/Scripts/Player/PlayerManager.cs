@@ -300,7 +300,7 @@ public class PlayerManager : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if (!playing && !talking && Input.GetKeyDown(KeyCode.Space) && Player.gameMan.nightOrDay == GameManager.NightOrDay.DAY)
+        if (!playing && !talking && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("ButtonB")) && Player.gameMan.nightOrDay == GameManager.NightOrDay.DAY)
         {
             if (Player.inRange && Player.talkTo != null)
             {

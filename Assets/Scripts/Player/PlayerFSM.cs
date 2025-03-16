@@ -53,7 +53,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
         public override void OnUpdate()
         {
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("ButtonA"))
             {
                 if (GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
                 {
@@ -92,7 +92,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("ButtonA"))
             {
                 if (GetStateMachine<PlayerFSM>().PlayMan.Player.inRange)
                 {
@@ -206,7 +206,7 @@ public class PlayerFSM : AbstractFiniteStateMachine
 
         public override void OnUpdate()
         {
-            if (GetStateMachine<PlayerFSM>().PlayMan.idling || Input.GetKeyUp(KeyCode.Escape))
+            if (GetStateMachine<PlayerFSM>().PlayMan.idling || Input.GetButtonUp("Cancel"))
             {
                 TransitionToState(PlayerState.IDLE);
             }
