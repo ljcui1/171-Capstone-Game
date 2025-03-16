@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && playerManager.playing == false)
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Cancel")) && playerManager.playing == false)
         {
             Debug.Log("Pause");
             pauseButton.GetComponent<Button>().onClick.Invoke();

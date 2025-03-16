@@ -173,6 +173,11 @@ public class PlayerFSM : AbstractFiniteStateMachine
         {
             GetStateMachine<PlayerFSM>().rb.velocity =
                 GetStateMachine<PlayerFSM>().moveInput * GetStateMachine<PlayerFSM>().moveSpeed;
+
+            if (GetStateMachine<PlayerFSM>().moveInput == Vector2.zero)
+            {
+                GetStateMachine<PlayerFSM>().rb.velocity = Vector2.zero;
+            }
             // Debug.Log(GetStateMachine<PlayerFSM>().rb.velocity);
         }
 
