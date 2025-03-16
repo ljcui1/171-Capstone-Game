@@ -66,10 +66,42 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        if (PlayerPrefs.HasKey("NightOrDay"))
+        {
+            SaveScript.nightOrDayString = PlayerPrefs.GetString("NightOrDay");
+            if (SaveScript.nightOrDayString == "night")
+            {
+                nightOrDay = NightOrDay.NIGHT;
+                nightTimeMode.SetActive(true); // start at nighttime
+                nightToDayButton.SetActive(true);
+                hour = nightStartHour;
+                clockSuffix = "pm";
+            }
+            else if (SaveScript.nightOrDayString == "day")
+            {
+                AudioManager.Instance.SwitchDayNight(true);
+                nightOrDay = NightOrDay.DAY;
+                nightTimeMode.SetActive(false); // start at nighttime
+                nightToDayButton.SetActive(false);
+                hour = dayStartHour;
+                clockSuffix = "am";
+            }
+        }
+        else
+        {
+            nightTimeMode.SetActive(true); // start at nighttime
+            nightToDayButton.SetActive(true);
+            hour = nightStartHour;
+            SaveScript.SaveNightOrDay("night");
+        }
+
+        if (PlayerPrefs.HasKey("DaysPassed"))
+        {
+            SaveScript.daysPassed = PlayerPrefs.GetInt("DaysPassed");
+            daysPassed = SaveScript.daysPassed;
+        }
+
         pauseMenu.SetActive(false);
-        nightTimeMode.SetActive(true); // start at nighttime
-        nightToDayButton.SetActive(true);
-        hour = nightStartHour;
         displayHour = hour;
         clockText.text = displayHour + ":00 " + clockSuffix; // start time should be "10:00pm"
         StartCoroutine(IncrementClock());
@@ -94,11 +126,13 @@ public class GameManager : MonoBehaviour
 
         if (!cat1.activeSelf && !cat2.activeSelf)
         {
+            SaveScript.DeleteSaves();
             SceneManager.LoadScene(5); // navigate to good end screen
         }
 
         if (daysPassed >= 2)
         {
+            SaveScript.DeleteSaves();
             SceneManager.LoadScene(4); // navigates to the game over screen
         }
     }
@@ -173,8 +207,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator SwitchToNight()
     {
         daysPassed++;
+        SaveScript.SaveDaysPassed(daysPassed);
         yield return new WaitForSeconds(transitionTime); // waits for the customers to leave
         nightOrDay = NightOrDay.NIGHT;
+        SaveScript.SaveNightOrDay("night");
 
         // UI
         nightTimeMode.SetActive(true);
@@ -192,7 +228,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SwitchToDay()
     {
+        Debug.Log("Switch to day");
         nightOrDay = NightOrDay.DAY;
+        SaveScript.SaveNightOrDay("day");
 
         // UI
         nightToDayButton.SetActive(false);
@@ -236,6 +274,8 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        AudioManager.Instance.SwitchDayNight(false);
+        SaveScript.DeleteSaves();
         SceneManager.LoadScene(0); // loads the start menu
     }
 }
