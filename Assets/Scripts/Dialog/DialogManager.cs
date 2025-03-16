@@ -62,7 +62,7 @@ public class DialogManager : MonoBehaviour
     private void Update()
     {
         if (!IsPlaying) return;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("ButtonA"))
         {
             ContinueStory();
         }
