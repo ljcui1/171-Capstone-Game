@@ -81,19 +81,19 @@ public class RhythmGame : BaseMinigame
 
     protected override void GameInput()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetButtonDown("ButtonA"))
         {
             CheckBeat(beat1.rectTransform.anchoredPosition.y, beat1, 0);
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetButtonDown("ButtonB"))
         {
             CheckBeat(beat2.rectTransform.anchoredPosition.y, beat2, 1);
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetButtonDown("ButtonX"))
         {
             CheckBeat(beat3.rectTransform.anchoredPosition.y, beat3, 2);
         }
-        else if (Input.GetKeyDown(KeyCode.F))
+        else if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("ButtonY"))
         {
             CheckBeat(beat4.rectTransform.anchoredPosition.y, beat4, 3);
         }

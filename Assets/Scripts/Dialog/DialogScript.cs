@@ -97,7 +97,7 @@ public class DialogScript : MonoBehaviour
             {
                 visualCue.SetActive(true, playedAttributes);
             }
-            if (Input.GetKeyDown(interactKey))
+            if (Input.GetKeyDown(interactKey) || Input.GetButtonDown("ButtonA"))
             {
                 //Plays talking sound when selecting a cat
                 AudioManager.Instance.PlayTalkingSound();
