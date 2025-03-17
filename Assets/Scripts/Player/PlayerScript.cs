@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Pathfinding;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class PlayerScript : MonoBehaviour
     public Collider2D catCollide;
     public Collider2D custCollide;
     public Collider2D gameCollide;
+
     // public SpriteRenderer catSprite;
     // public SpriteRenderer custSprite;
     // public AIDestinationSetter npcTarget;
@@ -26,9 +29,15 @@ public class PlayerScript : MonoBehaviour
     public Animator anims;
 
     public GameManager gameMan;
-    [SerializeField] public TextMeshProUGUI InteractText;
-    [SerializeField] public TextMeshProUGUI MatchText;
-    [SerializeField] public TextMeshProUGUI TalkText;
+
+    [SerializeField]
+    public TextMeshProUGUI InteractText;
+
+    [SerializeField]
+    public TextMeshProUGUI MatchText;
+
+    [SerializeField]
+    public TextMeshProUGUI TalkText;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +50,23 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() { }
+    void Update()
+    {
+        if (Gamepad.current != null && Gamepad.current.wasUpdatedThisFrame)
+        {
+            Debug.Log("Gamepad");
+            InteractText.text = "press A to play";
+            MatchText.text = "press B to match";
+            TalkText.text = "press A to talk";
+        }
+        else if (Keyboard.current.wasUpdatedThisFrame || Mouse.current.wasUpdatedThisFrame)
+        {
+            Debug.Log("Keyboard");
+            InteractText.text = "press E to play";
+            MatchText.text = "press SPACE to match";
+            TalkText.text = "press E to talk";
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
