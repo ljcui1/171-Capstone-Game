@@ -61,7 +61,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (Keyboard.current.wasUpdatedThisFrame || Mouse.current.wasUpdatedThisFrame)
         {
-            Debug.Log("Keyboard");
+            // Debug.Log("Keyboard");
             InteractText.text = "press E to play";
             MatchText.text = "press SPACE to match";
             TalkText.text = "press E to talk";

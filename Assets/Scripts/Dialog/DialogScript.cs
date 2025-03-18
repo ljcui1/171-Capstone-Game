@@ -99,6 +99,7 @@ public class DialogScript : MonoBehaviour
             }
             if (Input.GetKeyDown(interactKey) || Input.GetButtonDown("ButtonA"))
             {
+                Debug.Log("Interacting with " + gameObject.name);
                 //Plays talking sound when selecting a cat
                 AudioManager.Instance.PlayTalkingSound();
                 if (selectedText)
