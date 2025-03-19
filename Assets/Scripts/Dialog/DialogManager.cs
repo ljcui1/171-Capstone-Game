@@ -63,7 +63,7 @@ public class DialogManager : MonoBehaviour
     {
         if (IsPlaying)
         {
-            if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonDown("ButtonA"))
+            if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonDown("ButtonX"))
             {
                 ContinueStory();
             }

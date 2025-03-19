@@ -65,5 +65,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "171 Capstone Game.sln"
+    "dotnet.defaultSolution": "171-Capstone-Game.sln"
 }
