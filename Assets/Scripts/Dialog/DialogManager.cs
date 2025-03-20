@@ -61,10 +61,12 @@ public class DialogManager : MonoBehaviour
 
     private void Update()
     {
-        if (!IsPlaying) return;
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("ButtonA"))
+        if (IsPlaying)
         {
-            ContinueStory();
+            if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonDown("ButtonX"))
+            {
+                ContinueStory();
+            }
         }
     }
 
@@ -72,10 +74,10 @@ public class DialogManager : MonoBehaviour
     public void EnterDialogMode(TextAsset inkJSON, DialogScript dialogScript)
     {
         story = new Story(inkJSON.text);
-        IsPlaying = true;
         dialogPanel.SetActive(true);
         currentDialogScript = dialogScript; // Store the reference
 
+        IsPlaying = true;
         ContinueStory();
     }
 
