@@ -9,7 +9,7 @@ public class CustomerManager : MonoBehaviour
 
     // Customer spawn parameters
     [Header("Spawn Parameters")]
-    [SerializeField] private List<Attribute> attributes; // All available attributes
+    public List<Attribute> attributes; // All available attributes
     public Dictionary<Attribute, float> attributeWeights = new Dictionary<Attribute, float>(); // Attribute probabilities
     // Removed numAttributes since we're always selecting two attributes
     public int numCustomersToSpawn; // Number of customers to spawn
@@ -32,7 +32,7 @@ public class CustomerManager : MonoBehaviour
     public GameObject entrance; // Entrance point for customers
     // Cafe chairs
     public List<GameObject> chairs;
-    private List<bool> chairOccupied = new List<bool>();
+    public List<bool> chairOccupied = new List<bool>();
 
     private void Awake()
     {
@@ -45,13 +45,11 @@ public class CustomerManager : MonoBehaviour
             instance = this;
             Debug.Log(instance);
         }
-
-        SaveScript.LoadCustomer();
     }
 
     void OnApplicationQuit()
     {
-        SaveScript.SaveWeights();
+        SaveScript.SaveCustSpawnData();
         SaveScript.SaveCustomers();
     }
 
@@ -64,7 +62,7 @@ public class CustomerManager : MonoBehaviour
         }
 
         // Initialize customer pool
-
+        customerPool = new List<CustomerScript>();
         // Uncomment below to pre-instantiate a pool of customers if desired
         // for (int i = 0; i < amountToPool; i++)
         // {
@@ -78,6 +76,9 @@ public class CustomerManager : MonoBehaviour
         {
             chairOccupied.Add(false);
         }
+
+        SaveScript.LoadCustSpawnData();
+        SaveScript.LoadCustomer();
     }
 
     public void AddCustomerProbability(int addCustomer, float addweight, Attribute attribute)
@@ -213,7 +214,8 @@ public class CustomerManager : MonoBehaviour
 
     public IEnumerator CustomerWave()
     {
-        for (int i = 0; i < numCustomersToSpawn; i++)
+        int tempSpawn = numCustomersToSpawn;
+        for (int i = 0; i < tempSpawn; i++)
         {
             // Check for an available chair
             int chairIndex = SelectDestination();
@@ -222,11 +224,10 @@ public class CustomerManager : MonoBehaviour
                 Debug.Log("No unoccupied chairs available");
                 yield break;
             }
+            numCustomersToSpawn--;
             SpawnCustomer(chairIndex);
             yield return new WaitForSeconds(Random.Range(minWait, maxWait));
         }
-
-        numCustomersToSpawn /= 3;
     }
 
     private void SendCustomerOut(CustomerScript customer)

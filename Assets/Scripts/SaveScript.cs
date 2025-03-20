@@ -35,24 +35,60 @@ public static class SaveScript
         Debug.Log("daysPassed has been set to: " + daysPassed);
     }
 
-    public static void SaveWeights()
+    public static void SaveCustSpawnData()
     {
+        // save attribute weights
         foreach (
             KeyValuePair<Attribute, float> keyValue in CustomerManager.instance.attributeWeights
         )
         {
             PlayerPrefs.SetFloat(nameof(keyValue.Key), keyValue.Value);
         }
+
+        // save chair occupied
+        int occupancy;
+        for (int i = 0; i < CustomerManager.instance.chairOccupied.Count; i++)
+        {
+            if (CustomerManager.instance.chairOccupied[i])
+            {
+                occupancy = 1;
+            }
+            else
+            {
+                occupancy = 0;
+            }
+            PlayerPrefs.SetInt("chair" + i, occupancy);
+        }
+
+        // save number of customers to spawn
+        PlayerPrefs.SetInt("numCustomer", CustomerManager.instance.numCustomersToSpawn);
     }
 
-    public static void LoadWeights()
+    public static void LoadCustSpawnData()
     {
-        foreach (
-            KeyValuePair<Attribute, float> keyValue in CustomerManager.instance.attributeWeights
-        )
+        // load attribute weights
+        foreach (Attribute att in CustomerManager.instance.attributes)
         {
-            CustomerManager.instance.attributeWeights[keyValue.Key] = PlayerPrefs.GetFloat(nameof(keyValue.Key));
+            CustomerManager.instance.attributeWeights[att] = PlayerPrefs.GetFloat(nameof(att), 0);
         }
+
+        // load chair occupied
+        bool occupancy;
+        for (int i = 0; i < CustomerManager.instance.chairOccupied.Count; i++)
+        {
+            if (PlayerPrefs.GetInt("chair" + i, 0) == 1)
+            {
+                occupancy = true;
+            }
+            else
+            {
+                occupancy = false;
+            }
+            CustomerManager.instance.chairOccupied[i] = occupancy;
+        }
+
+        // load number of customers to spawn
+        CustomerManager.instance.numCustomersToSpawn = PlayerPrefs.GetInt("numCustomer", 1);
     }
 
     // saving and loading customers referenced from https://youtu.be/47QIUHDEaSY?si=4RsCfqj4ljE8AhyK
@@ -62,8 +98,9 @@ public static class SaveScript
         string path = Application.persistentDataPath + customerSub;
         string countPath = Application.persistentDataPath + customerCountSub;
 
+        Debug.Log("Before creation " + File.Exists(countPath));
         FileStream countStream = new FileStream(countPath, FileMode.Create);
-
+        Debug.Log("After creation " + File.Exists(countPath));
         formatter.Serialize(countStream, CustomerManager.instance.customerPool.Count);
         countStream.Close();
 
@@ -84,8 +121,10 @@ public static class SaveScript
         string countPath = Application.persistentDataPath + customerCountSub;
         int custCount = 0;
 
+        Debug.Log("Loading does " + File.Exists(countPath));
         if (File.Exists(countPath))
         {
+            Debug.Log("Found path");
             FileStream countStream = new FileStream(countPath, FileMode.Open);
 
             custCount = (int)formatter.Deserialize(countStream);
@@ -93,7 +132,7 @@ public static class SaveScript
         }
         else
         {
-            Debug.LogError("Path not found in " + countPath);
+            return;
         }
 
         for (int i = 0; i < custCount; i++)
@@ -110,7 +149,6 @@ public static class SaveScript
                 GameObject customer = Object.Instantiate(CustomerManager.instance.customerPrefab, position, Quaternion.identity, CustomerManager.instance.transform);
                 CustomerScript script = customer.GetComponent<CustomerScript>();
 
-                CustomerManager.instance.customerPool = new List<CustomerScript>();
                 CustomerManager.instance.customerPool.Add(script);
                 script.chair = data.chair;
                 script.hourStayed = data.hourStayed;
@@ -118,13 +156,17 @@ public static class SaveScript
             }
             else
             {
-                Debug.LogError("Path not found in " + (path + i));
+                Debug.Log("Path not found in " + (path + i));
             }
         }
     }
 
     public static void DeleteSaves()
     {
+        Debug.Log("Deleting saves");
         PlayerPrefs.DeleteAll();
+        string[] filePaths = Directory.GetFiles(Application.persistentDataPath);
+        foreach (string filePath in filePaths)
+            File.Delete(filePath);
     }
 }
