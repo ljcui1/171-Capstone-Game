@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
+    public static CustomerManager instance { get; private set; }
+
     // Customer spawn parameters
     [Header("Spawn Parameters")]
     [SerializeField] private List<Attribute> attributes; // All available attributes
-    private Dictionary<Attribute, float> attributeWeights = new Dictionary<Attribute, float>(); // Attribute probabilities
+    public Dictionary<Attribute, float> attributeWeights = new Dictionary<Attribute, float>(); // Attribute probabilities
     // Removed numAttributes since we're always selecting two attributes
     public int numCustomersToSpawn; // Number of customers to spawn
 
@@ -21,15 +24,36 @@ public class CustomerManager : MonoBehaviour
 
     // Object pool for customers
     [Header("Object Pool")]
-    [SerializeField] private GameObject customerPrefab;
-    private List<GameObject> customerPool;
-    [SerializeField] private int amountToPool;
+    public GameObject customerPrefab;
+    public List<CustomerScript> customerPool;
+    //[SerializeField] private int amountToPool;
 
     [Header("Destinations")]
     public GameObject entrance; // Entrance point for customers
     // Cafe chairs
-    [SerializeField] private List<GameObject> chairs;
+    public List<GameObject> chairs;
     private List<bool> chairOccupied = new List<bool>();
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+            Debug.Log(instance);
+        }
+
+        SaveScript.LoadCustomer();
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveScript.SaveWeights();
+        SaveScript.SaveCustomers();
+    }
 
     void Start()
     {
@@ -40,7 +64,7 @@ public class CustomerManager : MonoBehaviour
         }
 
         // Initialize customer pool
-        customerPool = new List<GameObject>();
+
         // Uncomment below to pre-instantiate a pool of customers if desired
         // for (int i = 0; i < amountToPool; i++)
         // {
@@ -62,11 +86,11 @@ public class CustomerManager : MonoBehaviour
         attributeWeights[attribute] += addweight;
     }
 
-    private GameObject GetPooledCustomer()
+    private CustomerScript GetPooledCustomer()
     {
         foreach (var customer in customerPool)
         {
-            if (!customer.activeSelf)
+            if (!customer.gameObject.activeSelf)
             {
                 return customer;
             }
@@ -155,28 +179,19 @@ public class CustomerManager : MonoBehaviour
         return -1; // No available chair found
     }
 
-    private void SpawnCustomer()
+    private void SpawnCustomer(int chairIndex)
     {
-        // Check for an available chair
-        int chairIndex = SelectDestination();
-        if (chairIndex == -1)
-        {
-            Debug.Log("No unoccupied chairs available");
-            return;
-        }
-        GameObject chair = chairs[chairIndex];
-
         // Instantiate a new customer and add it to the pool if needed
-        GameObject tmpCustomer = Instantiate(customerPrefab, transform);
-        tmpCustomer.SetActive(false);
-        customerPool.Add(tmpCustomer);
+        GameObject customer = Instantiate(customerPrefab, transform);
+        customer.SetActive(false);
+        customerPool.Add(customer.GetComponent<CustomerScript>());
 
         // Generate customer attributes: select two attributes
         Dictionary<Attribute, float> remainingAttr = new Dictionary<Attribute, float>(attributeWeights);
         List<Attribute> attr = SelectTwoAttributes(remainingAttr);
 
         // Spawn customer
-        GameObject customer = GetPooledCustomer();
+        //GameObject customer = GetPooledCustomer();
         if (customer != null)
         {
             // Optional: log weights for debugging purposes
@@ -184,7 +199,7 @@ public class CustomerManager : MonoBehaviour
 
             CustomerScript script = customer.GetComponent<CustomerScript>();
             script.SetAttributes(attr);
-            script.SetDestination(chair);
+            script.SetDestination(chairs[chairIndex]);
             customer.transform.position = entrance.transform.position;
             customer.SetActive(true);
             script.chair = chairIndex;
@@ -200,7 +215,14 @@ public class CustomerManager : MonoBehaviour
     {
         for (int i = 0; i < numCustomersToSpawn; i++)
         {
-            SpawnCustomer();
+            // Check for an available chair
+            int chairIndex = SelectDestination();
+            if (chairIndex == -1)
+            {
+                Debug.Log("No unoccupied chairs available");
+                yield break;
+            }
+            SpawnCustomer(chairIndex);
             yield return new WaitForSeconds(Random.Range(minWait, maxWait));
         }
 
@@ -211,7 +233,7 @@ public class CustomerManager : MonoBehaviour
     {
         customer.walkout = true;
         chairOccupied[customer.chair] = false;
-        customerPool.Remove(customer.gameObject);
+        customerPool.Remove(customer);
     }
 
     public void CustomerHours()
@@ -219,7 +241,7 @@ public class CustomerManager : MonoBehaviour
         // Iterate backwards to avoid index shifting issues
         for (int i = customerPool.Count - 1; i >= 0; i--)
         {
-            GameObject customer = customerPool[i];
+            CustomerScript customer = customerPool[i];
 
             if (customer == null)
             {
@@ -227,7 +249,7 @@ public class CustomerManager : MonoBehaviour
                 continue;
             }
 
-            if (customer.activeSelf)
+            if (customer.gameObject.activeSelf)
             {
                 CustomerScript script = customer.GetComponent<CustomerScript>();
                 script.hourStayed++;
@@ -245,7 +267,7 @@ public class CustomerManager : MonoBehaviour
     {
         foreach (var customer in customerPool)
         {
-            if (customer.activeSelf)
+            if (customer.gameObject.activeSelf)
             {
                 SendCustomerOut(customer.GetComponent<CustomerScript>());
             }

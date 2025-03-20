@@ -44,7 +44,7 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         {
             CustomerStateMachine FSM = GetStateMachine<CustomerStateMachine>();
 
-            if (FSM.Script.AtDestination())
+            if (FSM.Script.AtDestination() || FSM.Script.sit == true)
             {
                 TransitionToState(CustomerFSM.SIT);
             }

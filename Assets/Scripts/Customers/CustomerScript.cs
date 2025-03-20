@@ -3,6 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml;
+using System.Xml.Serialization;
+
+// Saving serialization referenced from https://youtu.be/47QIUHDEaSY?si=M2AFwp2JimxTKGVj
+[System.Serializable]
+public class CustomerValues
+{
+    public int chair;
+    public int hourStayed = 0;
+
+    public CustomerValues(CustomerScript customer)
+    {
+        chair = customer.chair;
+        hourStayed = customer.hourStayed;
+    }
+}
+
 public class CustomerScript : BaseNPC
 {
     // Customer-specific FSM-like flags
@@ -14,8 +33,7 @@ public class CustomerScript : BaseNPC
     public bool accept = false;
     public bool walkout = false;
 
-    public int hourStayed = 0; // how long a customer has been in the cafe
-    //[SerializeField] private Vector3 buffer; // Positional buffer for destination checking
+    public int hourStayed = 0;
 
     public int chair;
 
@@ -27,37 +45,13 @@ public class CustomerScript : BaseNPC
             AddAttribute(attribute);
         }
 
-        Debug.Log($"Manager selection: {string.Join(", ", attr)}");
-        Debug.Log($"Customer selection: {string.Join(", ", attributes)}");
+        //Debug.Log($"Manager selection: {string.Join(", ", attr)}");
+        //Debug.Log($"Customer selection: {string.Join(", ", attributes)}");
     }
-
-    /*public bool AtDestination()
-    {
-        if (aiDestinationSetter.target != null)
-        {
-            Vector3 targetPosition = aiDestinationSetter.target.position;
-            Vector3 currentPosition = transform.position;
-
-            // Check if within buffer bounds
-            if (Mathf.Abs(targetPosition.x - currentPosition.x) <= buffer.x &&
-                Mathf.Abs(targetPosition.y - currentPosition.y) <= buffer.y)
-            {
-                aiDestinationSetter.target = null; // Clear the target once arrived
-                return true;
-            }
-            if (GetComponent<AIPath>().reachedEndOfPath)
-            {
-                aiDestinationSetter.target = null;
-                return true;
-            }
-        }
-
-        return false;
-    }*/
 
     public void Exit()
     {
-        Debug.Log("Despawning Customer");
+        //Debug.Log("Despawning Customer");
         attributes.Clear();
         Destroy(gameObject);
     }
