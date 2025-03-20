@@ -101,6 +101,22 @@ public class GameManager : MonoBehaviour
             daysPassed = SaveScript.daysPassed;
         }
 
+        if (PlayerPrefs.HasKey("Cat1Active"))
+        {
+            if (SaveScript.cat1Active == 0)
+            {
+                cat1.SetActive(false);
+            }
+        }
+
+        if (PlayerPrefs.HasKey("Cat2Active"))
+        {
+            if (SaveScript.cat2Active == 0)
+            {
+                cat2.SetActive(false);
+            }
+        }
+
         pauseMenu.SetActive(false);
         displayHour = hour;
         clockText.text = displayHour + ":00 " + clockSuffix; // start time should be "10:00pm"
@@ -122,6 +138,16 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Pause");
             pauseButton.GetComponent<Button>().onClick.Invoke();
+        }
+
+        if (!cat1.activeSelf && SaveScript.cat1Active != 0)
+        {
+            SaveScript.SaveCat1(0);
+        }
+
+        if (!cat2.activeSelf && SaveScript.cat2Active != 0)
+        {
+            SaveScript.SaveCat2(0);
         }
 
         if (!cat1.activeSelf && !cat2.activeSelf)

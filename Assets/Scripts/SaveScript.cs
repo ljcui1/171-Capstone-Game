@@ -14,8 +14,8 @@ public static class SaveScript
 {
     public static string nightOrDayString;
     public static int daysPassed;
-    public static int cat1Active;
-    public static int cat2Active;
+    public static int cat1Active = 1;
+    public static int cat2Active = 1;
     public static int customerNum;
 
     const string customerSub = "/cust";
@@ -33,6 +33,20 @@ public static class SaveScript
         daysPassed = days;
         PlayerPrefs.SetInt("DaysPassed", daysPassed);
         Debug.Log("daysPassed has been set to: " + daysPassed);
+    }
+
+    public static void SaveCat1(int cat1)
+    {
+        cat1Active = cat1;
+        PlayerPrefs.SetInt("Cat1Active", cat1Active);
+        Debug.Log("cat1Active has been set to: " + cat1Active);
+    }
+
+    public static void SaveCat2(int cat2)
+    {
+        cat2Active = cat2;
+        PlayerPrefs.SetInt("Cat2Active", cat2Active);
+        Debug.Log("cat2Active has been set to: " + cat2Active);
     }
 
     public static void SaveCustSpawnData()
