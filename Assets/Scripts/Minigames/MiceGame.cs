@@ -89,28 +89,28 @@ public class MiceGame : BaseMinigame
 
     protected override void GameInput()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetButton("ButtonA"))
         {
             pawa.enabled = true;
             paws.enabled = false;
             pawd.enabled = false;
             pawf.enabled = false;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetButton("ButtonB"))
         {
             pawa.enabled = false;
             paws.enabled = true;
             pawd.enabled = false;
             pawf.enabled = false;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetButton("ButtonX"))
         {
             pawa.enabled = false;
             paws.enabled = false;
             pawd.enabled = true;
             pawf.enabled = false;
         }
-        else if (Input.GetKey(KeyCode.F))
+        else if (Input.GetKeyDown(KeyCode.F) || Input.GetButton("ButtonY"))
         {
             pawa.enabled = false;
             paws.enabled = false;
