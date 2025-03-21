@@ -29,11 +29,11 @@ public class CustomerAnims : MonoBehaviour
             anim.Play("idle" + num);
         }
 
-        if (moveX > 0)
+        if (moveX > 0.5)
         {
             anim.Play("right" + num);
         }
-        else if (moveX < 0)
+        else if (moveX < 0.5)
         {
             anim.Play("left" + num);
         }

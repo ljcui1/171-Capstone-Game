@@ -162,7 +162,7 @@ public static class SaveScript
 
                 GameObject customer = Object.Instantiate(CustomerManager.instance.customerPrefab, position, Quaternion.identity, CustomerManager.instance.transform);
                 CustomerScript script = customer.GetComponent<CustomerScript>();
-
+                customer.GetComponent<CustomerAnims>().num = data.num;
                 CustomerManager.instance.customerPool.Add(script);
                 script.chair = data.chair;
                 script.hourStayed = data.hourStayed;

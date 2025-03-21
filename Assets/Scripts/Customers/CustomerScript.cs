@@ -14,11 +14,13 @@ public class CustomerValues
 {
     public int chair;
     public int hourStayed = 0;
+    public int num;
 
     public CustomerValues(CustomerScript customer)
     {
         chair = customer.chair;
         hourStayed = customer.hourStayed;
+        num = customer.num;
     }
 }
 
@@ -36,6 +38,8 @@ public class CustomerScript : BaseNPC
     public int hourStayed = 0;
 
     public int chair;
+
+    public int num;
 
     public void SetAttributes(List<Attribute> attr)
     {

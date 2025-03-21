@@ -198,6 +198,8 @@ public class CustomerManager : MonoBehaviour
             // Optional: log weights for debugging purposes
             Debug.Log(attributeWeights[Attribute.Talkative] + " " + attributeWeights[Attribute.Foodie] + " " + attributeWeights[Attribute.Active]);
 
+            int animNum = Random.Range(1, 5);
+            customer.GetComponent<CustomerAnims>().num = animNum;
             CustomerScript script = customer.GetComponent<CustomerScript>();
             script.SetAttributes(attr);
             script.SetDestination(chairs[chairIndex]);
