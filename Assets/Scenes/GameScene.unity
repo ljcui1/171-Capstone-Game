@@ -2679,6 +2679,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5960376327375443506}
     m_Modifications:
+    - target: {fileID: 2239835668255557297, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 263.99988
+      objectReference: {fileID: 0}
+    - target: {fileID: 2239835668255557297, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 234.70993
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675701318876073165, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -55.799877
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675701318876073165, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -213.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 2802235705932858518, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 263.99994
+      objectReference: {fileID: 0}
+    - target: {fileID: 2802235705932858518, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 181.62996
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107286982993827648, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -329
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107286982993827648, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328420580638266991, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -328
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328420580638266991, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -254
+      objectReference: {fileID: 0}
     - target: {fileID: 4726938090377409440, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2759,6 +2799,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4805696816476397702, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 334
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805696816476397702, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 202
+      objectReference: {fileID: 0}
     - target: {fileID: 4921483705504912034, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
       propertyPath: m_Name
       value: ControlsPanel
@@ -2766,6 +2814,39 @@ PrefabInstance:
     - target: {fileID: 4921483705504912034, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688076748576036558, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 198.10895
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688076748576036558, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 201.99995
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741050990499574140, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -200.49991
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741050990499574140, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -268
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782734824143535617, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_text
+      value: 'WASD/Arrow Keys/L Joystick
+
+        E key or the A button
+
+        Space
+        key or the B button
+
+        Space or X button
+
+        ESC or L1'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782734824143535617, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
+      propertyPath: m_margin.z
+      value: -227.0557
       objectReference: {fileID: 0}
     - target: {fileID: 7939887198577246998, guid: 4bfe0d37d79813446a5787eca9841a82, type: 3}
       propertyPath: eventSystem
