@@ -26,6 +26,7 @@ public class CustomerValues
 
 public class CustomerScript : BaseNPC
 {
+    [Header("FSM")]
     // Customer-specific FSM-like flags
     public bool walkin = true;
     public bool sit = false;
@@ -35,10 +36,13 @@ public class CustomerScript : BaseNPC
     public bool accept = false;
     public bool walkout = false;
 
+    [Header("Data")]
     public int hourStayed = 0;
-
     public int chair;
 
+    [Header("Animations")]
+    public Animator anim;
+    public AIPath ai;
     public int num;
 
     public void SetAttributes(List<Attribute> attr)

@@ -35,8 +35,6 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
-            // animations & sounds
-
             //Start customer walking SFX when entering WalkIn state
             AudioManager.Instance.PlayWalkingSound(false);
         }
@@ -44,6 +42,18 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         {
             CustomerStateMachine FSM = GetStateMachine<CustomerStateMachine>();
 
+            //animations
+            Vector2 movement = FSM.Script.ai.desiredVelocity;
+            if (movement.x > 0)
+            {
+                FSM.Script.anim.Play("right" + FSM.Script.num);
+            }
+            else if (movement.x < 0)
+            {
+                FSM.Script.anim.Play("left" + FSM.Script.num);
+            }
+
+            //sit
             if (FSM.Script.AtDestination() || FSM.Script.sit == true)
             {
                 TransitionToState(CustomerFSM.SIT);
@@ -64,6 +74,9 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
     {
         public override void OnEnter()
         {
+            // animations
+            CustomerStateMachine FSM = GetStateMachine<CustomerStateMachine>();
+            FSM.Script.anim.Play("idle" + FSM.Script.num);
         }
         public override void OnUpdate()
         {
@@ -193,6 +206,17 @@ public class CustomerStateMachine : AbstractFiniteStateMachine
         public override void OnUpdate()
         {
             CustomerStateMachine FSM = GetStateMachine<CustomerStateMachine>();
+
+            //animations
+            Vector2 movement = FSM.Script.ai.desiredVelocity;
+            if (movement.x > 0)
+            {
+                FSM.Script.anim.Play("right" + FSM.Script.num);
+            }
+            else if (movement.x < 0)
+            {
+                FSM.Script.anim.Play("left" + FSM.Script.num);
+            }
 
             if (FSM.Script.AtDestination())
             {
