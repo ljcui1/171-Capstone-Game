@@ -6,9 +6,25 @@ using UnityEngine.Tilemaps;
 public class CatManager : MonoBehaviour
 {
     public List<LocationPrefabMapping> spawnMapping;
-    private List<GameObject> cats = new List<GameObject>(); // Initialize list
+    public readonly List<GameObject> cats = new List<GameObject>(); // Initialize list
     public Tilemap tilemap;
     public GameObject[] locations;
+
+    public static CatManager instance { get; private set; }
+
+    public void Awake()
+    {
+        // make instance
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+            Debug.Log(instance);
+        }
+    }
 
     public void Start()
     {
@@ -17,7 +33,14 @@ public class CatManager : MonoBehaviour
         Debug.Log($"******* Found {locations.Length} locations ********");
         SpawnCats();
 
+        SaveScript.LoadCatData();
+
         InvokeRepeating(nameof(SetTargetLocations), 10, 10);
+    }
+
+    public void OnApplicationQuit()
+    {
+        SaveScript.SaveCatData();
     }
 
     // Spawns cats in specific locations on the tilemap

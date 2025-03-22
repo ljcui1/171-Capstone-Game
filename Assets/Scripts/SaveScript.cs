@@ -49,6 +49,93 @@ public static class SaveScript
         Debug.Log("cat2Active has been set to: " + cat2Active);
     }
 
+    public static void SaveCatData()
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string catPath = Application.persistentDataPath + "/cat";
+        string catCountPath = Application.persistentDataPath + "/cat.count";
+
+        // Save the number of cats.
+        FileStream countStream = new FileStream(catCountPath, FileMode.Create);
+        formatter.Serialize(countStream, CatManager.instance.cats.Count);
+        countStream.Close();
+
+        // Save each cat's data.
+        for (int i = 0; i < CatManager.instance.cats.Count; i++)
+        {
+            GameObject catObj = CatManager.instance.cats[i];
+            CatScript catScript = catObj.GetComponent<CatScript>();
+            if (catScript != null)
+            {
+                Debug.Log("Saving cat data for " + i);
+                FileStream stream = new FileStream(catPath + i, FileMode.Create);
+                CatValues data = new CatValues(catScript);
+                formatter.Serialize(stream, data);
+                stream.Close();
+            }
+        }
+    }
+
+    public static void LoadCatData()
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string catPath = Application.persistentDataPath + "/cat";
+        string catCountPath = Application.persistentDataPath + "/cat.count";
+        int savedCatCount = 0;
+
+        if (File.Exists(catCountPath))
+        {
+            FileStream countStream = new FileStream(catCountPath, FileMode.Open);
+            savedCatCount = (int)formatter.Deserialize(countStream);
+            countStream.Close();
+        }
+        else
+        {
+            Debug.LogWarning("No saved cat count found.");
+            return;
+        }
+
+        // Assume CatManager has already spawned its cats.
+        for (int i = 0; i < savedCatCount; i++)
+        {
+            string filePath = catPath + i;
+            if (File.Exists(filePath))
+            {
+                FileStream stream = new FileStream(filePath, FileMode.Open);
+                CatValues savedCat = formatter.Deserialize(stream) as CatValues;
+                stream.Close();
+
+                if (i < CatManager.instance.cats.Count)
+                {
+                    Debug.Log("Loading cat data for " + i);
+                    CatScript catScript = CatManager.instance.cats[i].GetComponent<CatScript>();
+                    // Update the cat's saved values. For example, updating its attributes:
+                    Debug.Log(savedCat.attributes + savedCat.matched.ToString());
+                    foreach (AttributePair attPair in savedCat.attributes)
+                    {
+                        Debug.Log(attPair.attribute.ToString() + attPair.isActive.ToString());
+                    }
+
+                    catScript.SetAttributePairs(savedCat.attributes);
+                    catScript.matched = savedCat.matched;
+                    DialogScript catDialog = CatManager.instance.cats[i].GetComponent<DialogScript>();
+                    catDialog.SetEntryPlayed();
+                }
+                else
+                {
+                    Debug.LogWarning($"Saved cat data at index {i} but no corresponding cat was spawned.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Cat file not found: " + filePath);
+            }
+        }
+    }
+
+
+
+
     public static void SaveCustSpawnData()
     {
         // save attribute weights

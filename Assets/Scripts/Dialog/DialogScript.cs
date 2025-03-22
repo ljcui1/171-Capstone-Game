@@ -76,7 +76,19 @@ public class DialogScript : MonoBehaviour
             }
 
         }
+
         SelectRandomText();
+    }
+
+    public void SetEntryPlayed()
+    {
+        // set dialogentries played to isActive in attributes
+        foreach (DialogueEntry entry in dialogueEntries)
+        {
+            Debug.Log("Setting played to isActive " + gameObject.name);
+            entry.played = npc.attributes.Find(attrPair => attrPair.attribute == entry.attribute).isActive;
+            Debug.Log(entry.played);
+        }
     }
 
     protected void OnTriggerEnter2D(Collider2D other)
