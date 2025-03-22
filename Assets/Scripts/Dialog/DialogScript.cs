@@ -74,8 +74,7 @@ public class DialogScript : MonoBehaviour
             {
                 entry.played = custscript.attributes.Find(attrPair => attrPair.attribute == entry.attribute).isActive;
             }
-            Debug.Log("DIALOGENTRIES" + dialogueEntries.Count);
-            Debug.Log("CUSTOMERDIALOG" + customerDialog.Count);
+
         }
         SelectRandomText();
     }
