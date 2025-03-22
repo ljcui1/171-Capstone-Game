@@ -167,6 +167,7 @@ public static class SaveScript
                 script.chair = data.chair;
                 script.hourStayed = data.hourStayed;
                 script.sit = true;
+                script.SetAttributePairs(data.attributes);
             }
             else
             {

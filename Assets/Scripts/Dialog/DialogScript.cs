@@ -8,6 +8,9 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
+[System.Serializable]
+
+
 public class DialogScript : MonoBehaviour
 {
     public Collider2D triggerZone;
@@ -66,6 +69,13 @@ public class DialogScript : MonoBehaviour
             CustomerScript custscript = GetComponent<CustomerScript>();
 
             dialogueEntries = customerDialog.FindAll(entry => custscript.attributes.Any(attrPair => attrPair.attribute == entry.attribute));
+            // set dialogentries played to isActive in attributes
+            foreach (DialogueEntry entry in dialogueEntries)
+            {
+                entry.played = custscript.attributes.Find(attrPair => attrPair.attribute == entry.attribute).isActive;
+            }
+            Debug.Log("DIALOGENTRIES" + dialogueEntries.Count);
+            Debug.Log("CUSTOMERDIALOG" + customerDialog.Count);
         }
         SelectRandomText();
     }

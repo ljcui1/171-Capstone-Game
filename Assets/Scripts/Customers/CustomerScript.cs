@@ -15,12 +15,15 @@ public class CustomerValues
     public int chair;
     public int hourStayed = 0;
     public int num;
+    public List<AttributePair> attributes; // New field
 
     public CustomerValues(CustomerScript customer)
     {
         chair = customer.chair;
         hourStayed = customer.hourStayed;
         num = customer.num;
+
+        attributes = new List<AttributePair>(customer.attributes);
     }
 }
 
@@ -55,6 +58,15 @@ public class CustomerScript : BaseNPC
 
         //Debug.Log($"Manager selection: {string.Join(", ", attr)}");
         //Debug.Log($"Customer selection: {string.Join(", ", attributes)}");
+    }
+
+    public void SetAttributePairs(List<AttributePair> attr)
+    {
+        attributes.Clear();
+        foreach (var attribute in attr)
+        {
+            attributes.Add(new AttributePair { attribute = attribute.attribute, isActive = attribute.isActive });
+        }
     }
 
     public void Exit()
