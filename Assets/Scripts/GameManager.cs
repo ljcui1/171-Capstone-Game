@@ -101,25 +101,58 @@ public class GameManager : MonoBehaviour
             daysPassed = SaveScript.daysPassed;
         }
 
+        if (PlayerPrefs.HasKey("Hour"))
+        {
+            SaveScript.hour = PlayerPrefs.GetInt("Hour");
+            hour = SaveScript.hour;
+        }
+
+        if (PlayerPrefs.HasKey("DisplayHour"))
+        {
+            SaveScript.displayHour = PlayerPrefs.GetInt("DisplayHour");
+            displayHour = SaveScript.displayHour;
+        }
+
+        if (PlayerPrefs.HasKey("Minute"))
+        {
+            SaveScript.minute = PlayerPrefs.GetInt("Minute");
+            minute = SaveScript.minute;
+        }
+
         if (PlayerPrefs.HasKey("Cat1Active"))
         {
+            Debug.LogWarning("cat1Active is: " + SaveScript.cat1Active);
             if (SaveScript.cat1Active == 0)
             {
+                Debug.LogWarning("cat1 set inactive");
                 cat1.SetActive(false);
             }
         }
 
         if (PlayerPrefs.HasKey("Cat2Active"))
         {
+            Debug.LogWarning("cat2Active is: " + SaveScript.cat2Active);
             if (SaveScript.cat2Active == 0)
             {
+                Debug.LogWarning("cat2 set inactive");
                 cat2.SetActive(false);
             }
         }
 
         pauseMenu.SetActive(false);
         displayHour = hour;
-        clockText.text = displayHour + ":00 " + clockSuffix; // start time should be "10:00pm"
+        if (displayHour >= 13)
+        {
+            displayHour -= 12;
+        }
+        if (minute == 0)
+        {
+            clockText.text = displayHour + ":00 " + clockSuffix;
+        }
+        else
+        {
+            clockText.text = displayHour + ":" + minute + " " + clockSuffix;
+        }
         StartCoroutine(IncrementClock());
     }
 
@@ -140,12 +173,12 @@ public class GameManager : MonoBehaviour
             pauseButton.GetComponent<Button>().onClick.Invoke();
         }
 
-        if (!cat1.activeSelf && SaveScript.cat1Active != 0)
+        if (!cat1.activeSelf && !PlayerPrefs.HasKey("Cat1Active"))
         {
             SaveScript.SaveCat1(0);
         }
 
-        if (!cat2.activeSelf && SaveScript.cat2Active != 0)
+        if (!cat2.activeSelf && !PlayerPrefs.HasKey("Cat2Active"))
         {
             SaveScript.SaveCat2(0);
         }
@@ -171,6 +204,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(secondsBeforeIncrement);
 
             minute += minutesIncrement;
+            SaveScript.SaveMinute(minute);
 
             UpdateClock();
         }
@@ -193,15 +227,20 @@ public class GameManager : MonoBehaviour
             // clock UI management
             hour++;
             displayHour++;
+            SaveScript.SaveHour(hour);
+            SaveScript.SaveDisplayHour(displayHour);
+
             if (hour == 12) // switch to AM or PM
             {
                 clockSuffix = nightOrDay == NightOrDay.NIGHT ? "am" : "pm";
             }
-            if (displayHour == 13)
+            if (displayHour >= 13)
             {
-                displayHour = 1;
+                displayHour -= 12;
+                SaveScript.SaveDisplayHour(displayHour);
             }
             minute = minute - 60;
+            SaveScript.SaveMinute(minute);
 
             // customer management
             if (nightOrDay == NightOrDay.DAY)
@@ -295,6 +334,7 @@ public class GameManager : MonoBehaviour
     public void MinigamesFinished()
     {
         minute += 30;
+        SaveScript.SaveMinute(minute);
         UpdateClock();
     }
 

@@ -14,8 +14,11 @@ public static class SaveScript
 {
     public static string nightOrDayString;
     public static int daysPassed;
-    public static int cat1Active = 1;
-    public static int cat2Active = 1;
+    public static int hour;
+    public static int displayHour;
+    public static int minute;
+    public static int cat1Active;
+    public static int cat2Active;
     public static int customerNum;
 
     const string customerSub = "/cust";
@@ -33,6 +36,27 @@ public static class SaveScript
         daysPassed = days;
         PlayerPrefs.SetInt("DaysPassed", daysPassed);
         Debug.Log("daysPassed has been set to: " + daysPassed);
+    }
+
+    public static void SaveHour(int savedHour)
+    {
+        hour = savedHour;
+        PlayerPrefs.SetInt("Hour", hour);
+        Debug.Log("hour has been set to: " + hour);
+    }
+
+    public static void SaveDisplayHour(int savedDisplayHour)
+    {
+        displayHour = savedDisplayHour;
+        PlayerPrefs.SetInt("DisplayHour", displayHour);
+        Debug.Log("displayHour has been set to: " + displayHour);
+    }
+
+    public static void SaveMinute(int savedMinute)
+    {
+        minute = savedMinute;
+        PlayerPrefs.SetInt("Minute", minute);
+        Debug.Log("minute has been set to: " + minute);
     }
 
     public static void SaveCat1(int cat1)
