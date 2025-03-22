@@ -118,6 +118,9 @@ MonoBehaviour:
   walkout: 0
   hourStayed: 0
   chair: 0
+  anim: {fileID: 6763472539649316809}
+  ai: {fileID: 2586016767628411613}
+  num: 0
 --- !u!114 &9029794692462068264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,7 +294,7 @@ Animator:
   m_GameObject: {fileID: 3734384574543545590}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5e37a461cd1018041a4e9265ed7c6024, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
