@@ -3306,6 +3306,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3112564657434319383}
     - target: {fileID: 1960660281376067748, guid: 0dee8432af6f1496db4870f9cffc5007, type: 3}
+      propertyPath: ContinueIcon
+      value: 
+      objectReference: {fileID: 1860276387}
+    - target: {fileID: 1960660281376067748, guid: 0dee8432af6f1496db4870f9cffc5007, type: 3}
       propertyPath: choices.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -7181,6 +7185,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1860276387 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8884626274287475754, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
+  m_PrefabInstance: {fileID: 5960376327375443504}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1937338497
 GameObject:
   m_ObjectHideFlags: 0
@@ -9224,6 +9233,35 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4087525624037210553, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
   m_PrefabInstance: {fileID: 5960376327375443504}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3112564657434319387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3112564657434319383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 26682966}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: HandlePanelClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3350848932166689928 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7345183495049852906, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
@@ -10316,6 +10354,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 599788350}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4087525624037210553, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3112564657434319387}
     - targetCorrespondingSourceObject: {fileID: 5024163491503676373, guid: ee1fd7d35f674b24cb6bc91525829adc, type: 3}
       insertIndex: 3
       addedObject: {fileID: 1965442114}

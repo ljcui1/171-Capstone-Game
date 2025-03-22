@@ -16,11 +16,14 @@ public class DialogManager : MonoBehaviour
     public GameObject dialogPanel;
     public TextMeshProUGUI dialogText;
     private DialogScript currentDialogScript;
+    [SerializeField] private EventSystem eventSystem;
 
     public GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
     private const string ATTRIBUTE_TAG = "attribute";
     private const string AFFINITY_TAG = "affinity";
+
+    public GameObject ContinueIcon;
 
     public bool IsPlaying { get; private set; } = false;
 
@@ -49,6 +52,7 @@ public class DialogManager : MonoBehaviour
         IsPlaying = false;
         dialogPanel.SetActive(false);
         choicesText = new TextMeshProUGUI[choices.Length];
+        ContinueIcon.SetActive(true);
 
         int index = 0;
         foreach (GameObject choice in choices)
@@ -58,17 +62,68 @@ public class DialogManager : MonoBehaviour
             index++;
         }
     }
-
     private void Update()
     {
         if (IsPlaying)
         {
             if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonDown("ButtonX"))
             {
+                // If choices are active, select the currently highlighted choice
+                if (story.currentChoices.Count > 0)
+                {
+                    GameObject selectedChoice = eventSystem.currentSelectedGameObject;
+                    int choiceIndex = 0;
+                    if (selectedChoice != null)
+                    {
+                        // Find the index of the currently selected button
+                        for (int i = 0; i < choices.Length; i++)
+                        {
+                            if (choices[i] == selectedChoice)
+                            {
+                                choiceIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                    MakeChoice(choiceIndex);
+                }
+                else
+                {
+                    ContinueStory();
+                }
+            }
+
+            // Update ContinueIcon visibility:
+            // Show the continue icon if there is either a narrative line waiting or choices available
+            if (story.canContinue || story.currentChoices.Count > 0)
+            {
+                ContinueIcon.SetActive(true);
+            }
+            else
+            {
+                // No narrative and no choices available: we are at the end of dialogue, so hide the icon.
+                ContinueIcon.SetActive(false);
+            }
+        }
+
+    }
+
+    public void HandlePanelClick()
+    {
+        Debug.Log("Clicked on dialog panel");
+        if (IsPlaying && story.currentChoices.Count == 0)
+        {
+            if (!story.canContinue)
+            {
+                ExitDialogMode();
+            }
+            else
+            {
                 ContinueStory();
             }
         }
     }
+
 
 
     public void EnterDialogMode(TextAsset inkJSON, DialogScript dialogScript)
@@ -186,9 +241,11 @@ public class DialogManager : MonoBehaviour
     {
         // Event System requires we clear it first, then wait
         // for at least one frame before we set the current selected object.
-        EventSystem.current.SetSelectedGameObject(null);
+        eventSystem = FindObjectOfType<EventSystem>();
+        eventSystem.SetSelectedGameObject(null);
         yield return new WaitForEndOfFrame();
-        EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
+        Debug.Log("CHOICES[0S]" + choices[0].gameObject);
+        eventSystem.SetSelectedGameObject(choices[0].gameObject);
     }
 
     public void MakeChoice(int choiceIndex)
